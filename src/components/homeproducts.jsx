@@ -4,10 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { IoClose } from 'react-icons/io5';
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
+import useWishList from "./customhook/customehook";
+import useHandleCart from "./customhook/carthook";
+
 
 
 
 function HomeProducts(){
+
+    const {wishlist,ToggleWishList}=useWishList()
+    const {cartList,ToggleCart,DeleteCart,HandleCarts}=useHandleCart()
+
+
 
     const [products,setProducts]=useState([]);
     const [selectedProduct,setSelectedProduct]=useState(null)
@@ -37,6 +45,8 @@ function HomeProducts(){
     const HandleCart=()=>{
         navigate('/cart')
     }
+
+  
 
     useEffect(()=>{
         HandleProducts();
@@ -88,22 +98,31 @@ function HomeProducts(){
                           <p className="text-grey-600 mb-20 font-medium">{selectedProduct.description || "Product description goes here."}
                           </p>
                           <div className="flex gap-4 justify-center">
-                           <button className="bg-blue-600 hover:bg-blue-700 font-light text-white px-6  rounded-lg  transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 w-29">
+                           <button className="bg-blue-600 hover:bg-blue-700 font-light text-white px-6  rounded-lg  transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 w-29"
+                                     onClick={()=>{
+                                                    closeModal();
+                                                     setTimeout(() => {
+                                                        navigate(`/products/${selectedProduct.id}`);
+                                                        }, 1000);    
+                                                }}>
                             <span className="text-sm">Learn more</span>
                            </button>
                            <button  className="bg-white/5 backdrop-blur-xl border-2 border-white/20 rounded-xl shadow-2xl h-12 w-20
                                     transition-all duration-300 hover:scale-105 hover:bg-white/10 hover:border-white/30
-                                    text-white font-medium text-sm md:text-base overflow-hidden group">
+                                    text-white font-medium text-sm md:text-base overflow-hidden group"
+                                    onClick={()=>ToggleWishList(selectedProduct)}>
                                         <span className="absolute inset-0 bg-gradient-to-br from-white/30 to-white/0 opacity-0 
                                         group-hover:opacity-100 transition-opacity duration-300">
                                         </span>
                                          <span className="relative z-10 flex items-center justify-center">
-                                            <FaRegHeart className="text-white text-xl transition duration-300  hover:scale-110"/>
+                                            <FaHeart className={`text-white text-xl transition duration-300  hover:scale-110 ${wishlist.some(item=>item.id===selectedProduct.id)?'text-red-500 fill-red-500': 'text-white'}`}/>
                                          </span>
                                     
                             </button>
                            <button className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded-lg  transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 w-18"
-                                    onClick={HandleCart}>
+                                    onClick={()=>{closeModal();
+                                    ToggleCart(selectedProduct);
+                                    }}>
                             <FiShoppingCart className="text-white text-xl transition duration-300  hover:scale-110"/>
                            </button>
                            </div>

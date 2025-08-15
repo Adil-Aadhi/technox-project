@@ -1,17 +1,67 @@
 import { useEffect, useState } from "react"
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "./sidebar";
 import { BiRupee } from "react-icons/bi";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FiShoppingCart } from "react-icons/fi";
+import { IoClose } from "react-icons/io5";
+import useHandleCart from "./customhook/carthook";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 
 
 
 function Products(){
+
+    const navigate=useNavigate();
+
+    const {cartList,ToggleCart,DeleteCart,HandleCarts}=useHandleCart()
     
     const [product,setProduct]=useState([])
     const [filteredProducts,setFilteredProduct]=useState([])
+     const [selectedProduct,setSelectedProduct]=useState(null)
+    const [isModelOpen,setIsModelOpen] = useState(false);
+
+    const [wishlist,setWishlist]=useState([])
+
+
+
+
+       const ToggleWishList= async (product)=>{
+        try{
+            const exist=wishlist.some(item=>item.id===product.id);
+
+            if(exist){
+                await axios.delete(`http://localhost:3000/wishlist/${product.id}`)
+                setWishlist(prev=>prev.filter(item=>item.id!==product.id));
+                toast.success(`${product.name} removed from wishlist`,{
+                    className: 'custom-success-toast'
+                })
+            }
+            else{
+                await axios.post('http://localhost:3000/wishlist',product);
+                setWishlist(prev=>[...prev,product])
+                toast.success(`${product.name} added to wishlist!`,{
+                })
+            }
+        }
+        catch(e){
+            console.log("error update",e)
+                         toast.error(`Failed to update wishlist: ${e.message}`);
+
+        }
+    }
+
+    const HandleWishlist=()=>{
+        axios.get('http://localhost:3000/wishlist')
+        .then((res)=>setWishlist(res.data))
+       .catch((e)=>{console.log("error fetching",e)
+            toast.error('Failed to load wishlist')})
+    }
 
     const HandleProduct=()=>{
         axios.get('http://localhost:3000/products')
@@ -29,21 +79,44 @@ function Products(){
         }
     }
 
+
+     const openModal=(product)=>{
+        setSelectedProduct(product);
+        setIsModelOpen(true);
+    }
+
+    const closeModal =()=>{
+        setIsModelOpen(false);
+        setTimeout(()=>{
+            setSelectedProduct(null);
+        },300);
+    }
+
+    const HandleCart=()=>{
+        navigate('/cart')
+    }
+
+
+
     useEffect(()=>{
         HandleProduct();
+        HandleWishlist();
     },[])
 
    
     
 
     return (
+        <div className="relative">
+        <div className={`container mx-auto  transition-all duration-300 ${isModelOpen ? 'blur-sm scale-95' : 'blur-0 scale-100'}`}> 
         <div className="flex min-h-screen">
-            <div className="w-50 flex-shrink-0">
+            <div className="w-0 md:w-50 flex-shrink-0">
                 <Sidebar onFilter={filterProducts}/>
             </div>
-            <div className="flex-1 m-3">
+
+            <div className="flex-1 m-2">
                 <div className="container mx-auto mt-15 px-4 py-12 transition-all duration-300">
-                    <h3 className="text-xl text-white">Products</h3>
+                    <h3 className="text-xl font-bold text-white tracking-tight leading-snug">Products</h3>
                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-10 mt-4">
                         {filteredProducts.map((product)=>(
                             <div key={product.id} onClick={()=>openModal(product)}
@@ -63,6 +136,68 @@ function Products(){
                      </div>
                 </div>
             </div>
+        </div>
+        </div>
+
+
+
+                        {/* GPT */}
+
+                       {selectedProduct && (
+                            <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-all duration-300 ${isModelOpen ? 'backdrop-blur-sm opacity-100' : 'backdrop-blur-0 opacity-0'}`} >
+                                <div  className={`relative max-w-4xl w-full bg-white/10 border border-white/20 rounded-2xl overflow-hidden backdrop-blur-lg transition-all duration-300 transform ${isModelOpen ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}`}>
+                                <button onClick={closeModal}  className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
+                                    <IoClose className="h-5 w-5 text-white hover:text-red-400" />
+                                </button>
+                                <div className="flex flex-col md:flex-row">
+                                    <div className="md:w-1/2 p-6 flex items-center justify-center">
+                                    <img src={selectedProduct.image} alt={selectedProduct.name}
+                                        className="w-full h-auto max-h-[400px] object-contain rounded-lg transition-transform duration-500 hover:scale-105"/>
+                                    </div>
+                                    <div className="md:w-1/2 p-6 text-dark">
+                                        <h2 className="text-2xl font-bold mb-2">{selectedProduct.name}</h2>
+                                        <div className="text-xl mb-4">
+                                            <BiRupee className="inline-block mr-1" />{selectedProduct.price}
+                                        </div>
+                                        <p className="text-grey-600 mb-20 font-medium">{selectedProduct.description || "Product description goes here."}
+                                        </p>
+                                        <div className="flex gap-4 justify-center">
+                                        <button className="bg-blue-600 hover:bg-blue-700 font-light text-white px-6  rounded-lg  transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 w-29"
+                                                onClick={()=>{
+                                                    closeModal();
+                                                     setTimeout(() => {
+                                                        navigate(`/products/${selectedProduct.id}`);
+                                                        }, 1000);    
+                                                }}>
+                                            <span className="text-sm">Learn more</span>
+                                        </button>
+                                        <button  className="bg-white/5 backdrop-blur-xl border-2 border-white/20 rounded-xl shadow-2xl h-12 w-20
+                                                    transition-all duration-300 hover:scale-105 hover:bg-white/10 hover:border-white/30
+                                                    text-white font-medium text-sm md:text-base overflow-hidden group"
+                                                    onClick={()=>ToggleWishList(selectedProduct)}>
+                                                        <span className="absolute inset-0 bg-gradient-to-br from-white/30 to-white/0 opacity-0 
+                                                        group-hover:opacity-100 transition-opacity duration-300">
+                                                        </span>
+                                                        <span className="relative z-10 flex items-center justify-center">
+                                                            <FaHeart  className={`text-xl transition duration-300 hover:scale-110 ${
+      wishlist.some(item => item.id === selectedProduct.id) ? 'text-red-500 fill-red-500' : 'text-white'
+    }`}/>
+                                                        </span>
+                                                        
+                                                    
+                                            </button>
+                                        <button className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded-lg  transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 w-18"
+                                                    onClick={()=>{closeModal();
+                                                    ToggleCart(selectedProduct)}}>
+                                            <FiShoppingCart className="text-white text-xl transition duration-300  hover:scale-110"/>
+                                        </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        )}
+
         </div>
     )
 }

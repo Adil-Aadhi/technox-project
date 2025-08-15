@@ -8,6 +8,11 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Footer from './components/footer'
 import Products from './components/ProductsPage'
+import Wishlist from './components/wishlist'
+import Cart from './components/cart'
+import { ToastContainer,Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import SingleProduct from './components/singleproduct'
 
 function App() {
 
@@ -32,8 +37,43 @@ function App() {
       <Route path="/register" element={<Register/>}/>
       <Route path="/login" element={<Login/>}/>
       <Route path="/products" element={<Products/>}/>
+      <Route path="/wishlist" element={<Wishlist/>}/>
+      <Route path="/cart" element={<Cart/>}/>
+      <Route path="/products/:id" element={<SingleProduct/>}/>
     </Routes>
     {showFooter && <Footer/>}
+   <ToastContainer
+  position="top-right"
+  autoClose={3000}
+  hideProgressBar
+  newestOnTop
+  closeOnClick={false}
+  rtl={false}
+  pauseOnFocusLoss
+  draggable={false}
+  pauseOnHover
+  transition={Slide}
+  toastStyle={{
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
+    borderRadius: '12px',
+    boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+    color: 'white',
+    padding: '16px',
+    margin: '8px 0',
+    overflow: 'hidden',
+    position: 'relative'
+  }}
+  bodyStyle={{
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    margin: 0,
+    padding: 0
+  }}
+/>
     </div>
   )
 }

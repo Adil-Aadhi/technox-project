@@ -2,8 +2,13 @@ import {Link} from 'react-router-dom'
 import { FiSearch, FiShoppingCart, FiUser, FiMenu } from "react-icons/fi";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useState } from 'react';
+import useWishList from './customhook/customehook';
+import useHandleCart from './customhook/carthook';
 
 function Navbar(){
+
+const {wishlist,ToggleWishList}=useWishList();
+const {cartList,ToggleCart,DeleteCart,HandleCarts}=useHandleCart()
 
 const [msg,setMsg]=useState(false)
 const [mobSearch,setMobSearch]=useState(false)
@@ -59,8 +64,13 @@ const [showMenu, setShowMenu] = useState(false)
                                 setMobSearch((!mobSearch))}}aria-label="Toggle Search Bar">
                                 <FiSearch/>
                             </button>
-                            <Link to="/cart" className="text-white p-1"> <FiShoppingCart className="text-white text-xl transition duration-300  hover:scale-110" /> </Link>
-                            <Link to="/whistlist" className="text-white"> <FaRegHeart  className="text-white text-xl transition duration-300  hover:scale-110 " /> </Link>
+                            <Link to="/cart" className="text-white p-1 relative"> <FiShoppingCart className="text-white text-xl transition duration-300  hover:scale-110" />
+                                {cartList.length>0 && ( <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs  rounded-full h-3 w-3 flex items-center justify-center">
+                                    {cartList.length>9?"9+":cartList.length}
+                                </span>)}
+                            </Link>
+                            <Link to="/wishlist" className="text-white p-1 relative"><FaHeart  className="text-white text-xl transition duration-300  hover:scale-110 hover:fill-red-400 " />
+                                    {wishlist.length>0 && (<span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs  rounded-full h-3 w-3 flex items-center justify-center">{wishlist.length>9?"9+":wishlist.length}</span>)} </Link>
                             <div  className="relative group z-[200]" onMouseEnter={()=>setMsg(true)} onMouseLeave={()=>setMsg(false)}>
                                 <button>
                                     <FiUser className="text-white text-xl transition duration-300  hover:scale-110" />
