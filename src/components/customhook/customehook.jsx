@@ -8,9 +8,18 @@ function useWishList(){
 
     const [wishlist,setWishlist]=useState([])
 
+    const userData = JSON.parse(localStorage.getItem('currentUser'));
+
+
      
 
     const ToggleWishList= async (product)=>{
+
+        if(!userData || !userData.isLoggedIn){
+            toast.error("Please login first to use wishlist!");
+            return;
+        }
+
         try{
             const exist=wishlist.some(item=>item.id===product.id);
 
@@ -22,7 +31,7 @@ function useWishList(){
                 })
             }
             else{
-                await axios.post('http://localhost:3000/wishlist',product);
+                await axios.post('http://localhost:3000/wishlist',{...product,productId: product.id,userId:userData.id});
                 setWishlist(prev=>[...prev,product])
                 toast.success(`${product.name} added to wishlist!`,{
                 })
@@ -35,7 +44,10 @@ function useWishList(){
     }
 
     const HandleWishlist=()=>{
-        axios.get('http://localhost:3000/wishlist')
+
+        if(!userData || !userData.isLoggedIn) return;
+
+        axios.get(`http://localhost:3000/wishlist?userId=${userData.id}`)
         .then((res)=>setWishlist(res.data))
         .catch((e)=>{console.log("error fetching",e)
             toast.error('Failed to load wishlist')})
@@ -43,7 +55,7 @@ function useWishList(){
 
     useEffect(()=>{
         HandleWishlist();
-    },[wishlist])
+    },[userData?.id,wishlist])
 
    
 

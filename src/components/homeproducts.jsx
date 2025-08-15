@@ -80,25 +80,25 @@ function HomeProducts(){
                     {/* Chat GPT */}
 
         {selectedProduct && (
-            <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-all duration-300 ${isModelOpen ? 'backdrop-blur-sm opacity-100' : 'backdrop-blur-0 opacity-0'}`} >
-                <div  className={`relative max-w-4xl w-full bg-white/10 border border-white/20 rounded-2xl overflow-hidden backdrop-blur-lg transition-all duration-300 transform ${isModelOpen ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}`}>
-                <button onClick={closeModal}  className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
-                    <IoClose className="h-5 w-5 text-white hover:text-red-400" />
+            <div className={`fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 transition-all duration-300 ${isModelOpen ? 'backdrop-blur-sm opacity-100' : 'backdrop-blur-0 opacity-0'}`} >
+                <div  className={`relative max-w-full sm:max-w-4xl w-full mx-2 sm:mx-0 bg-white/10 border border-white/20 rounded-2xl overflow-hidden backdrop-blur-lg transition-all duration-300 transform ${isModelOpen ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}`}>
+                <button onClick={closeModal}  className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 p-1 sm:p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
+                    <IoClose className="h-4 w-4 sm:h-5 sm:w-5 text-white hover:text-red-400" />
                 </button>
                 <div className="flex flex-col md:flex-row">
-                     <div className="md:w-1/2 p-6 flex items-center justify-center">
+                     <div className="md:w-1/2 p-3 sm:p-6 flex items-center justify-center">
                      <img src={selectedProduct.image} alt={selectedProduct.name}
-                        className="w-full h-auto max-h-[400px] object-contain rounded-lg transition-transform duration-500 hover:scale-105"/>
+                        className="w-full h-auto max-h-[200px] sm:max-h-[400px] object-contain rounded-lg transition-transform duration-500 hover:scale-105"/>
                      </div>
                      <div className="md:w-1/2 p-6 text-dark">
-                         <h2 className="text-2xl font-bold mb-2">{selectedProduct.name}</h2>
-                         <div className="text-xl mb-4">
+                         <h2 className="text-lg sm:text-2xl font-bold mb-1 sm:mb-2">{selectedProduct.name}</h2>
+                         <div className="text-base sm:text-xl mb-2 sm:mb-4">
                             <BiRupee className="inline-block mr-1" />{selectedProduct.price}
                          </div>
-                          <p className="text-grey-600 mb-20 font-medium">{selectedProduct.description || "Product description goes here."}
+                          <p className="text-black text-sm sm:text-base mb-4 sm:mb-20 font-medium">{selectedProduct.description || "Product description goes here."}
                           </p>
-                          <div className="flex gap-4 justify-center">
-                           <button className="bg-blue-600 hover:bg-blue-700 font-light text-white px-6  rounded-lg  transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 w-29"
+                          <div className="flex gap-2 sm:gap-4 justify-center">
+                           <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-6 py-1 sm:py-2 rounded-lg text-xs sm:text-sm transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 w-20 sm:w-30"
                                      onClick={()=>{
                                                     closeModal();
                                                      setTimeout(() => {

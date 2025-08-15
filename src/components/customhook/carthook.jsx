@@ -7,23 +7,27 @@ import 'react-toastify/dist/ReactToastify.css';
 function useHandleCart(){
 
     const [cartList,setCartList]=useState([])
-
+      const userData = JSON.parse(localStorage.getItem("currentUser"));
+      const userId = userData?.id;
 
     const ToggleCart=(product)=>{
+        if (!userId) {
+        toast.error("Please login first to add to cart!");
+        return;
+        }
 
         const exist=cartList.some(item=>item.id===product.id)
 
         if(exist){
-            console.log("already added")
-            toast.success(`${product.name} Already in the Cart`,{
+            toast.info(`${product.name} Already in the Cart`,{
                     className: 'custom-danger-toast'
                 })
             return;
         }
         else{
-            axios.post('http://localhost:3000/cart',product)
+            axios.post('http://localhost:3000/cart',{ ...product, userId, quantity: 1 })
             .then(()=>{
-                setCartList(prev=>[...prev,product])
+                setCartList(prev=>[...prev,{ ...product, userId, quantity: 1 }])
                  toast.success(`${product.name} Added to Cart`,{
                 })
             })
@@ -38,28 +42,63 @@ function useHandleCart(){
 
     const DeleteCart=(product)=>{
         axios.delete(`http://localhost:3000/cart/${product.id}`)
-        setCartList(prev=>prev.filter(item=>item.id!==product.id))
-        toast.success(`${product.name} removed from Cart`,{
-                    className: 'custom-success-toast'
-                })
+        .then(()=>{
+            setCartList(prev=>prev.filter(item=>item.id!==product.id))
+            toast.success(`${product.name} removed from Cart`,{
+                    className: 'custom-success-toast'})
+        })
+        .catch((e)=>console.log(("error removing cart",e)))
+        
     }
 
     const HandleCarts=()=>{
-        axios.get('http://localhost:3000/cart')
+        if (!userId) return;
+
+        axios.get(`http://localhost:3000/cart?userId=${userId}`)
         .then((res)=>{setCartList(res.data)})
         .catch((e)=>console.log("error fetching cart",e))
     }
 
+
+    const IncrementQuantity=(productId)=>{
+        setCartList(prev=>prev.map(item=>item.id===productId?{
+            ...item,quantity:item.quantity + 1
+        }:item))
+
+        const product=cartList.find(item=>item.id===productId);
+        if(product){
+            axios.patch(`http://localhost:3000/cart/${productId}`,{
+             quantity: product.quantity + 1   })
+             .catch(err=>console.log("Error increment",err))
+        }
+    }
+
+    const DecrementQuantity=(productId)=>{
+        setCartList(prev=>prev.map(item=>item.id===productId && item.quantity>1?{
+            ...item, quantity: item.quantity - 1
+        }:item))
+
+        const product=cartList.find(item=>item.id===productId);
+        if(product && product.quantity>1){
+            axios.patch(`http://localhost:3000/cart/${productId}`,{
+                quantity: product.quantity - 1}
+            )
+            .catch(err=>console.log("Error decreemnting quentity",err))
+        }
+    }
+
     useEffect(()=>{
         HandleCarts();
-    },[cartList])
+    },[userId,cartList])
 
     return(
         {
             cartList,
             ToggleCart,
             DeleteCart,
-            HandleCarts
+            HandleCarts,
+            IncrementQuantity,
+            DecrementQuantity
         }
     )
 }

@@ -2,6 +2,10 @@ import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { IoClose } from 'react-icons/io5';
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 const initialValue={name:'',password:''}
 
@@ -12,6 +16,7 @@ function Login(){
         const [userName,setUserName]=useState('')
         const [password,setPassword]=useState('')
         const [error,setError]=useState('')
+        const [isLoggedIn, setIsLoggedIn] = useState(false);
 
         const HandleFetch=()=>{
             fetch('http://localhost:3000/users')
@@ -30,23 +35,54 @@ function Login(){
 
           if( userName.trim()!=='' && password.trim()!==''){
 
-                 state.map(x=>{
-                
-                if((x.name===userName || x.email===userName) && x.password===password){
-                    setError("Login Successfully")
+                let loginSuccessful = false;
+                let loggedInUser = null;
 
-                    setTimeout(()=>{
+                 state.forEach(user=>{
+                
+                if((user.name===userName || user.email===userName) && user.password===password){
+                    loginSuccessful=true;
+                    loggedInUser=user}
+                })
+
+                    if(loginSuccessful && loggedInUser){
+                        // setError("Login Successfully");
+                        try{
+                             const userData={
+                            id: loggedInUser.id,
+                            name: loggedInUser.name,
+                            email: loggedInUser.email,
+                            isLoggedIn: true
+                        }
+                        localStorage.setItem('currentUser', JSON.stringify(userData));
+                         if (!localStorage.getItem(`cart_${loggedInUser.id}`)){
+                            localStorage.setItem(`cart_${loggedInUser.id}`, JSON.stringify([]))
+                         }
+                         if (!localStorage.getItem(`wishlist_${loggedInUser.id}`)){
+                            localStorage.setItem(`wishlist_${loggedInUser.id}`, JSON.stringify([]))
+                          }
+                          setIsLoggedIn(true);
+                          console.log('User data stored:', userData);
+                           
+
+                            setError("Login Successful! Redirecting...");
+                              setTimeout(()=>{
                         navigate("/")
+                        toast.success("Succesfully Logged-In");
                     },2000)
+                        }catch(error){
+                             console.error('Failed to save to localStorage:', error)
+                             setError('Login failed due to a technical error. Please try again.');
+                        }
+                    }else{
+                        setError('Invalid username/E-mail or password');
+                    }
+                }else{
+                    setError('Please enter both username and password');
+                }
+            }
                     
-                }
-                else{
-                    setError('Invalid username/E-mail or password')
-                }
-            })
-          }
            
-        }
 
     return(
         <div className="flex items-center justify-center min-h-screen">

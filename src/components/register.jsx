@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react";
 import { IoClose } from 'react-icons/io5';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const initialValue={name:"", email:"", password:"",confirm:''}
 
@@ -38,6 +40,7 @@ function Register(){
 
                 setTimeout(()=>{
                     navigate('/login')
+                    toast.success("Sign-up Successfully")
                 },2000)
                 
             }
@@ -88,7 +91,7 @@ function Register(){
                 <button type="submit" className="bg-white/10 backdrop-blur-lg border border-white/10 rounded-xl shadow-lg h-10 w-40 mt-10
                                                     transition duration-300 hover:bg-orange-300 hover:scale-105">Signup
                 </button>
-                <div className="text-red-500 mt-4 font-semibold">
+                <div className="text-black mt-4 font-semibold">
                 {msg && <p>{msg}</p>}
                 </div>
             </form>

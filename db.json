@@ -13,6 +13,13 @@
       "email": "bb",
       "password": "123",
       "confirm": "123"
+    },
+    {
+      "id": "d92c",
+      "name": "Adil",
+      "email": "admin@gmail.com",
+      "password": "123",
+      "confirm": "123"
     }
   ],
   "products": [
@@ -26,6 +33,8 @@
       "ram": "8GB",
       "color": "Natural Titanium",
       "image": "/images/iphone14pro.png",
+      "display": "Super Retina XDR display",
+      "cpu": "A18 Pro",
       "description": "Apple iPhone 16 Pro Max with A18 Pro chip, 6.9-inch Super Retina XDR display, and triple-camera system."
     },
     {
@@ -38,6 +47,8 @@
       "ram": "16GB",
       "color": "Eclipse Gray",
       "image": "/images/asusrogstrixg16.png",
+      "display": "240Hz IPS display",
+      "cpu": "i9 13th Gen",
       "description": "Asus ROG Strix G16 gaming laptop with Intel Core i9 13th Gen, RTX 4070 GPU, and 16-inch 240Hz display."
     },
     {
@@ -50,6 +61,8 @@
       "ram": "12GB",
       "color": "Titanium Gray",
       "image": "/images/galaxys24ultra.png",
+      "display": "QHD+ AMOLED display",
+      "cpu": "Snapdragon 8 Gen 3",
       "description": "Samsung Galaxy S24 Ultra with Snapdragon 8 Gen 3, 200MP camera, and 6.8-inch QHD+ AMOLED display."
     },
     {
@@ -62,6 +75,8 @@
       "ram": "16GB",
       "color": "Indie Black",
       "image": "/images/asusvivobooks15.png",
+      "display": " OLED display",
+      "cpu": "Intel Core i7",
       "description": "Asus VivoBook S15 ultra-slim laptop with Intel Core i7, OLED display, and lightweight design."
     },
     {
@@ -74,6 +89,8 @@
       "ram": "12GB",
       "color": "Flowy Emerald",
       "image": "/images/oneplus12.png",
+      "display": " AMOLED display",
+      "cpu": "Snapdragon 8 Gen 3",
       "description": "OnePlus 12 with Snapdragon 8 Gen 3, 6.82-inch AMOLED, and 100W SUPERVOOC charging."
     },
     {
@@ -86,6 +103,8 @@
       "ram": "32GB",
       "color": "Platinum Silver",
       "image": "/images/dellxps15.png",
+      "display": "4K OLED display",
+      "cpu": "Intel Core i9",
       "description": "Dell XPS 15 with Intel Core i9, NVIDIA RTX 4060, 4K OLED display, and premium aluminum build."
     },
     {
@@ -98,6 +117,8 @@
       "ram": "12GB",
       "color": "Black",
       "image": "/images/xiaomi14pro.webp",
+      "display": "OLED display",
+      "cpu": "Snapdragon 8 Gen 3",
       "description": "Xiaomi 14 Pro with Snapdragon 8 Gen 3, Leica triple camera system, and 120W fast charging."
     },
     {
@@ -110,6 +131,8 @@
       "ram": "16GB",
       "color": "Nightfall Black",
       "image": "/images/hpspectrex360.png",
+      "display": "OLED touch display",
+      "cpu": "13th Gen Intel Core i7",
       "description": "HP Spectre x360 convertible laptop with 13th Gen Intel Core i7, OLED touch display, and pen support."
     },
     {
@@ -122,6 +145,8 @@
       "ram": "12GB",
       "color": "Bay",
       "image": "/images/pixel8pro.png",
+      "display": "LTPO OLED display",
+      "cpu": "Tensor G3 chip",
       "description": "Google Pixel 8 Pro with Tensor G3 chip, AI-powered photography, and 6.7-inch LTPO OLED display."
     },
     {
@@ -134,24 +159,26 @@
       "ram": "18GB",
       "color": "Space Black",
       "image": "/images/macbookpro16.png",
+      "display": "Liquid Retina XDR display",
+      "cpu": " M3 Pro chip",
       "description": "Apple MacBook Pro 16-inch with M3 Pro chip, Liquid Retina XDR display, and all-day battery life."
     }
   ],
   "wishlist": [
     {
-      "id": "7",
-      "name": "Asus VivoBook S15",
-      "brand": "Asus",
-      "price": 79999,
+      "id": "9",
+      "name": "HP Spectre x360 14",
+      "brand": "HP",
+      "price": 149999,
       "type": "Laptop",
-      "storage": "512GB SSD",
+      "storage": "1TB SSD",
       "ram": "16GB",
-      "color": "Indie Black",
-      "image": "/images/asusvivobooks15.png",
-      "description": "Asus VivoBook S15 ultra-slim laptop with Intel Core i7, OLED display, and lightweight design."
-    }
-  ],
-  "cart": [
+      "color": "Nightfall Black",
+      "image": "/images/hpspectrex360.png",
+      "description": "HP Spectre x360 convertible laptop with 13th Gen Intel Core i7, OLED touch display, and pen support.",
+      "productId": "9",
+      "userId": "34ee"
+    },
     {
       "id": "6",
       "name": "Asus ROG Strix G16",
@@ -162,31 +189,60 @@
       "ram": "16GB",
       "color": "Eclipse Gray",
       "image": "/images/asusrogstrixg16.png",
-      "description": "Asus ROG Strix G16 gaming laptop with Intel Core i9 13th Gen, RTX 4070 GPU, and 16-inch 240Hz display."
+      "display": "240Hz IPS display",
+      "cpu": "i9 13th Gen",
+      "description": "Asus ROG Strix G16 gaming laptop with Intel Core i9 13th Gen, RTX 4070 GPU, and 16-inch 240Hz display.",
+      "productId": "6",
+      "userId": "9959"
+    }
+  ],
+  "cart": [
+    {
+      "id": "2",
+      "name": "Samsung Galaxy S24 Ultra",
+      "brand": "Samsung",
+      "price": 124999,
+      "type": "Mobile",
+      "storage": "512GB",
+      "ram": "12GB",
+      "color": "Titanium Gray",
+      "image": "/images/galaxys24ultra.png",
+      "description": "Samsung Galaxy S24 Ultra with Snapdragon 8 Gen 3, 200MP camera, and 6.8-inch QHD+ AMOLED display.",
+      "userId": "9959",
+      "quantity": 5
     },
     {
-      "id": "4",
-      "name": "Xiaomi 14 Pro",
-      "brand": "Xiaomi",
-      "price": 59999,
-      "type": "Mobile",
-      "storage": "256GB",
-      "ram": "12GB",
-      "color": "Black",
-      "image": "/images/xiaomi14pro.webp",
-      "description": "Xiaomi 14 Pro with Snapdragon 8 Gen 3, Leica triple camera system, and 120W fast charging."
+      "id": "7",
+      "name": "Asus VivoBook S15",
+      "brand": "Asus",
+      "price": 79999,
+      "type": "Laptop",
+      "storage": "512GB SSD",
+      "ram": "16GB",
+      "color": "Indie Black",
+      "image": "/images/asusvivobooks15.png",
+      "display": " OLED display",
+      "cpu": "Intel Core i7",
+      "description": "Asus VivoBook S15 ultra-slim laptop with Intel Core i7, OLED display, and lightweight design.",
+      "userId": "9959",
+      "quantity": 2
     },
     {
-      "id": "5",
-      "name": "Google Pixel 8 Pro",
-      "brand": "Google",
-      "price": 99999,
-      "type": "Mobile",
-      "storage": "256GB",
-      "ram": "12GB",
-      "color": "Bay",
-      "image": "/images/pixel8pro.png",
-      "description": "Google Pixel 8 Pro with Tensor G3 chip, AI-powered photography, and 6.7-inch LTPO OLED display."
+      "id": "6",
+      "name": "Asus ROG Strix G16",
+      "brand": "Asus",
+      "price": 159999,
+      "type": "Laptop",
+      "storage": "1TB SSD",
+      "ram": "16GB",
+      "color": "Eclipse Gray",
+      "image": "/images/asusrogstrixg16.png",
+      "display": "240Hz IPS display",
+      "cpu": "i9 13th Gen",
+      "description": "Asus ROG Strix G16 gaming laptop with Intel Core i9 13th Gen, RTX 4070 GPU, and 16-inch 240Hz display.",
+      "productId": "6",
+      "userId": "9959",
+      "quantity": 1
     }
   ]
 }
