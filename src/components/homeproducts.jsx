@@ -58,7 +58,7 @@ function HomeProducts(){
             <div>
                 <h2 className="text-3xl font-bold text-white mb-4">Featured Products</h2>
             </div>
-             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-10 mt-4">
+             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-10 mt-9">
                     {products.map((product)=>(
                         <div key={product.id} onClick={()=>openModal(product)}
                          className="group relative bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl overflow-hidden
@@ -85,7 +85,7 @@ function HomeProducts(){
                 <button onClick={closeModal}  className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 p-1 sm:p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
                     <IoClose className="h-4 w-4 sm:h-5 sm:w-5 text-white hover:text-red-400" />
                 </button>
-                <div className="flex flex-col md:flex-row">
+                <div className="flex flex-col md:flex-row bg-white/10">
                      <div className="md:w-1/2 p-3 sm:p-6 flex items-center justify-center">
                      <img src={selectedProduct.image} alt={selectedProduct.name}
                         className="w-full h-auto max-h-[200px] sm:max-h-[400px] object-contain rounded-lg transition-transform duration-500 hover:scale-105"/>

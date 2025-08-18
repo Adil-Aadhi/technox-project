@@ -9,6 +9,7 @@ import { IoClose } from "react-icons/io5";
 import useHandleCart from "./customhook/carthook";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSearchParams } from "react-router-dom";
 
 
 
@@ -18,17 +19,23 @@ import 'react-toastify/dist/ReactToastify.css';
 function Products(){
 
     const navigate=useNavigate();
+    const [searchParams] = useSearchParams();
+     const brandFromQuery = searchParams.get("brand");
 
     const {cartList,ToggleCart,DeleteCart,HandleCarts}=useHandleCart()
     
     const [product,setProduct]=useState([])
     const [filteredProducts,setFilteredProduct]=useState([])
+    const [selectedBrand, setSelectedBrand] = useState(brandFromQuery);
+    const [selectedType, setSelectedType] = useState(null);
      const [selectedProduct,setSelectedProduct]=useState(null)
     const [isModelOpen,setIsModelOpen] = useState(false);
 
     const [wishlist,setWishlist]=useState([])
 
     const userData = JSON.parse(localStorage.getItem('currentUser'));
+    
+   
 
 
        const ToggleWishList= async (product)=>{
@@ -84,14 +91,17 @@ function Products(){
         .catch((e)=>console.log("error",e))
     }
 
-    const filterProducts=(type)=>{
-        if(!type){
-            setFilteredProduct(product);
-        }
-        else{
-            setFilteredProduct(product.filter(p=> p.type===type));
-        }
+
+    const filterBrand=(brand)=>{
+        setSelectedBrand(brand);
+        
     }
+   
+
+    const filterProducts=(type)=>{
+        setSelectedType(type)
+    };
+       
 
 
      const openModal=(product)=>{
@@ -121,6 +131,23 @@ function Products(){
         HandleWishlist();
     },[userData?.id])
 
+    useEffect(()=>{
+        let filtered=product;
+
+        if(selectedType){
+            filtered=filtered.filter(p=>p.type===selectedType)
+        }
+        if(selectedBrand){
+            filtered=filtered.filter(p=>p.brand===selectedBrand);
+        }
+        setFilteredProduct(filtered)
+    },[product,selectedBrand,selectedType])
+
+    useEffect(()=>{
+        if (brandFromQuery) 
+            setSelectedBrand(brandFromQuery);
+    },[brandFromQuery])
+
    
     
 
@@ -129,14 +156,15 @@ function Products(){
         <div className={`container mx-auto  transition-all duration-300 ${isModelOpen ? 'blur-sm scale-95' : 'blur-0 scale-100'}`}> 
         <div className="flex min-h-screen">
             <div className="w-0 md:w-50 flex-shrink-0">
-                <Sidebar onFilter={filterProducts}/>
+                <Sidebar onFilter={filterProducts} onBrand={filterBrand}/>
             </div>
 
             <div className="flex-1 m-2">
                 <div className="container mx-auto mt-15 px-4 py-12 transition-all duration-300">
-                    <h3 className="text-xl font-bold text-white tracking-tight leading-snug">Products</h3>
-                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-10 mt-4">
-                        {filteredProducts.map((product)=>(
+                    <h3 className="text-2xl font-bold text-white tracking-tight leading-snug">PRODUCTS</h3>
+                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-10 mt-10">
+                        {filteredProducts.length >0 ?(
+                        filteredProducts.map((product)=>(
                             <div key={product.id} onClick={()=>openModal(product)}
                                  className="group relative bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl overflow-hidden
                                             shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer">
@@ -150,7 +178,11 @@ function Products(){
                                             </div>
                                      </div>
                             </div>
-                        ))}
+                        ))):(
+                            <div className="col-span-full text-center text-gray-400 py-10">
+                                <p>{`No ${selectedType || ""}s in ${selectedBrand || ""} brand are not available`.trim() || "No products found"}</p>
+                            </div>
+                        )}
                      </div>
                 </div>
             </div>
@@ -167,7 +199,7 @@ function Products(){
                                 <button onClick={closeModal}  className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 p-1 sm:p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
                                     <IoClose className="h-4 w-4 sm:h-5 sm:w-5 text-white hover:text-red-400" />
                                 </button>
-                                <div className="flex flex-col md:flex-row">
+                                <div className="flex flex-col md:flex-row ">
                                     <div className="md:w-1/2 p-3 sm:p-6 flex items-center justify-center">
                                     <img src={selectedProduct.image} alt={selectedProduct.name}
                                         className="w-full h-auto max-h-[200px] sm:max-h-[400px] object-contain rounded-lg transition-transform duration-500 hover:scale-105"/>

@@ -8,7 +8,15 @@ function Cart(){
 
     const {cartList,ToggleCart,DeleteCart,HandleCarts,IncrementQuantity,DecrementQuantity}=useHandleCart()
     const navigate=useNavigate();
+
+    const TotalAmount=cartList.reduce((sum,product)=>
+        sum+product.price*product.quantity,
+        0
+    )
    
+    const discount=Math.round(TotalAmount * 0.05);
+
+    const grandTotal=TotalAmount - discount;
 
     return(
         <div className="min-h-screen mt-15 py-12 px-4 sm:px-6 lg:px-8"
@@ -73,7 +81,54 @@ function Cart(){
                                    </div>
                                 ))}
                             
-                        </div>                           
+                        </div>   
+                        {cartList.length>0 ?(
+                            <div className="max-w-xl mx-auto mb-6">
+                             <div className="bg-[rgba(255,255,255,0.56)] backdrop-blur-lg rounded-2xl border border-white/20 p-8 shadow-xl w-full">
+                                <div className="grid grid-cols-2 gap-4">
+                                     <div className="col-span-2 text-center">
+                                        <h1 className="text-4xl font-bold text-dark pb-2">Total Cart</h1>
+                                        <hr className="border-gray-400 my-2"></hr>
+                                     </div>
+                                      <div className="col-span-1 space-y-2">
+                                        <p className="text-gray-700 font-medium">Total Items</p>
+                                        <p className="text-gray-700 font-medium">Amount</p>
+                                        <p className="text-gray-700 font-medium">Discount</p>
+                                      </div>
+                                       <div className="col-span-1 space-y-2 text-right">
+                                        <p className="text-gray-900 font-semibold">{cartList.length}</p>
+                                        <p className="text-gray-900 font-semibold">₹ {TotalAmount}</p>
+                                        <p className="text-red-600 font-semibold">-₹ {discount}</p>
+                                       </div>
+                                        <div className="col-span-2">
+                                            <hr className="border-gray-400 my-2"/>
+                                            <div className="flex justify-between items-center mt- p-1">
+                                                <p className="text-lg font-bold text-gray-800">Grand Total:</p>
+                                                <p className="text-xl font-bold text-gray-900">₹ {grandTotal}</p>
+                                            </div>
+                                            <div  className="mt-6 flex justify-center">
+                                                <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 w-70 cursor-pointer">
+                                                    PLACE ORDER
+                                                </button>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>):(
+                            <div className="text-center py-10">
+                                <div className="flex items-center justify-center gap-3">
+                                <h2 className="text-4xl font-bold text-dark text-center">Your cart is empty</h2>
+                                <FiShoppingCart className="text-3xl fill-orange-500"/>
+                                </div>
+                                
+                                <button
+                                onClick={() => navigate("/products")}
+                                className="mt-7 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg w-50 h-13">
+                                Go Shopping
+                                </button>
+                            </div>
+                        )}
+                                             
                         </div>
                         </div>
                     </div>

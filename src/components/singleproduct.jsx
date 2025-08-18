@@ -1,7 +1,13 @@
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
+import { FiShoppingCart,FiZap } from "react-icons/fi";
+import useHandleCart from "./customhook/carthook";
+import useWishList from './customhook/customehook';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 
 
 function SingleProduct() {
@@ -9,6 +15,14 @@ function SingleProduct() {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const {cartList,ToggleCart,DeleteCart,HandleCarts}=useHandleCart();
+    const {wishlist,ToggleWishList}=useWishList()
+    const navigate=useNavigate();
+
+    
+
+    const exist=cartList.some(item=>item.id===product.id)
+
 
     const HandleProducts = async () => {
         try {
@@ -33,45 +47,197 @@ function SingleProduct() {
     if (!product) return <div className="flex min-h-screen items-center justify-center">Product not found</div>;
 
     return (
-        <div className="bg-black max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8 mt-16">
-    <div className="bg-gray-800/60 backdrop-blur-lg rounded-2xl border border-white/10 shadow-xl overflow-hidden">
-        {/* Product Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-8">
-            {/* Image Section */}
-            <div className="flex items-center justify-center bg-gray-900/30 rounded-xl border border-white/10 p-4">
-                <img 
-                    src={product.image} 
-                    alt={product.name} 
-                    className="max-h-96 object-contain rounded-lg"
-                />
-            </div>
-            
-            {/* Details Section */}
-            <div className="text-white space-y-6">
-                <div>
-                    <h1 className="text-3xl font-bold">{product.name}</h1>
-                    <div className="mt-4">
-                        <span className="text-2xl font-semibold text-blue-400">₹{product.price}</span>
+       <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-neutral-900 p-4">
+       <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="bg-white/4 backdrop-blur-lg rounded-2xl border border-white/20 shadow-xl p-8 mt-15">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 ">
+                <div className="space-y-4">
+                    <div className=" backdrop-blur-lg rounded-xl border border-white/30 shadow-lg overflow-hidden">
+                        <img 
+                            src={product.image}
+                            alt={product.name}
+                            className='w-full h-96 object-contain '>
+                        </img>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-gray-100 rounded-lg overflow-hidden cursor-pointer">
+                            <img
+                                src={product.image}
+                                alt={product.name}
+                                className='w-full h-32 object-contain bg-white'>
+                            
+                            </img>
+                        </div>
+                        <div className="bg-gray-100 rounded-lg overflow-hidden cursor-pointer">
+                            <img
+                                src={product.image}
+                                alt={product.name}
+                                className='w-full h-32 object-contain bg-white'>
+                            </img>
+                        </div>
                     </div>
                 </div>
-                
-                <div className="bg-gray-900/30 backdrop-blur-sm rounded-lg p-4 border border-white/10">
-                    <h3 className="font-medium mb-2">About this product</h3>
-                    <p className="text-gray-300">{product.description}</p>
-                </div>
-                
-                <div className="flex space-x-4 pt-2">
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium flex-1 text-center transition-colors">
-                        Add to Cart
-                    </button>
-                    <button className="bg-transparent border border-white/20 hover:bg-white/10 text-white px-4 py-3 rounded-lg flex items-center justify-center transition-colors">
-                        <FaRegHeart  className="text-lg" />
-                    </button>
+                <div className=" backdrop-blur-lg rounded-xl border border-white/30 shadow-lg p-8 space-y-6">
+                    <h1 className="text-3xl font-bold text-white mt-15">
+                        {product.name}
+                    </h1>
+                    <p className="text-white/80 mt-10">
+                        {product.description}
+                    </p>
+                    <div className="text-2xl font-semibold text-white">
+                        ₹ {product.price}
+                    </div>
+                    <div  className="flex flex-wrap gap-4 pt-7">
+                        <button className="flex-1 bg-orange-400 hover:bg-orange-500 text-white font-medium py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
+                                onClick={()=>{
+                                if(exist){
+                                    toast.info(`${product.name} Already in the Cart`,{
+                                                className: 'custom-danger-toast'
+                                    })
+                                    navigate('/cart')
+                                }
+                                else{
+                                    ToggleCart(product)
+                                }
+                                }}>
+                            <FiShoppingCart className="text-lg"/>
+                            {exist?"Go To Cart":"Add to Cart"}
+                        </button>
+                        <button  className="flex-1 bg-white/10 hover:bg-white/20 text-white font-medium py-3 px-6 rounded-lg border border-white/30 transition duration-300 ease-in-out transform hover:scale-105 backdrop-blur-sm flex items-center justify-center gap-2"
+                                    onClick={()=>ToggleWishList(product)}>
+                          <FaHeart className={`text-lg  ${wishlist.some(item=>item.id===product.id)?'text-red-500 fill-red-500': 'text-white'}`}/>  Wishlist
+                        </button>
+                        <button className="w-full bg-black hover:bg-black/50 text-white font-medium py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2">
+                            <FiZap className="text-yellow-300 text-lg transition-transform duration-300 group-hover:scale-125 group-hover:animate-pulse"/>
+                            Buy Now
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+        <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 shadow-xl p-8 mt-10">
+             <div className="bg-white/50 backdrop-blur-lg rounded-xl border border-white/30 shadow-lg p-8 space-y-6">
+             <div>
+                <h2 className='text-left text-xl font-semibold mb-4'>Product Specifications :-</h2>
+             </div>
+            <div className='p-1'>
+                <table className='w-full border-collapse '>
+                    <tbody>
+                        <tr className='border-b border-white/30'>
+                            <th className='py-3 px-4 text-left font-medium bg-white/10 rounded-tr-xl rounded-tl-xl'>Name</th>
+                            <td className='py-3 px-4'>{product.name}</td>
+                        </tr>
+                        <tr className='border-b border-white/30'>
+                            <th className='py-3 px-4 text-left font-medium bg-white/10'>Brand</th>
+                            <td className='py-3 px-4'>{product.brand}</td>
+                        </tr>
+                        <tr  className='border-b border-white/30'>
+                            <th className='py-3 px-4 text-left font-medium bg-white/10'>Amount</th>
+                            <td className='py-3 px-4'>{product.price}</td>
+                        </tr>
+                        <tr className='border-b border-white/30'>
+                            <th className='py-3 px-4 text-left font-medium bg-white/10'>Type</th>
+                            <td className='py-3 px-4'>{product.type}</td>
+                        </tr>
+                        <tr className='border-b border-white/30'>
+                            <th className='py-3 px-4 text-left font-medium bg-white/10'>Storage</th>
+                            <td className='py-3 px-4'>{product.storage}</td>
+                        </tr>
+                        <tr className='border-b border-white/30'>
+                            <th className='py-3 px-4 text-left font-medium bg-white/10'>Ram</th>
+                            <td className='py-3 px-4'>{product.ram}</td>
+                        </tr>
+                        <tr className='border-b border-white/30'>
+                            <th className='py-3 px-4 text-left font-medium bg-white/10'>CPU</th>
+                            <td className='py-3 px-4'>{product.cpu}</td>
+                        </tr>
+                        <tr className='border-b border-white/30'>
+                            <th className='py-3 px-4 text-left font-medium bg-white/10 rounded-br-xl rounded-bl-xl'>Display</th>
+                            <td className='py-3 px-4'>{product.display}</td>
+                        </tr>
+                    </tbody>
+                </table>
+             </div>
+             </div>
+        </div>
+
+        <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 shadow-xl p-8 mt-10">
+            <div>
+                <h2 className='text-left text-xl font-semibold mb-4 text-white'>Product Review :-</h2>
+             </div>
+             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+                <div className="bg-white/5 backdrop-blur-md rounded-xl border border-white/15 p-6 hover:border-white/30 hover:scale-102 transition-all duration-300">
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 rounded-full bg-amber-400/20 flex items-center justify-center text-amber-400">
+                        J
+                        </div>
+                        <div>
+                            <h4 className="font-medium text-white">John D.</h4>
+                            <div className="flex text-amber-400 text-sm"> 
+                                ★★★★★
+                            </div>
+                        </div>
+                    </div>
+                    <p className="text-white/80 text-sm">
+                        "Absolutely love this product! The quality exceeded my expectations and it arrived quickly."
+                    </p>
+                </div>
+
+                <div className="bg-white/5 backdrop-blur-md rounded-xl border border-white/15 p-6 hover:border-white/30 hover:scale-102 transition-all duration-300">
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 rounded-full bg-emerald-400/20 flex items-center justify-center text-amber-400">
+                        S
+                        </div>
+                        <div>
+                            <h4 className="font-medium text-white">Sarah</h4>
+                            <div className="flex text-amber-400 text-sm"> 
+                                ★★★★☆
+                            </div>
+                        </div>
+                    </div>
+                    <p className="text-white/80 text-sm">
+                        "Great value for money. Only wish it came in more color options."
+                    </p>
+                </div>
+
+                <div className="bg-white/5 backdrop-blur-md rounded-xl border border-white/15 p-6 hover:border-white/30 hover:scale-102 transition-all duration-300">
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 rounded-full bg-purple-400/20 flex items-center justify-center text-amber-400">
+                        A
+                        </div>
+                        <div>
+                            <h4 className="font-medium text-white">Aadhi.</h4>
+                            <div className="flex text-amber-400 text-sm"> 
+                                ★★★★★
+                            </div>
+                        </div>
+                    </div>
+                    <p className="text-white/80 text-sm">
+                        "Perfect! Exactly as described. Will definitely purchase again."
+                    </p>
+                </div>
+
+                <div className="bg-white/5 backdrop-blur-md rounded-xl border border-white/15 p-6 hover:border-white/30 hover:scale-102 transition-all duration-300">
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 rounded-full bg-rose-400/20 flex items-center justify-center text-amber-400">
+                        M
+                        </div>
+                        <div>
+                            <h4 className="font-medium text-white">Maria</h4>
+                            <div className="flex text-amber-400 text-sm"> 
+                                ★★☆☆☆
+                            </div>
+                        </div>
+                    </div>
+                    <p className="text-white/80 text-sm">
+                        "Fine, That's all"
+                    </p>
+                </div>
+                
+             </div>
+        </div>
+       </div>
+       </div>
     );
 }
 

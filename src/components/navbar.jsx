@@ -103,17 +103,20 @@ const SearchProduct= async (query)=>{
                                     </div>
                                 )}
                             </div>
-                            <div className="flex-shrink-0">
+                            {/* <div className="flex-shrink-0">
                             <Link to="/" className="text-white text-2xl font-bold">Techno<span style={{color:"red"}}>X</span></Link>
-                        </div>
+                        </div> */}
+                            <div className="flex-shrink-0 flex items-center">
+                                <Link to="/"><img src="/logo1.png" className='w-12 h-12 md:w-15 md:h-14 hover:opacity-80 transition-opacity' alt="Company Logo"></img></Link>
+                            </div>
                         </div>
                         <div className='hidden sm:flex  items-center gap-4 md:gap-6  rounded-lg px-3 py-1 text-white'> 
-                        <div className='relative group overflow-hidden hover:bg-white/10 transition-all duration-300 rounded-md px-3 py-1'>
+                        <div className='relative group overflow-hidden hover:bg-white/10 transition-all duration-300 rounded-md px-5 py-1'>
                             <Link to="/products" >Product</Link>
                              <div className="absolute inset-0 bg-gradient-to-r from-white/30 via-white/10 to-transparent 
                                             opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                         </div>
-                        <div  className='relative group overflow-hidden hover:bg-white/10 transition-all duration-300 rounded-md px-3 py-1'>
+                        <div  className='relative group overflow-hidden hover:bg-white/10 transition-all duration-300 rounded-md px-3 py-1 cursor-pointer'>
                             <Link to="/about" >About</Link>
                              <div className="absolute inset-0 bg-gradient-to-r from-white/30 via-white/10 to-transparent 
                                             opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
@@ -123,7 +126,7 @@ const SearchProduct= async (query)=>{
                             <div className='relative hidden sm:block'>
                             <input style={{color:"white",borderRadius:"10px",padding:"5px"}} type="text" placeholder='search...' 
                                      className="flex-shrink w-full max-w-xs sm:max-w-[100px] md:max-w-[200px] lg:max-w-[320px] bg-transparent outline-none transition duration-300 hover:scale-102 text-white px-2 py-1"
-                                     value={searchQuery} onChange={(HandleSearch)} onFocus={() => searchQuery && setShowResults(true)} onBlur={() => setTimeout(() => setShowResults(false), 200)}>
+                                     value={searchQuery} onChange={(HandleSearch)} onFocus={() => searchQuery && setShowResults(true)} onBlur={() => setTimeout(() => setShowResults(false), 300)}>
                             </input>
 
                             {showResults && searchResults.length>0 &&(
@@ -156,7 +159,7 @@ const SearchProduct= async (query)=>{
                             }} className="text-white p-1 relative cursor-pointer"><FaHeart  className="text-white text-xl transition duration-300  hover:scale-110 hover:fill-red-400 " />
                                     {wishlist.length>0 && (<span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs  rounded-full h-3 w-3 flex items-center justify-center">{wishlist.length>9?"9+":wishlist.length}</span>)} </button>
                             <div  className="relative group z-[200]" onMouseEnter={()=>setMsg(true)} onMouseLeave={()=>setMsg(false)}>
-                                <button>
+                                <button onClick={()=>navigate('/about')} className='cursor-pointer'>
                                     <FiUser className="text-white text-xl transition duration-300  hover:scale-110 hover:text-blue-400" />
                                 </button>
                                 {msg && (
@@ -175,7 +178,7 @@ const SearchProduct= async (query)=>{
                                                         toast.info("Log-out successfully")
                                                         navigate('/login')
                                                     }} className="relative z-10 block w-full text-left px-4 py-3 text-sm text-white font-medium hover:text-black
-                                                                border-b border-white/15 transition-all duration-200 hover:bg-white/15 hover:pl-4">
+                                                                border-b border-white/15 transition-all duration-200 hover:bg-white/15 hover:pl-4 cursor-pointer">
                                                                     Logout
                                                     </button>
                                                 </>
