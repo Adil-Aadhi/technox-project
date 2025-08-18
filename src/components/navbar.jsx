@@ -96,7 +96,7 @@ const SearchProduct= async (query)=>{
                                                         border-b border-white/15 transition-all duration-200 hover:bg-white/15 hover:pl-4'>
                                             Products
                                         </Link>
-                                        <Link to="/products" onClick={()=>setShowMenu(false)} className='relative z-10 block px-4 py-3 text-sm text-white font-medium hover:text-black
+                                        <Link to="/about" onClick={()=>setShowMenu(false)} className='relative z-10 block px-4 py-3 text-sm text-white font-medium hover:text-black
                                                         border-b border-white/15 transition-all duration-200 hover:bg-white/15 hover:pl-4'>
                                             About
                                         </Link>
@@ -159,7 +159,7 @@ const SearchProduct= async (query)=>{
                             }} className="text-white p-1 relative cursor-pointer"><FaHeart  className="text-white text-xl transition duration-300  hover:scale-110 hover:fill-red-400 " />
                                     {wishlist.length>0 && (<span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs  rounded-full h-3 w-3 flex items-center justify-center">{wishlist.length>9?"9+":wishlist.length}</span>)} </button>
                             <div  className="relative group z-[200]" onMouseEnter={()=>setMsg(true)} onMouseLeave={()=>setMsg(false)}>
-                                <button onClick={()=>navigate('/about')} className='cursor-pointer'>
+                                <button onClick={()=>navigate('/profile')} className='cursor-pointer'>
                                     <FiUser className="text-white text-xl transition duration-300  hover:scale-110 hover:text-blue-400" />
                                 </button>
                                 {msg && (

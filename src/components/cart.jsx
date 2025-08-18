@@ -1,13 +1,18 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import useHandleCart from "./customhook/carthook"
 import { FiMinus,FiPlus,FiTrash2,FiShoppingCart  } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { CartContext } from "./useContext/cartContext";
 
 
 function Cart(){
 
     const {cartList,ToggleCart,DeleteCart,HandleCarts,IncrementQuantity,DecrementQuantity}=useHandleCart()
     const navigate=useNavigate();
+
+    const {setGrandTotal}=useContext(CartContext)
+
+
 
     const TotalAmount=cartList.reduce((sum,product)=>
         sum+product.price*product.quantity,
@@ -17,6 +22,10 @@ function Cart(){
     const discount=Math.round(TotalAmount * 0.05);
 
     const grandTotal=TotalAmount - discount;
+
+    useEffect(()=>{
+        setGrandTotal(grandTotal)
+    },[grandTotal,setGrandTotal])
 
     return(
         <div className="min-h-screen mt-15 py-12 px-4 sm:px-6 lg:px-8"
@@ -107,7 +116,11 @@ function Cart(){
                                                 <p className="text-xl font-bold text-gray-900">₹ {grandTotal}</p>
                                             </div>
                                             <div  className="mt-6 flex justify-center">
-                                                <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 w-70 cursor-pointer">
+                                                <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 w-70 cursor-pointer"
+                                                        onClick={()=>
+                                                            setTimeout(()=>{
+                                                                navigate("/payment")},1000
+                                                            )}>
                                                     PLACE ORDER
                                                 </button>
                                             </div>

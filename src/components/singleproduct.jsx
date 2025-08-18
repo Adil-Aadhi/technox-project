@@ -21,7 +21,7 @@ function SingleProduct() {
 
     
 
-    const exist=cartList.some(item=>item.id===product.id)
+    const exist=cartList.some(item=>item.id===product?.id)
 
 
     const HandleProducts = async () => {
@@ -45,6 +45,9 @@ function SingleProduct() {
     if (loading) return <div className="flex min-h-screen items-center justify-center">Loading...</div>;
     if (error) return <div className="flex min-h-screen items-center justify-center text-red-500">{error}</div>;
     if (!product) return <div className="flex min-h-screen items-center justify-center">Product not found</div>;
+
+
+
 
     return (
        <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-neutral-900 p-4">
@@ -107,7 +110,8 @@ function SingleProduct() {
                                     onClick={()=>ToggleWishList(product)}>
                           <FaHeart className={`text-lg  ${wishlist.some(item=>item.id===product.id)?'text-red-500 fill-red-500': 'text-white'}`}/>  Wishlist
                         </button>
-                        <button className="w-full bg-black hover:bg-black/50 text-white font-medium py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2">
+                        <button className="w-full bg-black hover:bg-black/50 text-white font-medium py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
+                                onClick={()=>navigate("/payment")}>
                             <FiZap className="text-yellow-300 text-lg transition-transform duration-300 group-hover:scale-125 group-hover:animate-pulse"/>
                             Buy Now
                         </button>

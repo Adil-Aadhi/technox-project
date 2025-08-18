@@ -13,6 +13,11 @@ import Cart from './components/cart'
 import { ToastContainer,Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SingleProduct from './components/singleproduct'
+import Profile from './pages/profile'
+import Payment from './pages/payment'
+import { CartProvider } from './components/useContext/cartContext.jsx'
+import QRPayment from './pages/qrcode.jsx'
+import AboutPage from './pages/about.jsx'
 
 function App() {
 
@@ -31,6 +36,7 @@ function App() {
 
   return (
     <div className="overflow-x-hidden max-w-[100vw]">
+      <CartProvider>
     {showNavbar  && <Navbar />}
     <Routes>
       <Route path="/" element={<Home/>}/>
@@ -40,6 +46,10 @@ function App() {
       <Route path="/wishlist" element={<Wishlist/>}/>
       <Route path="/cart" element={<Cart/>}/>
       <Route path="/products/:id" element={<SingleProduct/>}/>
+      <Route path="/profile" element={<Profile/>}/>
+      <Route path="/payment" element={<Payment/>}/>
+      <Route path="/qrcode" element={<QRPayment/>}/>
+      <Route path="/about" element={<AboutPage/>}/>
     </Routes>
     {showFooter && <Footer/>}
    <ToastContainer
@@ -74,6 +84,7 @@ function App() {
     padding: 0
   }}
 />
+</CartProvider>
     </div>
   )
 }
