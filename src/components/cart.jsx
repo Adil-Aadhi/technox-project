@@ -3,12 +3,15 @@ import useHandleCart from "./customhook/carthook"
 import { FiMinus,FiPlus,FiTrash2,FiShoppingCart  } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "./useContext/cartContext";
+import { useState } from "react";
 
 
 function Cart(){
 
     const {cartList,ToggleCart,DeleteCart,HandleCarts,IncrementQuantity,DecrementQuantity}=useHandleCart()
     const navigate=useNavigate();
+    const [loading, setLoading] = useState(false);
+    
 
     const {setGrandTotal}=useContext(CartContext)
 
@@ -30,6 +33,18 @@ function Cart(){
     return(
         <div className="min-h-screen mt-15 py-12 px-4 sm:px-6 lg:px-8"
             style={{background: "linear-gradient(135deg, rgba(20, 30, 48, 0.9), rgba(36, 59, 85, 0.9))"}}>
+                {loading && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                            <div className="bg-white/10 backdrop-blur-lg border border-white/10 rounded-xl shadow-lg p-8 flex flex-col items-center">
+                                <div className="relative w-20 h-20 mb-4">
+                                    <div className="absolute inset-0 rounded-full border-4 border-t-transparent border-white/50 animate-spin"></div>
+                                    <div className="absolute inset-2 rounded-full border-4 border-b-transparent border-white/30 animate-spin animation-delay-200"></div>
+                                    <div className="absolute inset-4 rounded-full border-4 border-l-transparent border-white/10 animate-spin animation-delay-400"></div>
+                                </div>
+                                <p className="text-white text-md font-medium">Loading...</p>
+                            </div>
+                        </div>
+                    )}
                     <div className="max-w-7xl mx-auto mb-6">
                         <div className="bg-[rgba(255,255,255,0.56)] backdrop-blur-lg rounded-2xl border border-white/20 p-8 shadow-xl">
                         <div className="flex items-center justify-center gap-3">
@@ -117,10 +132,11 @@ function Cart(){
                                             </div>
                                             <div  className="mt-6 flex justify-center">
                                                 <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 w-70 cursor-pointer"
-                                                        onClick={()=>
+                                                        onClick={()=>{setLoading(true);
                                                             setTimeout(()=>{
-                                                                navigate("/payment")},1000
-                                                            )}>
+                                                                navigate("/payment");setLoading(false)},
+                                                                2000
+                                                            )}}>
                                                     PLACE ORDER
                                                 </button>
                                             </div>

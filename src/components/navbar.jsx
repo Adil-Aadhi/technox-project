@@ -70,11 +70,7 @@ const SearchProduct= async (query)=>{
     }
 
     useEffect(() => {
-        const delayDebounceFn = setTimeout(() => {
             SearchProduct(searchQuery)
-        }, 300) // 300ms debounce
-
-        return () => clearTimeout(delayDebounceFn)
     }, [searchQuery])
  
     return(

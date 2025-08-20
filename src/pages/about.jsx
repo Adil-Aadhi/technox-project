@@ -1,4 +1,9 @@
+import { useNavigate } from "react-router-dom";
+
 function AboutPage() {
+
+const navigate=useNavigate()
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-gray-900 to-black p-6">
       <div className="max-w-3xl w-full backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-2xl p-10 text-center">
@@ -16,10 +21,11 @@ function AboutPage() {
         </p>
 
         <div className="flex justify-center gap-6">
-          <button className="px-6 py-3 bg-white/20 hover:bg-white/30 text-white rounded-xl shadow-md transition">
+          {/* <button className="px-6 py-3 bg-white/20 hover:bg-white/30 text-white rounded-xl shadow-md transition">
             Contact Us
-          </button>
-          <button className="px-6 py-3 bg-blue-500/80 hover:bg-blue-600 text-white rounded-xl shadow-md transition">
+          </button> */}
+          <button className="px-6 py-3 bg-blue-500/80 hover:bg-blue-600 text-white rounded-xl shadow-md transition cursor-pointer"
+                  onClick={()=>navigate('/products')}>
             Explore Products
           </button>
         </div>

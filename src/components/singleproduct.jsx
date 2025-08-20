@@ -14,10 +14,15 @@ function SingleProduct() {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [loadings, setLoadings] = useState(false);
     const [error, setError] = useState(null);
     const {cartList,ToggleCart,DeleteCart,HandleCarts}=useHandleCart();
     const {wishlist,ToggleWishList}=useWishList()
     const navigate=useNavigate();
+
+
+    const userData = JSON.parse(localStorage.getItem("currentUser"));
+    const userId = userData?.id;
 
     
 
@@ -38,6 +43,17 @@ function SingleProduct() {
         }
     };
 
+    const passData=()=>{setLoadings(true);
+        setTimeout(()=>{
+            navigate("/payment",{
+            state:{
+                productName:product.name,productPrice:product.price
+            }
+        });setLoadings(false)
+        },2000)
+        
+    }
+
     useEffect(() => {
         HandleProducts();
     }, [id]);
@@ -51,6 +67,18 @@ function SingleProduct() {
 
     return (
        <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-neutral-900 p-4">
+        {loadings && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                    <div className="bg-white/10 backdrop-blur-lg border border-white/10 rounded-xl shadow-lg p-8 flex flex-col items-center">
+                        <div className="relative w-20 h-20 mb-4">
+                            <div className="absolute inset-0 rounded-full border-4 border-t-transparent border-white/50 animate-spin"></div>
+                            <div className="absolute inset-2 rounded-full border-4 border-b-transparent border-white/30 animate-spin animation-delay-200"></div>
+                            <div className="absolute inset-4 rounded-full border-4 border-l-transparent border-white/10 animate-spin animation-delay-400"></div>
+                        </div>
+                        <p className="text-white text-md font-medium">Loading...</p>
+                    </div>
+                </div>
+            )}
        <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="bg-white/4 backdrop-blur-lg rounded-2xl border border-white/20 shadow-xl p-8 mt-15">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 ">
@@ -111,7 +139,10 @@ function SingleProduct() {
                           <FaHeart className={`text-lg  ${wishlist.some(item=>item.id===product.id)?'text-red-500 fill-red-500': 'text-white'}`}/>  Wishlist
                         </button>
                         <button className="w-full bg-black hover:bg-black/50 text-white font-medium py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
-                                onClick={()=>navigate("/payment")}>
+                                onClick={()=>{userId?passData()
+                                :toast.info("please login to purchase product",{
+                                                className: 'custom-danger-toast'
+                                    })}}>
                             <FiZap className="text-yellow-300 text-lg transition-transform duration-300 group-hover:scale-125 group-hover:animate-pulse"/>
                             Buy Now
                         </button>

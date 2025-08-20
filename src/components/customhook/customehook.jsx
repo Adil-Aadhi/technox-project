@@ -2,7 +2,7 @@ import { useState,useEffect } from "react";
 import axios from "axios";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FaHeart, FaRegHeart, FaTimes } from 'react-icons/fa';
+
 
 function useWishList(){
 

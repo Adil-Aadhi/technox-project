@@ -30,7 +30,7 @@ function Sidebar({onFilter,onBrand}) {
                                                           transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)]
                                                           transform hover:translate-x-1 hover:scale-[1.02]
                                                           border border-white/10 hover:border-white/20
-                                                          shadow-sm hover:shadow-md w-30 text-sm">
+                                                          shadow-sm hover:shadow-md w-30 text-sm cursor-pointer">
                             All Products {mobileFilter === null && " ✔️"}
                       </button></li>
                 <li><button onClick={() => { onFilter("Laptop"); setIsOpen(false);setMobileFilter("Laptop"); }} className="block px-4 py-3 rounded-lg 
@@ -39,7 +39,7 @@ function Sidebar({onFilter,onBrand}) {
                                                           transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)]
                                                           transform hover:translate-x-1 hover:scale-[1.02]
                                                           border border-white/10 hover:border-white/20
-                                                          shadow-sm hover:shadow-md w-30">
+                                                          shadow-sm hover:shadow-md w-30 cursor-pointer">
                             Laptops {mobileFilter === "Laptop" && " ✔️"}
                       </button></li>
                 <li className="mb-10"><button onClick={() => { onFilter("Mobile"); setIsOpen(false);setMobileFilter("Mobile"); }} className="block px-4 py-3 rounded-lg 
@@ -48,7 +48,7 @@ function Sidebar({onFilter,onBrand}) {
                                                           transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)]
                                                           transform hover:translate-x-1 hover:scale-[1.02]
                                                           border border-white/10 hover:border-white/20
-                                                          shadow-sm hover:shadow-md w-30">
+                                                          shadow-sm hover:shadow-md w-30 cursor-pointer">
                             Mobiles {mobileFilter === "Mobile" && " ✔️"}
                     </button></li>
                     <hr/>
@@ -66,10 +66,10 @@ function Sidebar({onFilter,onBrand}) {
             </ul>
           </aside>
         </div>
-
+        <div className="relative">
         {open &&(
           <div onMouseEnter={() => setOpen(true)}
-            onMouseLeave={() => setOpen(false)}  className="absolute left-35 mb-20 w-40 bottom-7 bg-white/5 hover:bg-white/20 
+            onMouseLeave={() => setOpen(false)}  className="absolute left-35 mb-12 w-40 bottom-7 bg-white/5 hover:bg-white/20 
                                                           backdrop-blur-sm  shadow-lg rounded-lg  z-[9999] pointer-events-auto">
             <ul className="py-2 text-black">
             <li className="px-4 py-2 hover:bg-white/20 cursor-pointer w-full"
@@ -77,12 +77,26 @@ function Sidebar({onFilter,onBrand}) {
             <li className="px-4 py-2 hover:bg-white/20 cursor-pointer w-full"
                 onClick={()=>{onBrand("Apple"); setBrand("Apple")}}>Apple</li>
             <li className="px-4 py-2 hover:bg-white/20 cursor-pointer w-full"
+                onClick={()=>{onBrand("Google"); setBrand("Google")}}>Google</li>
+            <li className="px-4 py-2 hover:bg-white/20 cursor-pointer w-full"
+                onClick={()=>{onBrand("OnePlus"); setBrand("OnePlus")}}>OnePlus</li>
+            <li className="px-4 py-2 hover:bg-white/20 cursor-pointer w-full"
                 onClick={()=>{onBrand("Samsung"); setBrand("Samsung")}}>Samsung</li>
             <li className="px-4 py-2 hover:bg-white/20 cursor-pointer w-full"
+                onClick={()=>{onBrand("Xiaomi"); setBrand("Xiaomi")}}>Xiaomi</li>
+                <hr className="mt-3 mb-3"/>
+            <li className="px-4 py-2 hover:bg-white/20 cursor-pointer w-full"
                 onClick={()=>{onBrand("Asus"); setBrand("Asus")}}>Asus</li>
+            <li className="px-4 py-2 hover:bg-white/20 cursor-pointer w-full"
+                onClick={()=>{onBrand("Dell"); setBrand("Dell")}}>Dell</li>
+            <li className="px-4 py-2 hover:bg-white/20 cursor-pointer w-full"
+                onClick={()=>{onBrand("HP"); setBrand("HP")}}>HP</li>
+            <li className="px-4 py-2 hover:bg-white/20 cursor-pointer w-full"
+                onClick={()=>{onBrand("Lenovo"); setBrand("Lenovo")}}>Lenovo</li>
           </ul>
           </div>
         )}
+        </div>
 
         {/* gpt */}
 
@@ -119,7 +133,7 @@ function Sidebar({onFilter,onBrand}) {
                   </li>
                 </ul>
               </div>
-              <div className="p-4">
+              <div className="p-4 max-h-65 overflow-y-auto">
                 <h2 className="text-lg font-bold mb-3"></h2>
                 <ul className="space-y-2">
                   <li>
@@ -133,13 +147,37 @@ function Sidebar({onFilter,onBrand}) {
                     </button>
                   </li>
                   <li>
+                    <button  onClick={() => { onBrand("Google");setMobilebrand("Google") ; setIsOpen(false); }} className="w-full text-left px-3 py-2 rounded hover:bg-white/20">
+                        Google {mobileBrand === "Google" && " ✔️"}
+                    </button>
+                  </li>
+                  <li>
+                    <button  onClick={() => { onBrand("OnePlus");setMobilebrand("OnePlus") ; setIsOpen(false); }} className="w-full text-left px-3 py-2 rounded hover:bg-white/20">
+                        OnePlus {mobileBrand === "OnePlus" && " ✔️"}
+                    </button>
+                  </li>
+                  <li>
                     <button onClick={() => { onBrand("Samsung");setMobilebrand("Samsung") ; setIsOpen(false); }} className="w-full text-left px-3 py-2 rounded hover:bg-white/20">
                         Samsung {mobileBrand === "Samsung" && " ✔️"}
                     </button>
                   </li>
                   <li>
+                    <button onClick={() => { onBrand("Xiaomi");setMobilebrand("Xiaomi") ; setIsOpen(false); }} className="w-full text-left px-3 py-2 rounded hover:bg-white/20">
+                        Xiaomi {mobileBrand === "Xiaomi" && " ✔️"}
+                    </button>
+                  </li>
+                  <li>
                     <button onClick={() => { onBrand("Asus");setMobilebrand("Asus") ; setIsOpen(false); }} className="w-full text-left px-3 py-2 rounded hover:bg-white/20">
                       Asus {mobileBrand === "Asus" && " ✔️"}
+                    </button>
+                    <button onClick={() => { onBrand("Dell");setMobilebrand("Dell") ; setIsOpen(false); }} className="w-full text-left px-3 py-2 rounded hover:bg-white/20">
+                      Dell {mobileBrand === "Dell" && " ✔️"}
+                    </button>
+                    <button onClick={() => { onBrand("HP");setMobilebrand("HP") ; setIsOpen(false); }} className="w-full text-left px-3 py-2 rounded hover:bg-white/20">
+                      HP {mobileBrand === "HP" && " ✔️"}
+                    </button>
+                    <button onClick={() => { onBrand("Lenovo");setMobilebrand("Lenovo") ; setIsOpen(false); }} className="w-full text-left px-3 py-2 rounded hover:bg-white/20">
+                      Lenovo {mobileBrand === "Lenovo" && " ✔️"}
                     </button>
                   </li>
                 </ul>

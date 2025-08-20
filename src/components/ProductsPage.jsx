@@ -196,7 +196,7 @@ function Products(){
                        {selectedProduct && (
                             <div className={`fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 transition-all duration-300 ${isModelOpen ? 'backdrop-blur-sm opacity-100' : 'backdrop-blur-0 opacity-0'}`} >
                                 <div  className={`relative max-w-full sm:max-w-4xl w-full mx-2 sm:mx-0 bg-white/10 border border-white/20 rounded-2xl overflow-hidden backdrop-blur-lg transition-all duration-300 transform ${isModelOpen ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}`}>
-                                <button onClick={closeModal}  className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 p-1 sm:p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
+                                <button onClick={closeModal}  className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 p-1 sm:p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors cursor-pointer">
                                     <IoClose className="h-4 w-4 sm:h-5 sm:w-5 text-white hover:text-red-400" />
                                 </button>
                                 <div className="flex flex-col md:flex-row ">
@@ -212,7 +212,7 @@ function Products(){
                                         <p className="text-black text-sm sm:text-base mb-4 sm:mb-20 font-medium">{selectedProduct.description || "Product description goes here."}
                                         </p>
                                         <div className="flex gap-4 justify-center">
-                                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-6 py-1 sm:py-2 rounded-lg text-xs sm:text-sm transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 w-20 sm:w-30"
+                                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-6 py-1 sm:py-2 rounded-lg text-xs sm:text-sm transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 w-20 sm:w-30 cursor-pointer"
                                                 onClick={()=>{
                                                     closeModal();
                                                      setTimeout(() => {
@@ -223,7 +223,7 @@ function Products(){
                                         </button>
                                         <button  className="bg-white/5 backdrop-blur-xl border-2 border-white/20 rounded-xl shadow-2xl h-12 w-20
                                                     transition-all duration-300 hover:scale-105 hover:bg-white/10 hover:border-white/30
-                                                    text-white font-medium text-sm md:text-base overflow-hidden group"
+                                                    text-white font-medium text-sm md:text-base overflow-hidden group cursor-pointer"
                                                     onClick={()=>ToggleWishList(selectedProduct)}>
                                                         <span className="absolute inset-0 bg-gradient-to-br from-white/30 to-white/0 opacity-0 
                                                         group-hover:opacity-100 transition-opacity duration-300">
@@ -236,7 +236,7 @@ function Products(){
                                                         
                                                     
                                             </button>
-                                        <button className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded-lg  transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 w-18"
+                                        <button className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded-lg  transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 w-18 cursor-pointer"
                                                     onClick={()=>{closeModal();
                                                     ToggleCart(selectedProduct)}}>
                                             <FiShoppingCart className="text-white text-xl transition duration-300  hover:scale-110"/>

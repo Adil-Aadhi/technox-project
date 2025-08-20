@@ -18,6 +18,7 @@ import Payment from './pages/payment'
 import { CartProvider } from './components/useContext/cartContext.jsx'
 import QRPayment from './pages/qrcode.jsx'
 import AboutPage from './pages/about.jsx'
+import NotFound from './pages/notfound.jsx'
 
 function App() {
 
@@ -28,7 +29,7 @@ function App() {
 
 
   useEffect(()=>{
-    const hideOnRoutes = ['/login', '/register'];
+    const hideOnRoutes = ['/login', '/register','/payment','/qrcode'];
     const shouldHide =hideOnRoutes.includes(location.pathname);
     setShowNavbar(!shouldHide)
     setShowFooter(!shouldHide)
@@ -50,6 +51,7 @@ function App() {
       <Route path="/payment" element={<Payment/>}/>
       <Route path="/qrcode" element={<QRPayment/>}/>
       <Route path="/about" element={<AboutPage/>}/>
+      <Route path="*" element={<NotFound/>}/>
     </Routes>
     {showFooter && <Footer/>}
    <ToastContainer

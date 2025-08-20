@@ -71,7 +71,7 @@ const images = [
                         <button 
                             className="relative bg-white/5 backdrop-blur-xl border-2 border-white/20 rounded-xl shadow-2xl h-12 w-44
                                     transition-all duration-300 hover:scale-105 hover:bg-white/10 hover:border-white/30
-                                    text-white font-medium text-sm md:text-base overflow-hidden group"
+                                    text-white font-medium text-sm md:text-base overflow-hidden group cursor-pointer"
                             onClick={ShopNavigate}>
                         {/* Glass shine effect */}
                         <span className="absolute inset-0 bg-gradient-to-br from-white/30 to-white/0 opacity-0 
