@@ -2,16 +2,17 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {FiUser,FiShoppingBag,FiMenu } from "react-icons/fi";
-import { useState,useEffect } from "react";
+import { useState,useEffect,useContext } from "react";
 import axios from "axios"
 import Order from "../components/orders";
+import { CartContext } from "../components/useContext/cartwishContext";
 
 
 
 
 function Profile(){
 
-
+    const {cartLength,setCartLength,wishLength,setWishLength}=useContext(CartContext)
     const math=Math.floor(Math.random() * 10) + 1
     const math2=Math.random()
     const navigate=useNavigate();
@@ -66,10 +67,10 @@ function Profile(){
                 <div className="lg:hidden fixed inset-0 backdrop:blur-3xl bg-white/0 z-40" onClick={()=>setMenuOpen(false)}>
                 </div>
             )}
-            <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] max-w-7xl mx-auto pt-20 mt-5 mb-5">
+            <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr]   pt-20 mt-5 mb-5">
                     <div>
                         <aside className={`
-                                            ${menuOpen ? "fixed top-0 left-0 h-full w-64 z-50" : "hidden"} 
+                                            ${menuOpen ? "fixed top-0 left-0 h-full w-60 z-50" : "hidden"} 
                                             lg:block lg:fixed lg:top-20
                                             w-64
                                             bg-white/0 lg:bg-transparent
@@ -90,8 +91,8 @@ function Profile(){
                             
                             <hr className="border-white/20 mb-6"></hr>
                             <ul className="space-y-4">
-                            <li className="backdrop-blur-md bg-white/5 p-4 rounded-lg border border-white/20 hover:bg-white/10 hover:border-red-400 hover:text-red-300 transition-all duration-300
-                                            shadow-lg hover:shadow-xl cursor-pointer " onClick={()=>setActiveTab("profile")}>
+                            <li className={`backdrop-blur-md  p-4 rounded-lg border  hover:bg-white/10 hover:border-red-400 hover:text-red-300 transition-all duration-300
+                                            shadow-lg hover:shadow-xl cursor-pointer ${activeTab ==="profile"?"bg-white/10 border-red-400 text-red-300":"bg-white/5 border-white/20"}`} onClick={()=>setActiveTab("profile")}>
                                 <div className="flex items-center space-x-3">
                                     <div className="p-2 rounded-full bg-white/10 border border-red-400 ">
                                     <FiUser className="text-white/80 " />
@@ -99,8 +100,8 @@ function Profile(){
                                     <span className="font-medium">Profile</span>
                                 </div>
                             </li>
-                            <li className="backdrop-blur-md bg-white/5 p-4 rounded-lg border border-white/20 hover:bg-white/10 hover:border-red-400 hover:text-red-300 transition-all duration-300
-                                            shadow-lg hover:shadow-xl cursor-pointer" onClick={()=>setActiveTab("orders")}>
+                            <li className={`backdrop-blur-md  p-4 rounded-lg border  hover:bg-white/10 hover:border-red-400 hover:text-red-300 transition-all duration-300
+                                            shadow-lg hover:shadow-xl cursor-pointer  ${activeTab==="orders"?"bg-white/10 border-red-400 text-red-300":"bg-white/5 border-white/20"} `} onClick={()=>setActiveTab("orders")}>
                                 <div className="flex items-center space-x-3">
                                     <div className="p-2 rounded-full bg-white/10 border border-red-400">
                                     <FiShoppingBag  className="text-white/80" />
@@ -233,6 +234,8 @@ function Profile(){
                                                 hover:shadow-red-500/20 cursor-pointer"
                                         onClick={()=>{
                                             localStorage.removeItem('currentUser');
+                                            setCartLength(0);
+                                            setWishLength(0);
                                             toast.info("Log-out successfully")
                                             navigate('/login')
                                         }}>

@@ -1,12 +1,16 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect,useContext } from "react";
 import axios from "axios";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { CartContext } from "../useContext/cartwishContext";
 
 
 function useHandleCart(){
 
     const [cartList,setCartList]=useState([])
+
+    let {cartLength,setCartLength}=useContext(CartContext);
+
       const userData = JSON.parse(localStorage.getItem("currentUser"));
       const userId = userData?.id;
 
@@ -32,6 +36,7 @@ function useHandleCart(){
                  toast.success(`${product.name} Added to Cart`,{
                 })
             })
+            setCartLength(cartList.length+1)
             .catch((e=>{
                 console.log("error on adding",e)
             }))
@@ -49,6 +54,7 @@ function useHandleCart(){
             toast.success(`${product.name} removed from Cart`,{
                     className: 'custom-success-toast'})
         })
+        setCartLength(cartList.length-1)
         .catch((e)=>console.log(("error removing cart",e)))
         
     }
@@ -57,7 +63,9 @@ function useHandleCart(){
         if (!userId) return;
 
         axios.get(`http://localhost:3000/cart?userId=${userId}`)
-        .then((res)=>{setCartList(res.data)})
+        .then((res)=>{setCartList(res.data);
+            setCartLength(res.data.length);
+        })
         .catch((e)=>console.log("error fetching cart",e))
     }
 
@@ -76,9 +84,9 @@ function useHandleCart(){
     }
 
     const DecrementQuantity=(productId)=>{
-        // setCartList(prev=>prev.map(item=>item.id===productId && item.quantity>1?{
-        //     ...item, quantity: item.quantity - 1
-        // }:item))
+        setCartList(prev=>prev.map(item=>item.id===productId && item.quantity>1?{
+            ...item, quantity: item.quantity - 1
+        }:item))
 
         const product=cartList.find(item=>item.id===productId);
         if(product && product.quantity>1){
@@ -91,7 +99,7 @@ function useHandleCart(){
 
     useEffect(()=>{
         HandleCarts();
-    },[userId,cartList])
+    },[userId])
 
     return(
         {

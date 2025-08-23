@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState,useContext } from "react"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./sidebar";
@@ -10,6 +10,8 @@ import useHandleCart from "./customhook/carthook";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSearchParams } from "react-router-dom";
+import { CartContext } from './useContext/cartwishContext';
+
 
 
 
@@ -23,6 +25,7 @@ function Products(){
      const brandFromQuery = searchParams.get("brand");
 
     const {cartList,ToggleCart,DeleteCart,HandleCarts}=useHandleCart()
+    const {wishLength,setWishLength}=useContext(CartContext)
     
     const [product,setProduct]=useState([])
     const [filteredProducts,setFilteredProduct]=useState([])
@@ -53,6 +56,7 @@ function Products(){
             if(exist){
                 await axios.delete(`http://localhost:3000/wishlist/${product.id}`)
                 setWishlist(prev=>prev.filter(item=>item.id!==product.id));
+                setWishLength(wishlist.length-1)
                 toast.success(`${product.name} removed from wishlist`,{
                     className: 'custom-success-toast'
                 })
@@ -60,6 +64,7 @@ function Products(){
             else{
                 await axios.post('http://localhost:3000/wishlist',{...product,productId: product.id,userId:userData.id});
                 setWishlist(prev=>[...prev,product])
+                setWishLength(wishlist.length+1)
                 toast.success(`${product.name} added to wishlist!`,{
                 })
             }

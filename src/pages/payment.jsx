@@ -49,7 +49,13 @@ function Payment() {
   const HandleDetails=async()=>{
     try{
         const res=await axios.get(`http://localhost:3000/users/${userData.id}`)
-        setAddress(res.data.address);
+        setAddress(res.data.address ||  {
+      houseno: "",
+      landmark: "",
+      town: "",
+      district: "",
+      pin: "",
+      mobile: ""});
     }
     catch(e){
         setMsg("Error on fetching address");
@@ -57,6 +63,11 @@ function Payment() {
     }
     
   }
+
+
+  const isAddressValid = () => {
+  return address.houseno && address.town && address.district && address.pin && address.mobile;
+}
 
    const HandleSubmit=(e)=>{
         e.preventDefault();
@@ -70,6 +81,24 @@ function Payment() {
 
     const HandleData=(e)=>{
         setAddress({...address,[e.target.name]:e.target.value})
+    }
+
+
+    const RemoveCart=async()=>{
+        try{
+            const res=await axios.get(`http://localhost:3000/cart/`)
+            const cartItem=res.data;
+
+            const userCart=cartItem.filter(item=>item.userId===userData.id)
+            
+            await Promise.all(
+                userCart.map(item=>axios.delete(`http://localhost:3000/cart/${item.id}`))
+            )
+            console.log("cart deleted")
+        }
+        catch(e){
+            console.log('Error on delete on cart',e)
+        }
     }
 
 
@@ -95,7 +124,9 @@ function Payment() {
             else if(products.length>0){
                 newOrders={
                     odr:ODRid,date:currentDate,shipping:address,products:products,amount:TotalAmount
-                }   
+                }  
+               await RemoveCart();
+                
             }
 
                 if(newOrders){
@@ -213,7 +244,8 @@ function Payment() {
                             </div>
                             <button className="w-full py-2 bg-black/90 text-white rounded hover:bg-blue-500 transition-all duration-500 cursor-pointer h-13"
                                     onClick={()=>setIsDetails(true)}>
-                               {address===undefined?"Add Address":"Change Address"} 
+                               {!isAddressValid()?"Add Address":"Change Address"} 
+                               
                             </button>
                         </div>
                     </div>
@@ -232,12 +264,12 @@ function Payment() {
                                             </button>
                                         </div>
                                         <form className="space-y-4" onSubmit={HandleSubmit}>
-                                            <input placeholder="House NO" value={address.houseno}  type="text" name="houseno" className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent" onChange={HandleData}/>
-                                            <input placeholder="Landmark" value={address.landmark} type="text" name="landmark"  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent" onChange={HandleData}/>
-                                            <input placeholder="Town" value={address.town} type="text" name="town"  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent" onChange={HandleData}/>
-                                            <input placeholder="District" value={address.district} type="text" name="district"  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent" onChange={HandleData}/>
-                                            <input placeholder="POST" value={address.pin} type="text" name="pin"  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent" onChange={HandleData}/>
-                                            <input placeholder="Mobile" value={address.mobile} type="text" name="mobile"  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent" onChange={HandleData}/>
+                                            <input placeholder="House NO" value={address.houseno || ""}  type="text" name="houseno" className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent" onChange={HandleData}/>
+                                            <input placeholder="Landmark" value={address.landmark || ""} type="text" name="landmark"  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent" onChange={HandleData}/>
+                                            <input placeholder="Town" value={address.town || ""} type="text" name="town"  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent" onChange={HandleData}/>
+                                            <input placeholder="District" value={address.district || ""} type="text" name="district"  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent" onChange={HandleData}/>
+                                            <input placeholder="POST" value={address.pin || ""} type="text" name="pin"  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent" onChange={HandleData}/>
+                                            <input placeholder="Mobile" value={address.mobile || ""} type="text" name="mobile"  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-transparent" onChange={HandleData}/>
                                             <button className="w-full bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 transition-colors cursor-pointer">Save Changes</button>
                                         </form>
                                        </div>
@@ -329,16 +361,36 @@ function Payment() {
                                 </div>
                             </div>
                             <button className="w-full py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-orange-400  transition-all duration-500 cursor-pointer"
-                                    onClick={()=>{payment==="COD"?handlePaid():navigate('/qrcode',{
-                                                                                                    state:{address,product,products,TotalAmount}
-                                                                                                });
+                                    // onClick={()=>{payment==="COD"?handlePaid():navigate('/qrcode',{
+                                    //                                                                 state:{address,product,products,TotalAmount}
+                                    //                                                             });
+                                    //     if(payment==="COD"){
+                                    //         HandleOrder();
+                                    //         setTimeout(()=>{
+                                    //              navigate('/');setDeliver(false);toast.success("Order Placed Successfully!");
+                                    //         },3000)
+                                    //     }
+                                    // }}>
+                                    onClick={()=>{
+                                        if(!isAddressValid()){
+                                            toast.info("please fill address first")
+                                            return;
+                                        }
+
                                         if(payment==="COD"){
+                                            handlePaid();
                                             HandleOrder();
                                             setTimeout(()=>{
                                                  navigate('/');setDeliver(false);toast.success("Order Placed Successfully!");
                                             },3000)
                                         }
-                                    }}>
+                                        else{
+                                            navigate('/qrcode',{
+                                                state:{address,product,products,TotalAmount}
+                                            })
+                                        }
+                                    }}
+                                        >
                               {payment==="COD"?"Place Order":"Pay Now"}
                             </button>
                             <p className="text-sm text-gray-500 text-center">

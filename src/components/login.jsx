@@ -19,6 +19,8 @@ function Login(){
         const [isLoggedIn, setIsLoggedIn] = useState(false);
         const [loading, setLoading] = useState(false);
 
+        const userData = JSON.parse(localStorage.getItem('currentUser'));
+
         const HandleFetch=()=>{
             fetch('http://localhost:3000/users')
             .then((res)=>res.json())
@@ -27,6 +29,13 @@ function Login(){
 
         useEffect(()=>{
             HandleFetch();
+
+        },[])
+
+        useEffect(()=>{
+            if(userData){
+                navigate('/')
+            }
         },[])
 
 

@@ -18,7 +18,7 @@ import Payment from './pages/payment'
 import QRPayment from './pages/qrcode.jsx'
 import AboutPage from './pages/about.jsx'
 import NotFound from './pages/notfound.jsx'
-// import { WishlistProvider } from './components/useContext/wishlistContext.jsx'
+import { CartProvider } from './components/useContext/cartwishContext.jsx'
 
 
 function App() {
@@ -38,6 +38,7 @@ function App() {
 
   return (
     <div className="overflow-x-hidden max-w-[100vw]">
+      <CartProvider>
     {showNavbar  && <Navbar />}
     <Routes>
       <Route path="/" element={<Home/>}/>
@@ -87,6 +88,7 @@ function App() {
   }}
   
 />
+</CartProvider>
     </div>
   )
 }

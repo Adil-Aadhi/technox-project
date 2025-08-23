@@ -1,18 +1,23 @@
 import {Link} from 'react-router-dom'
 import { FiSearch, FiShoppingCart, FiUser, FiMenu } from "react-icons/fi";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useContext } from 'react';
 import useWishList from './customhook/customehook';
 import useHandleCart from './customhook/carthook';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { FiBox } from 'react-icons/fi';
+import { CartContext } from './useContext/cartwishContext';
 
 
 function Navbar(){
 
 const userData = JSON.parse(localStorage.getItem('currentUser'));
+
+const {cartLength,setCartLength,wishLength,setWishLength}=useContext(CartContext)
+
 
 const navigate=useNavigate();
 
@@ -111,27 +116,19 @@ const SearchProduct= async (query)=>{
                                 <Link to="/"><img src="/logo1.png" className='w-10 h-10 md:w-14 md:h-12 hover:opacity-80 transition-opacity' alt="Company Logo"></img></Link>
                             </div>
                         </div>
-                        <div className='hidden sm:flex  items-center gap-4 md:gap-6  rounded-lg px-3 py-1 text-white'> 
-                        <div className='relative group overflow-hidden hover:bg-white/10 transition-all duration-300 rounded-md px-5 py-1'>
-                            <Link to="/products" >Product</Link>
-                             <div className="absolute inset-0 bg-gradient-to-r from-white/30 via-white/10 to-transparent 
-                                            opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-                        </div>
-                        <div  className='relative group overflow-hidden hover:bg-white/10 transition-all duration-300 rounded-md px-3 py-1 cursor-pointer'>
-                            <Link to="/about" >About</Link>
-                             <div className="absolute inset-0 bg-gradient-to-r from-white/30 via-white/10 to-transparent 
-                                            opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-                        </div>
-                        </div>
-                        <div className="flex items-center space-x-2 sm:space-x-4 md:space-x-6 backdrop-blur-lg bg-white/10 border border-white/20 rounded-lg px-3 py-1">
-                            <div className='relative hidden sm:block'>
-                            <input style={{color:"white",borderRadius:"10px",padding:"5px"}} type="text" placeholder='search...' 
-                                     className="flex-shrink w-full max-w-xs sm:max-w-[100px] md:max-w-[200px] lg:max-w-[320px] bg-transparent outline-none transition duration-300 hover:scale-102 text-white px-2 py-1"
+                        
+                        <div className='w-120'>
+                        <input style={{color:"white",borderRadius:"10px",padding:"5px"}} type="text" placeholder=' search...' 
+                                     className="hidden sm:flex flex-shrink w-full max-w-xs sm:max-w-[200px] md:max-w-[320px] lg:max-w-[480px] 
+             bg-white/20 outline-none transition duration-300 hover:scale-102 text-white px-2 py-1"
                                      value={searchQuery} onChange={(HandleSearch)} onFocus={() => searchQuery && setShowResults(true)} onBlur={() => setTimeout(() => setShowResults(false), 300)}>
                             </input>
 
                             {showResults && searchResults.length>0 &&(
-                                <div className="absolute top-full left-0 right-0 mt-1 bg-gray-800/90 backdrop-blur-lg border border-white/20 rounded-lg shadow-xl z-[9999] max-h-80 overflow-y-auto w-100">
+                                <div className="hidden sm:block absolute top-full mt-1 
+                                                bg-gray-800/90 backdrop-blur-lg border border-white/20 
+                                                rounded-lg shadow-xl z-[9999] max-h-80 overflow-y-auto 
+                                                w-full sm:w-[320px] lg:w-[480px] hide-scrollbar">
                                     {searchResults.map((product)=>(
                                         <div key={product.id} onClick={()=>handleResultClick(product.id)}
                                             className="block px-4 py-3 text-white hover:bg-white/10 transition duration-200 border-b border-white/10 last:border-b-0">
@@ -142,13 +139,25 @@ const SearchProduct= async (query)=>{
                                 </div>    
                             )}
                             </div>
+                        
+                        <div className="flex items-center space-x-2 sm:space-x-4 md:space-x-6 backdrop-blur-lg bg-white/10 border border-white/20 rounded-lg px-3 py-1 ">
+                            <div className='relative hidden sm:block '>
+                            <div className='relative group overflow-hidden hover:bg-white/10 transition-all duration-300 rounded-md px-5 py-1 flex items-center gap-2 text-white hover:text-orange-300 hover:scale-102'>
+                            <FiBox className="text-white text-lg cursor-pointer"/>
+                            <Link to="/products" >Products</Link>
+                             <div className="absolute inset-0 bg-gradient-to-r from-white/30 via-white/10 to-transparent 
+                                            opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                            </div>
+
+                            
+                            </div>
                             <button className="sm:hidden text-white text-xl p-2 hover:scale-110 transition duration-300" onClick={()=>{
                                 setMobSearch((!mobSearch))}}aria-label="Toggle Search Bar">
                                 <FiSearch/>
                             </button>
                             <Link to="/cart" className="text-white p-1 relative"> <FiShoppingCart className="text-white text-xl transition duration-300  hover:scale-110 hover:text-orange-400" />
-                                {cartList.length>0 && ( <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs  rounded-full h-3 w-3 flex items-center justify-center">
-                                    {cartList.length>9?"9+":cartList.length}
+                                {cartLength>0 && ( <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs  rounded-full h-3 w-3 flex items-center justify-center">
+                                    {cartLength>9?"9+":cartLength}
                                 </span>)}
                             </Link>
                             <button onClick={()=>{
@@ -158,7 +167,7 @@ const SearchProduct= async (query)=>{
                                                 }
                                                 navigate("/wishlist");
                             }} className="text-white p-1 relative cursor-pointer"><FaHeart  className="text-white text-xl transition duration-300  hover:scale-110 hover:fill-red-400 " />
-                                    {wishlist.length>0 && (<span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs  rounded-full h-3 w-3 flex items-center justify-center">{wishlist.length>9?"9+":wishlist.length}</span>)} </button>
+                                    {wishLength>0 && (<span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs  rounded-full h-3 w-3 flex items-center justify-center">{wishLength>9?"9+":wishLength}</span>)} </button>
                             <div  className="relative group z-[200]" onMouseEnter={()=>setMsg(true)} onMouseLeave={()=>setMsg(false)}>
                                 <button onClick={()=>navigate('/profile')} className='cursor-pointer'>
                                     <FiUser className="text-white text-xl transition duration-300  hover:scale-110 hover:text-blue-400" />
@@ -176,6 +185,8 @@ const SearchProduct= async (query)=>{
                                                 <>
                                                     <button onClick={()=>{
                                                         localStorage.removeItem('currentUser');
+                                                        setCartLength(0);
+                                                        setWishLength(0);
                                                         toast.info("Log-out successfully")
                                                         navigate('/login')
                                                     }} className="relative z-10 block w-full text-left px-4 py-3 text-sm text-white font-medium hover:text-black

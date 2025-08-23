@@ -8,6 +8,26 @@ import axios from "axios";
 
 function QRPayment() {
 
+
+    const RemoveCart=async()=>{
+        try{
+            const res=await axios.get(`http://localhost:3000/cart/`)
+            const cartItem=res.data;
+
+            const userCart=cartItem.filter(item=>item.userId===userData.id)
+            
+            await Promise.all(
+                userCart.map(item=>axios.delete(`http://localhost:3000/cart/${item.id}`))
+            )
+            console.log("cart deleted")
+        }
+        catch(e){
+            console.log('Error on delete on cart',e)
+        }
+    }
+
+
+
     const handlePaid = () => {
         setDeliver(true);
       };
@@ -45,6 +65,7 @@ function QRPayment() {
                 newOrders={
                   odr:ODRid,date:currentDate,shipping:address,products:products,amount:TotalAmount
                 }
+                await RemoveCart();
             }
 
             if(newOrders){

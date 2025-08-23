@@ -7,6 +7,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import useWishList from "./customhook/customehook";
 import useHandleCart from "./customhook/carthook";
 
+
 // import { useWishlistContext } from './useContext/wishlistContext';
 // import { useCart } from "./useContext/cartContext";
 

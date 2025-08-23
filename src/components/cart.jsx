@@ -154,7 +154,7 @@ function Cart(){
                                 </div>
                             </div>
                         </div>):(
-                            <div className="text-center py-10">
+                            <div className="text-center py-10 bg-white rounded-2xl">
                                 <div className="flex items-center justify-center gap-3">
                                 <h2 className="text-4xl font-bold text-dark text-center">Your cart is empty</h2>
                                 <FiShoppingCart className="text-3xl fill-orange-500"/>
@@ -162,7 +162,7 @@ function Cart(){
                                 
                                 <button
                                 onClick={() => navigate("/products")}
-                                className="mt-7 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg w-50 h-13">
+                                className="mt-7 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg w-50 h-13 cursor-pointer">
                                 Go Shopping
                                 </button>
                             </div>
