@@ -47,7 +47,8 @@ function SingleProduct() {
         setTimeout(()=>{
             navigate("/payment",{
             state:{
-                productName:product.name,productPrice:product.price
+                // productName:product.name,productPrice:product.price,productId:product.id
+                product
             }
         });setLoadings(false)
         },2000)
@@ -119,7 +120,7 @@ function SingleProduct() {
                         ₹ {product.price}
                     </div>
                     <div  className="flex flex-wrap gap-4 pt-7">
-                        <button className="flex-1 bg-orange-400 hover:bg-orange-500 text-white font-medium py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
+                        <button className="flex-1 bg-orange-400 hover:bg-orange-500 text-white font-medium py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2 cursor-pointer"
                                 onClick={()=>{
                                 if(exist){
                                     toast.info(`${product.name} Already in the Cart`,{
@@ -134,11 +135,11 @@ function SingleProduct() {
                             <FiShoppingCart className="text-lg"/>
                             {exist?"Go To Cart":"Add to Cart"}
                         </button>
-                        <button  className="flex-1 bg-white/10 hover:bg-white/20 text-white font-medium py-3 px-6 rounded-lg border border-white/30 transition duration-300 ease-in-out transform hover:scale-105 backdrop-blur-sm flex items-center justify-center gap-2"
+                        <button  className="flex-1 bg-white/10 hover:bg-white/20 text-white font-medium py-3 px-6 rounded-lg border border-white/30 transition duration-300 ease-in-out transform hover:scale-105 backdrop-blur-sm flex items-center justify-center gap-2 cursor-pointer"
                                     onClick={()=>ToggleWishList(product)}>
                           <FaHeart className={`text-lg  ${wishlist.some(item=>item.id===product.id)?'text-red-500 fill-red-500': 'text-white'}`}/>  Wishlist
                         </button>
-                        <button className="w-full bg-black hover:bg-black/50 text-white font-medium py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
+                        <button className="w-full bg-black hover:bg-black/50 text-white font-medium py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2 cursor-pointer"
                                 onClick={()=>{userId?passData()
                                 :toast.info("please login to purchase product",{
                                                 className: 'custom-danger-toast'

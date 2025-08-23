@@ -26,7 +26,7 @@ function Products(){
     
     const [product,setProduct]=useState([])
     const [filteredProducts,setFilteredProduct]=useState([])
-    const [selectedBrand, setSelectedBrand] = useState(brandFromQuery);
+    const [selectedBrand, setSelectedBrand] = useState(null);
     const [selectedType, setSelectedType] = useState(null);
      const [selectedProduct,setSelectedProduct]=useState(null)
     const [isModelOpen,setIsModelOpen] = useState(false);

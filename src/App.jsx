@@ -15,10 +15,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import SingleProduct from './components/singleproduct'
 import Profile from './pages/profile'
 import Payment from './pages/payment'
-import { CartProvider } from './components/useContext/cartContext.jsx'
 import QRPayment from './pages/qrcode.jsx'
 import AboutPage from './pages/about.jsx'
 import NotFound from './pages/notfound.jsx'
+// import { WishlistProvider } from './components/useContext/wishlistContext.jsx'
+
 
 function App() {
 
@@ -37,7 +38,6 @@ function App() {
 
   return (
     <div className="overflow-x-hidden max-w-[100vw]">
-      <CartProvider>
     {showNavbar  && <Navbar />}
     <Routes>
       <Route path="/" element={<Home/>}/>
@@ -85,8 +85,8 @@ function App() {
     margin: 0,
     padding: 0
   }}
+  
 />
-</CartProvider>
     </div>
   )
 }

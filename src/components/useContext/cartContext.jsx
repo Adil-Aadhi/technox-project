@@ -1,13 +1,16 @@
-import { createContext, useState } from "react";
+import React, { createContext, useContext } from "react";
+import useHandleCart from "../customhook/carthook";
 
-export const CartContext = createContext();
+const CartContext = createContext();
 
-export function CartProvider({ children }) {
-  const [grandTotal, setGrandTotal] = useState(0);
+export const CartProvider = ({ children }) => {
+  const cart = useHandleCart()
 
   return (
-    <CartContext.Provider value={{ grandTotal, setGrandTotal }}>
+    <CartContext.Provider value={cart}>
       {children}
     </CartContext.Provider>
   );
-}
+};
+
+export const useCartContext = () => useContext(CartContext);

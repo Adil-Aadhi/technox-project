@@ -24,6 +24,7 @@ function useHandleCart(){
                 })
             return;
         }
+        
         else{
             axios.post('http://localhost:3000/cart',{ ...product, userId, quantity: 1 })
             .then(()=>{
@@ -36,6 +37,7 @@ function useHandleCart(){
             }))
             
         }
+        
 
         
     }
@@ -74,9 +76,9 @@ function useHandleCart(){
     }
 
     const DecrementQuantity=(productId)=>{
-        setCartList(prev=>prev.map(item=>item.id===productId && item.quantity>1?{
-            ...item, quantity: item.quantity - 1
-        }:item))
+        // setCartList(prev=>prev.map(item=>item.id===productId && item.quantity>1?{
+        //     ...item, quantity: item.quantity - 1
+        // }:item))
 
         const product=cartList.find(item=>item.id===productId);
         if(product && product.quantity>1){

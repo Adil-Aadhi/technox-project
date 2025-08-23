@@ -7,6 +7,9 @@ import { FiShoppingCart } from "react-icons/fi";
 import useWishList from "./customhook/customehook";
 import useHandleCart from "./customhook/carthook";
 
+// import { useWishlistContext } from './useContext/wishlistContext';
+// import { useCart } from "./useContext/cartContext";
+
 
 
 
@@ -14,6 +17,10 @@ function HomeProducts(){
 
     const {wishlist,ToggleWishList}=useWishList()
     const {cartList,ToggleCart,DeleteCart,HandleCarts}=useHandleCart()
+
+    // const { wishlist,ToggleWishList } = useWishlistContext();
+    // const { cartList, ToggleCart, DeleteCart,HandleCarts,IncrementQuantity,DecrementQuantity } = useCart();
+
 
 
 

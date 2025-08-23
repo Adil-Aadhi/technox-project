@@ -2,7 +2,6 @@ import { useContext, useEffect } from "react";
 import useHandleCart from "./customhook/carthook"
 import { FiMinus,FiPlus,FiTrash2,FiShoppingCart  } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { CartContext } from "./useContext/cartContext";
 import { useState } from "react";
 
 
@@ -13,7 +12,6 @@ function Cart(){
     const [loading, setLoading] = useState(false);
     
 
-    const {setGrandTotal}=useContext(CartContext)
 
 
 
@@ -26,9 +24,6 @@ function Cart(){
 
     const grandTotal=TotalAmount - discount;
 
-    useEffect(()=>{
-        setGrandTotal(grandTotal)
-    },[grandTotal,setGrandTotal])
 
     return(
         <div className="min-h-screen mt-15 py-12 px-4 sm:px-6 lg:px-8"
@@ -53,8 +48,8 @@ function Cart(){
                         </div>
                         </div>
                     </div>
-                    <div className="max-w-7xl mx-auto">
-                        <div className="bg-[rgba(255,255,255,0.56)] backdrop-blur-lg rounded-2xl border border-white/20 overflow-hidden shadow-xl">
+                    <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div className="lg:col-span-2 bg-[rgba(255,255,255,0.56)] backdrop-blur-lg rounded-2xl border border-white/20 overflow-hidden shadow-xl">
                             <div className="border-b border-white/20 p-6">
                                 <h3 className="text-xl font-semibold text-dark">Total Items:<span className="text-red-500 ps-1">{cartList.length}</span>
                                 </h3>
@@ -64,7 +59,7 @@ function Cart(){
                                    <div key={product.id} className="flex items-center bg-white/5 backdrop-blur-sm rounded-xl border border-white/15 p-4 hover:bg-white/10 transition-all duration-300">
                                         <div className="w-1/4 min-w-[80px] mr-3">
                                             <div className="relative aspect-square overflow-hidden rounded-lg">
-                                                <img src={product.image} alt={product.name} className="absolute inset-0 w-full transition-transform duration-500 hover:scale-105"
+                                                <img src={product.image} alt={product.name} className="absolute inset-0 w-full transition-transform duration-500 hover:scale-105 cursor-pointer"
                                                         onClick={()=>{
                                                         navigate(`/products/${product.id}`);    
                                                 }}/>
@@ -76,7 +71,7 @@ function Cart(){
                                             <div className="mt-2">
                                                 <span className="text-slate-800 text-lg fond-bold">₹{product.price}</span> 
                                             </div>
-                                            <div className="flex items-center absolute bottom-0 sm:bottom-7 mb- sm:mb-4 gap-1 left-10">
+                                            <div className="flex items-center absolute bottom-0 sm:bottom-7 mb- sm:mb-4 gap-1 top-25 left-1">
                                                 <button  className="bg-black/80 hover:bg-black text-white w-10 h-6 sm:w-14 sm:h-7 rounded-full flex items-center justify-center transition-colors"
                                                             onClick={()=>DecrementQuantity(product.id)}>
                                                     <FiMinus className="w-3 h-3 sm:w-3.5 sm:h-3.5" size={14}/>
@@ -105,24 +100,34 @@ function Cart(){
                                    </div>
                                 ))}
                             
-                        </div>   
+                        </div>  
+                        </div>
+                         
                         {cartList.length>0 ?(
-                            <div className="max-w-xl mx-auto mb-6">
-                             <div className="bg-[rgba(255,255,255,0.56)] backdrop-blur-lg rounded-2xl border border-white/20 p-8 shadow-xl w-full">
-                                <div className="grid grid-cols-2 gap-4">
+                            <div className="lg:col-span-1">
+                             <div className="bg-[rgba(255,255,255,0.90)] backdrop-blur-lg rounded-2xl border border-white/20 p-8 shadow-xl w-full">
+                                <div className="grid grid-cols-2 gap-4 ">
                                      <div className="col-span-2 text-center">
                                         <h1 className="text-4xl font-bold text-dark pb-2">Total Cart</h1>
                                         <hr className="border-gray-400 my-2"></hr>
                                      </div>
-                                      <div className="col-span-1 space-y-2">
-                                        <p className="text-gray-700 font-medium">Total Items</p>
-                                        <p className="text-gray-700 font-medium">Amount</p>
+                                     <div className="grid grid-cols-2 gap-2">
+                                      <div className="space-y-3 space-x-3 w-64 text-start text-sm">
+                                        {cartList.map((product)=>(
+                                            <p key={product.id} className="text-gray-700">{product.name} ({product.quantity})</p>
+                                        ))}
+                                        <p className="text-gray-700 font-medium">Total Amount</p>
                                         <p className="text-gray-700 font-medium">Discount</p>
                                       </div>
-                                       <div className="col-span-1 space-y-2 text-right">
-                                        <p className="text-gray-900 font-semibold">{cartList.length}</p>
+                                      <div className="space-y-3 text-right w-50 lg:w-64">
+                                        {cartList.map((product)=>(
+                                            <p key={product.id} className="text-gray-900 font-semibold text-sm">
+                                                ₹ {product.price * product.quantity}
+                                            </p>
+                                        ))}
                                         <p className="text-gray-900 font-semibold">₹ {TotalAmount}</p>
                                         <p className="text-red-600 font-semibold">-₹ {discount}</p>
+                                       </div>
                                        </div>
                                         <div className="col-span-2">
                                             <hr className="border-gray-400 my-2"/>
@@ -134,7 +139,12 @@ function Cart(){
                                                 <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 w-70 cursor-pointer"
                                                         onClick={()=>{setLoading(true);
                                                             setTimeout(()=>{
-                                                                navigate("/payment");setLoading(false)},
+                                                                navigate("/payment",{
+                                                                    state:{
+                                                                            GrandTotal:grandTotal,
+                                                                            products: cartList  
+                                                                        }
+                                                                });setLoading(false)},
                                                                 2000
                                                             )}}>
                                                     PLACE ORDER
@@ -158,7 +168,6 @@ function Cart(){
                             </div>
                         )}
                                              
-                        </div>
                         </div>
                     </div>
     )

@@ -27,6 +27,108 @@
       "email": "mufee@gmail.com",
       "password": "123",
       "confirm": "123"
+    },
+    {
+      "id": "645b",
+      "name": "Adil",
+      "email": "Aadhi",
+      "password": "773622",
+      "confirm": "773622"
+    },
+    {
+      "id": "93a4",
+      "name": "Adil",
+      "email": "Aadhi",
+      "password": "954477",
+      "confirm": "954477",
+      "address": {
+        "houseno": "25A",
+        "landmark": "Arabic",
+        "town": "mongam",
+        "district": "malappuram",
+        "pin": "673642",
+        "mobile": "9544773622"
+      },
+      "orders": [
+        {
+          "odr": "ODRID1755861930108",
+          "date": "08/22/2025, 04:55:30 PM",
+          "shipping": {
+            "houseno": "25A",
+            "landmark": "Arabic",
+            "town": "mongam",
+            "district": "malappuram",
+            "pin": "673642",
+            "mobile": "9544773622"
+          },
+          "products": [
+            {
+              "id": "38",
+              "name": "Dell Inspiron 16",
+              "brand": "Dell",
+              "price": 74999,
+              "type": "Laptop",
+              "storage": "512GB SSD",
+              "ram": "16GB",
+              "color": "Platinum Silver",
+              "image": "/images/dellinspiron16.png",
+              "display": "16-inch FHD+",
+              "cpu": "Intel Core i7-1365U",
+              "description": "Dell Inspiron 16 with Intel Core i7, sleek design, and powerful performance for everyday use.",
+              "userId": "93a4",
+              "quantity": 1
+            },
+            {
+              "id": "36",
+              "name": "ASUS ExpertBook B1",
+              "brand": "ASUS",
+              "price": 44999,
+              "type": "Laptop",
+              "storage": "512GB SSD",
+              "ram": "8GB",
+              "color": "Star Black",
+              "image": "/images/expertbookb1.png",
+              "display": "15.6-inch FHD",
+              "cpu": "Intel Core i5-1235U",
+              "description": "ASUS ExpertBook B1 with Intel Core i5, reliable performance, and business-oriented features.",
+              "userId": "93a4",
+              "quantity": 1
+            }
+          ],
+          "amount": 114075
+        },
+        {
+          "odr": "ODRID1755862138156",
+          "date": "08/22/2025, 04:58:58 PM",
+          "shipping": {
+            "houseno": "25A",
+            "landmark": "Arabic",
+            "town": "mongam",
+            "district": "malappuram",
+            "pin": "673642",
+            "mobile": "9544773622"
+          },
+          "products": [
+            {
+              "id": "6",
+              "name": "Asus ROG Strix G16",
+              "brand": "Asus",
+              "price": 159999,
+              "type": "Laptop",
+              "storage": "1TB SSD",
+              "ram": "16GB",
+              "color": "Eclipse Gray",
+              "image": "/images/asusrogstrixg16.png",
+              "display": "240Hz IPS display",
+              "cpu": "i9 13th Gen",
+              "description": "Asus ROG Strix G16 gaming laptop with Intel Core i9 13th Gen, RTX 4070 GPU, and 16-inch 240Hz display.",
+              "userId": "93a4",
+              "quantity": 1
+            }
+          ],
+          "amount": 152069
+        }
+      ]
     }
   ],
   "products": [
@@ -467,102 +569,69 @@
   ],
   "wishlist": [
     {
-      "id": "35",
-      "name": "ASUS TUF Gaming F15",
+      "id": "16",
+      "name": "Samsung Galaxy S24",
+      "brand": "Samsung",
+      "price": 89999,
+      "type": "Mobile",
+      "storage": "256GB",
+      "ram": "8GB",
+      "color": "Phantom Black",
+      "image": "/images/galaxys24.png",
+      "display": "Dynamic AMOLED 2X",
+      "cpu": "Snapdragon 8 Gen 3",
+      "description": "Samsung Galaxy S24 with Snapdragon 8 Gen 3, stunning display, and advanced camera system.",
+      "productId": "16",
+      "userId": "93a4"
+    },
+    {
+      "id": "33",
+      "name": "ASUS ROG Zephyrus G14",
       "brand": "Asus",
-      "price": 109999,
+      "price": 159999,
       "type": "Laptop",
       "storage": "1TB SSD",
       "ram": "16GB",
-      "color": "Graphite Black",
-      "image": "/images/tufgamingf15.png",
-      "display": "15.6-inch FHD, 144Hz",
-      "cpu": "Intel Core i7-12700H",
-      "description": "ASUS TUF Gaming F15 with Intel Core i7, RTX 3060 GPU, and durable military-grade build.",
-      "productId": "35",
-      "userId": "9959"
-    },
-    {
-      "id": "27",
-      "name": "Google Pixel 7",
-      "brand": "Google",
-      "price": 59999,
-      "type": "Mobile",
-      "storage": "128GB",
-      "ram": "8GB",
-      "color": "Snow",
-      "image": "/images/pixel7.png",
-      "display": "AMOLED display",
-      "cpu": "Google Tensor G2",
-      "description": "Google Pixel 7 with Google Tensor G2 chip, dual-camera system, and excellent AI features.",
-      "productId": "27",
-      "userId": "9959"
+      "color": "Moonlight White",
+      "image": "/images/rogzephyrusg14.png",
+      "display": "14-inch QHD IPS, 120Hz",
+      "cpu": "AMD Ryzen 9 7940HS",
+      "description": "ASUS ROG Zephyrus G14 with Ryzen 9, RTX 4070 GPU, and compact gaming design.",
+      "productId": "33",
+      "userId": "93a4"
     }
   ],
   "cart": [
     {
-      "id": "27",
-      "name": "Google Pixel 7",
-      "brand": "Google",
-      "price": 59999,
+      "id": "12",
+      "name": "iPhone 14 Pro",
+      "brand": "Apple",
+      "price": 109999,
       "type": "Mobile",
-      "storage": "128GB",
-      "ram": "8GB",
-      "color": "Snow",
-      "image": "/images/pixel7.png",
-      "display": "AMOLED display",
-      "cpu": "Google Tensor G2",
-      "description": "Google Pixel 7 with Google Tensor G2 chip, dual-camera system, and excellent AI features.",
+      "storage": "256GB",
+      "ram": "6GB",
+      "color": "Space Black",
+      "image": "/images/iphone14pro.webp",
+      "display": "Super Retina XDR OLED",
+      "cpu": "A16 Bionic",
+      "description": "iPhone 14 Pro with A16 Bionic chip, ProMotion display, and triple-camera system.",
       "userId": "9959",
       "quantity": 1
     },
     {
-      "id": "35",
-      "name": "ASUS TUF Gaming F15",
+      "id": "33",
+      "name": "ASUS ROG Zephyrus G14",
       "brand": "Asus",
-      "price": 109999,
+      "price": 159999,
       "type": "Laptop",
       "storage": "1TB SSD",
       "ram": "16GB",
-      "color": "Graphite Black",
-      "image": "/images/tufgamingf15.png",
-      "display": "15.6-inch FHD, 144Hz",
-      "cpu": "Intel Core i7-12700H",
-      "description": "ASUS TUF Gaming F15 with Intel Core i7, RTX 3060 GPU, and durable military-grade build.",
-      "productId": "35",
-      "userId": "9959",
-      "quantity": 1
-    },
-    {
-      "id": "22",
-      "name": "Xiaomi 13",
-      "brand": "Xiaomi",
-      "price": 59999,
-      "type": "Mobile",
-      "storage": "128GB",
-      "ram": "8GB",
-      "color": "Blue",
-      "image": "/images/xiaomi13.webp",
-      "display": "AMOLED display",
-      "cpu": "Snapdragon 8 Gen 2",
-      "description": "Xiaomi 13 with Snapdragon 8 Gen 2, dual-camera system, and 67W fast charging.",
-      "userId": "9959",
-      "quantity": 1
-    },
-    {
-      "id": "2",
-      "name": "Samsung Galaxy S24 Ultra",
-      "brand": "Samsung",
-      "price": 124999,
-      "type": "Mobile",
-      "storage": "512GB",
-      "ram": "12GB",
-      "color": "Titanium Gray",
-      "image": "/images/galaxys24ultra.png",
-      "display": "QHD+ AMOLED display",
-      "cpu": "Snapdragon 8 Gen 3",
-      "description": "Samsung Galaxy S24 Ultra with Snapdragon 8 Gen 3, 200MP camera, and 6.8-inch QHD+ AMOLED display.",
-      "userId": "9959",
+      "color": "Moonlight White",
+      "image": "/images/rogzephyrusg14.png",
+      "display": "14-inch QHD IPS, 120Hz",
+      "cpu": "AMD Ryzen 9 7940HS",
+      "description": "ASUS ROG Zephyrus G14 with Ryzen 9, RTX 4070 GPU, and compact gaming design.",
+      "userId": "93a4",
       "quantity": 1
     }
   ]

@@ -57,7 +57,7 @@ function Wishlist(){
                                    <div key={product.id} className="flex items-center bg-white/5 backdrop-blur-sm rounded-xl border border-white/15 p-4 hover:bg-white/10 transition-all duration-300">
                                         <div className="w-1/4 min-w-[80px] mr-3">
                                             <div className="relative aspect-square overflow-hidden rounded-lg">
-                                                <img src={product.image} alt={product.name} className="absolute inset-0 w-full transition-transform duration-500 hover:scale-105"
+                                                <img src={product.image} alt={product.name} className="absolute inset-0 w-full transition-transform duration-500 hover:scale-105 cursor-pointer"
                                                          onClick={()=>{
                                                         navigate(`/products/${product.id}`);    
                                                 }}/>

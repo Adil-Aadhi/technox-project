@@ -11,6 +11,7 @@ body{
   margin: 0;
   overflow-x: hidden;
   max-width: 100%;
+  /* scrollbar-width:none; */
 }
 /* Base icon styles with transition */
 .Toastify__toast-icon svg {
@@ -121,3 +122,6 @@ body{
 .animate-draw {
   animation: scaleIn 0.5s ease-in-out both;
 }
+
+body::-webkit-scrollbar {
+  display: none;}

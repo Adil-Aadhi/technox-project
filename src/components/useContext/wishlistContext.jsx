@@ -1,15 +1,18 @@
-// import { createContext } from "react";
-// import useWishList from "../customhook/customehook";
+import React, { createContext, useContext } from "react";
+import useWishList from "../customhook/customehook";
 
-// const WishListContext=createContext;
 
-// function WishListProvider({children}){
-//     const {wishlist,ToggleWishList}=useWishList
 
-//     return(
-//         <WishListContext.Provider value={{wishlist,ToggleWishList}}>
-//             {children}
-//         </WishListContext.Provider>
-//     )
-// }
-// export  {WishListProvider,WishListContext}
+const WishlistContext = createContext();
+
+export function  WishlistProvider({ children }){
+  const {wishlist,ToggleWishList} = useWishList();
+
+  return (
+    <WishlistContext.Provider value={{wishlist,ToggleWishList}}>
+      {children}
+    </WishlistContext.Provider>
+  );
+};
+
+export function useWishlistContext() { return useContext(WishlistContext);}

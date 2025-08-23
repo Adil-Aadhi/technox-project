@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
+
 function Navbar(){
 
 const userData = JSON.parse(localStorage.getItem('currentUser'));
@@ -18,6 +19,8 @@ const navigate=useNavigate();
 const {wishlist,ToggleWishList}=useWishList();
 const {cartList,ToggleCart,DeleteCart,HandleCarts}=useHandleCart()
 
+
+
 const [msg,setMsg]=useState(false)
 const [mobSearch,setMobSearch]=useState(false)
 const [showMenu, setShowMenu] = useState(false)
@@ -25,6 +28,8 @@ const [searchQuery,setSearchQuery] =useState('')
 const [searchResults,setSearchResults] =useState([])
 const [showResults,setShowResults] =useState([])
 const [products,setProducts] =useState([])
+
+
 
 
 
@@ -103,7 +108,7 @@ const SearchProduct= async (query)=>{
                             <Link to="/" className="text-white text-2xl font-bold">Techno<span style={{color:"red"}}>X</span></Link>
                         </div> */}
                             <div className="flex-shrink-0 flex items-center">
-                                <Link to="/"><img src="/logo1.png" className='w-12 h-12 md:w-15 md:h-14 hover:opacity-80 transition-opacity' alt="Company Logo"></img></Link>
+                                <Link to="/"><img src="/logo1.png" className='w-10 h-10 md:w-14 md:h-12 hover:opacity-80 transition-opacity' alt="Company Logo"></img></Link>
                             </div>
                         </div>
                         <div className='hidden sm:flex  items-center gap-4 md:gap-6  rounded-lg px-3 py-1 text-white'> 

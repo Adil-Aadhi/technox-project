@@ -2,6 +2,8 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { IoClose } from 'react-icons/io5';
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 
 function QRPayment() {
@@ -10,12 +12,55 @@ function QRPayment() {
         setDeliver(true);
       };
 
+      const userData = JSON.parse(localStorage.getItem('currentUser'))
       const [popUp,setPopUp]=useState(false)
       const [deliver,setDeliver]=useState(false)
-
-      
-
       const navigate=useNavigate()
+
+      const location=useLocation()
+      const {address,product,products,TotalAmount }=location.state || {};
+      console.log(address,product,products);
+      // const Totalamount=TotalAmount
+
+      const HandleOrder=async()=>{
+        try {
+            const res=await axios.get(`http://localhost:3000/users/${userData.id}`)
+            const existingOrders=res.data.orders ||[]
+
+            const ODRid="ODRID"+Date.now();
+            const currentDate = new Date().toLocaleString("en-US", { 
+                                year: "numeric",
+                                month: "2-digit",
+                                day: "2-digit",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                second: "2-digit",
+                                hour12: true
+                                });
+            let newOrders=null;
+            if(product){
+                newOrders={odr:ODRid,date:currentDate,shipping:address,products:[product],amount:TotalAmount}
+            }
+            else if(products.length>0){
+                newOrders={
+                  odr:ODRid,date:currentDate,shipping:address,products:products,amount:TotalAmount
+                }
+            }
+
+            if(newOrders){
+              const updatedOrders=[...existingOrders,newOrders];
+
+              await axios.patch(`http://localhost:3000/users/${userData.id}`,{
+              orders:updatedOrders
+            })
+            console.log("Orders updated:", newOrders);
+            }
+        }
+        catch(e){
+            console.log("Error for order patch:",e)
+        }
+        
+    }
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-green-100">
 
@@ -99,7 +144,7 @@ function QRPayment() {
         </div>
         <p className="text-gray-600 mb-4">Use any UPI app (PhonePe, GPay, Paytm) to complete payment.</p>
         <button className="w-full py-3 bg-green-600 text-white rounded-xl font-medium text-lg shadow-md hover:bg-green-700 transition-all duration-300"
-                onClick={()=>{handlePaid();
+                onClick={()=>{handlePaid();HandleOrder();
                             setTimeout(()=>{
                                 navigate('/');setDeliver(false);toast.success("Order Placed Successfully!");
 
