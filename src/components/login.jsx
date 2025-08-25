@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 
-const initialValue={name:'',password:''}
+// const initialValue={name:'',password:''}
 
 function Login(){
 
@@ -33,58 +33,73 @@ function Login(){
         },[])
 
         useEffect(()=>{
-            if(userData){
-                navigate('/')
-            }
+                if(userData && userData.role==="admin"){
+                    navigate("/admin",{replace:true})
+                }
+                else if(userData){
+                    navigate('/',{replace:true})
+                }
+                
         },[])
 
 
 
-        const HandleLogin=(e)=>{
-            e.preventDefault();
+        const HandleLogin = (e) => {
+                e.preventDefault();
 
-          if( userName.trim()!=='' && password.trim()!==''){
+                if (userName.trim() === '' || password.trim() === '') {
+                    setError('Please enter both username and password');
+                    return;
+                }
 
                 let loginSuccessful = false;
                 let loggedInUser = null;
+                let inactiveUser = false;
 
-                 state.forEach(user=>{
-                
-                if((user.name===userName || user.email===userName) && user.password===password){
-                    loginSuccessful=true;
-                    loggedInUser=user}
-                })
+                const user = state.find(
+                    u => (u.username === userName || u.email === userName) && u.password === password
+                );
 
-                    if(loginSuccessful && loggedInUser){
-                        try{
-                             const userData={
+                if (user) {
+                    if (user.status === "active") {
+                        loginSuccessful = true;
+                        loggedInUser = user;
+                    } else {
+                        inactiveUser = true;
+                    }
+                }
+
+                if (loginSuccessful && loggedInUser) {
+                    try {
+                        const userData = {
                             id: loggedInUser.id,
                             name: loggedInUser.name,
                             email: loggedInUser.email,
-                            isLoggedIn: true
-                        }
+                            username: loggedInUser.username,
+                            role: loggedInUser.role,
+                            isLoggedIn: true,
+                            isActiveIn: true
+                        };
                         localStorage.setItem('currentUser', JSON.stringify(userData));
-                        
-                        //   setIsLoggedIn(true);
-                        //   console.log('User data stored:', userData);
-                           
-                          setLoading(true);
-                            setError("Login Successful! Redirecting...");
-                              setTimeout(()=>{
-                        navigate("/")
-                        toast.success("Succesfully Logged-In");
-                    },2000)
-                        }catch(error){
-                             console.error('Failed to save to localStorage:', error)
-                             setError('Login failed due to a technical error. Please try again.');
-                        }
-                    }else{
-                        setError('Invalid username/E-mail or password');
+
+                        setLoading(true);
+                        setError("Login Successful! Redirecting...");
+                        setTimeout(() => {
+                            navigate(loggedInUser.role === 'admin' ? "/admin" : "/");
+                            toast.success("Successfully Logged-In");
+                        }, 2000);
+
+                    } catch (error) {
+                        console.error('Failed to save to localStorage:', error);
+                        setError('Login failed due to a technical error. Please try again.');
                     }
-                }else{
-                    setError('Please enter both username and password');
-                }
+                } else {
+                    setError(inactiveUser
+                        ? "Your account is not active. Please contact support."
+                        : "Invalid username/E-mail or password"
+                    );
             }
+    };
                     
            
 

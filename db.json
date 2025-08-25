@@ -1,24 +1,127 @@
 {
   "users": [
     {
+      "id": "1",
+      "name": "adil",
+      "email": "adilshinasmongam@gmail.com",
+      "username": "Aadhi",
+      "password": "adil@12345",
+      "confirm": "adil@12345",
+      "role": "admin",
+      "status": "active"
+    },
+    {
       "id": "9959",
       "name": "adil",
-      "email": "Aadhi",
+      "email": "aadhi@gmail.com",
+      "username": "Aadhi",
       "password": "123",
       "confirm": "123",
+      "role": "user",
+      "status": "active",
+      "orders": [],
+      "address": {
+        "houseno": "ok",
+        "landmark": "jj",
+        "town": "ww",
+        "district": "malappuram",
+        "pin": "888",
+        "mobile": "7777"
+      }
+    },
+    {
+      "id": "d8f9",
+      "name": "Adil",
+      "email": "adil@gmail.com",
+      "username": "Aadhi",
+      "password": "954477",
+      "confirm": "954477",
+      "role": "user",
+      "status": "active",
+      "address": {
+        "houseno": "25A",
+        "landmark": "arabic",
+        "town": "mongam",
+        "district": "malappuram",
+        "pin": "673642",
+        "mobile": "9544773622"
+      },
       "orders": [
         {
-          "odr": "ODRID1755931474730",
-          "date": "08/23/2025, 12:14:34 PM",
+          "odr": "ODRID1755969813182",
+          "date": "08/23/2025, 10:53:33 PM",
           "shipping": {
-            "houseno": "ok",
-            "landmark": "jj",
-            "town": "ww",
+            "houseno": "25A",
+            "landmark": "arabic",
+            "town": "mongam",
             "district": "malappuram",
-            "pin": "888",
-            "mobile": "7777"
+            "pin": "673642",
+            "mobile": "9544773622"
           },
           "products": [
+            {
+              "id": "22",
+              "name": "Xiaomi 13",
+              "brand": "Xiaomi",
+              "price": 59999,
+              "type": "Mobile",
+              "storage": "128GB",
+              "ram": "8GB",
+              "color": "Blue",
+              "image": "/images/xiaomi13.webp",
+              "display": "AMOLED display",
+              "cpu": "Snapdragon 8 Gen 2",
+              "description": "Xiaomi 13 with Snapdragon 8 Gen 2, dual-camera system, and 67W fast charging.",
+              "userId": "d8f9",
+              "quantity": 1
+            }
+          ],
+          "amount": 57076
+        },
+        {
+          "odr": "ODRID1756111825508",
+          "date": "08/25/2025, 02:20:25 PM",
+          "shipping": {
+            "houseno": "25A",
+            "landmark": "arabic",
+            "town": "mongam",
+            "district": "malappuram",
+            "pin": "673642",
+            "mobile": "9544773622"
+          },
+          "products": [
+            {
+              "id": "11",
+              "name": "iPhone 15 Pro",
+              "brand": "Apple",
+              "price": 119999,
+              "type": "Mobile",
+              "storage": "256GB",
+              "ram": "8GB",
+              "color": "Silver",
+              "image": "/images/iphone15pro.png",
+              "display": "Super Retina XDR OLED",
+              "cpu": "A17 Bionic",
+              "description": "iPhone 15 Pro with A17 Bionic chip, ProMotion display, and advanced camera system.",
+              "userId": "d8f9",
+              "quantity": 1
+            },
+            {
+              "id": "16",
+              "name": "Samsung Galaxy S24",
+              "brand": "Samsung",
+              "price": 89999,
+              "type": "Mobile",
+              "storage": "256GB",
+              "ram": "8GB",
+              "color": "Phantom Black",
+              "image": "/images/galaxys24.png",
+              "display": "Dynamic AMOLED 2X",
+              "cpu": "Snapdragon 8 Gen 3",
+              "description": "Samsung Galaxy S24 with Snapdragon 8 Gen 3, stunning display, and advanced camera system.",
+              "userId": "d8f9",
+              "quantity": 1
+            },
             {
               "id": "4",
               "name": "Xiaomi 14 Pro",
@@ -32,108 +135,30 @@
               "display": "OLED display",
               "cpu": "Snapdragon 8 Gen 3",
               "description": "Xiaomi 14 Pro with Snapdragon 8 Gen 3, Leica triple camera system, and 120W fast charging.",
-              "userId": "9959",
-              "quantity": 1
-            },
-            {
-              "id": "5",
-              "name": "Google Pixel 8 Pro",
-              "brand": "Google",
-              "price": 99999,
-              "type": "Mobile",
-              "storage": "256GB",
-              "ram": "12GB",
-              "color": "Bay",
-              "image": "/images/pixel8pro.png",
-              "display": "LTPO OLED display",
-              "cpu": "Tensor G3 chip",
-              "description": "Google Pixel 8 Pro with Tensor G3 chip, AI-powered photography, and 6.7-inch LTPO OLED display.",
-              "userId": "9959",
+              "userId": "d8f9",
               "quantity": 1
             }
           ],
-          "amount": 152068
-        },
-        {
-          "odr": "ODRID1755932298089",
-          "date": "08/23/2025, 12:28:18 PM",
-          "shipping": {
-            "houseno": "ok",
-            "landmark": "jj",
-            "town": "ww",
-            "district": "malappuram",
-            "pin": "888",
-            "mobile": "7777"
-          },
-          "products": [
-            {
-              "id": "16",
-              "name": "Samsung Galaxy S24",
-              "brand": "Samsung",
-              "price": 89999,
-              "type": "Mobile",
-              "storage": "256GB",
-              "ram": "8GB",
-              "color": "Phantom Black",
-              "image": "/images/galaxys24.png",
-              "display": "Dynamic AMOLED 2X",
-              "cpu": "Snapdragon 8 Gen 3",
-              "description": "Samsung Galaxy S24 with Snapdragon 8 Gen 3, stunning display, and advanced camera system."
-            }
-          ],
-          "amount": 85576
+          "amount": 256574
         }
-      ],
+      ]
+    },
+    {
+      "id": "a517",
+      "name": "akhil",
+      "email": "akhil@gmail.com",
+      "username": "akhil",
+      "password": "akhil@12345",
+      "confirm": "akhil@12345",
+      "role": "user",
+      "status": "inactive",
       "address": {
         "houseno": "ok",
-        "landmark": "jj",
-        "town": "ww",
-        "district": "malappuram",
-        "pin": "888",
-        "mobile": "7777"
-      }
-    },
-    {
-      "id": "34ee",
-      "name": "aa",
-      "email": "bb",
-      "password": "123",
-      "confirm": "123"
-    },
-    {
-      "id": "d92c",
-      "name": "Adil",
-      "email": "admin@gmail.com",
-      "password": "123",
-      "confirm": "123"
-    },
-    {
-      "id": "66ad",
-      "name": "mufee",
-      "email": "mufee@gmail.com",
-      "password": "123",
-      "confirm": "123"
-    },
-    {
-      "id": "645b",
-      "name": "Adil",
-      "email": "Aadhi",
-      "password": "773622",
-      "confirm": "773622"
-    },
-    {
-      "id": "93a4",
-      "name": "Adil",
-      "email": "Aadhi",
-      "password": "954477",
-      "confirm": "954477",
-      "address": {
-        "houseno": "25A",
-        "landmark": "Arabic",
-        "town": "mongam",
-        "district": "malappuram",
-        "pin": "673642",
-        "mobile": "9544773622"
+        "landmark": "ok",
+        "town": "ok",
+        "district": "ok",
+        "pin": "ok",
+        "mobile": "ok"
       },
       "orders": []
     }
@@ -576,72 +601,6 @@
   ],
   "wishlist": [
     {
-      "id": "35",
-      "name": "ASUS TUF Gaming F15",
-      "brand": "Asus",
-      "price": 109999,
-      "type": "Laptop",
-      "storage": "1TB SSD",
-      "ram": "16GB",
-      "color": "Graphite Black",
-      "image": "/images/tufgamingf15.png",
-      "display": "15.6-inch FHD, 144Hz",
-      "cpu": "Intel Core i7-12700H",
-      "description": "ASUS TUF Gaming F15 with Intel Core i7, RTX 3060 GPU, and durable military-grade build.",
-      "productId": "35",
-      "userId": "9959"
-    },
-    {
-      "id": "34",
-      "name": "ASUS ZenBook 14",
-      "brand": "Asus",
-      "price": 84999,
-      "type": "Laptop",
-      "storage": "512GB SSD",
-      "ram": "16GB",
-      "color": "Pine Grey",
-      "image": "/images/zenbook14.png",
-      "display": "14-inch FHD OLED",
-      "cpu": "Intel Core i7-13700H",
-      "description": "ASUS ZenBook 14 with Intel Core i7, lightweight design, and vibrant OLED display.",
-      "productId": "34",
-      "userId": "93a4"
-    }
-  ],
-  "cart": [
-    {
-      "id": "35",
-      "name": "ASUS TUF Gaming F15",
-      "brand": "Asus",
-      "price": 109999,
-      "type": "Laptop",
-      "storage": "1TB SSD",
-      "ram": "16GB",
-      "color": "Graphite Black",
-      "image": "/images/tufgamingf15.png",
-      "display": "15.6-inch FHD, 144Hz",
-      "cpu": "Intel Core i7-12700H",
-      "description": "ASUS TUF Gaming F15 with Intel Core i7, RTX 3060 GPU, and durable military-grade build.",
-      "userId": "9959",
-      "quantity": 1
-    },
-    {
-      "id": "4",
-      "name": "Xiaomi 14 Pro",
-      "brand": "Xiaomi",
-      "price": 59999,
-      "type": "Mobile",
-      "storage": "256GB",
-      "ram": "12GB",
-      "color": "Black",
-      "image": "/images/xiaomi14pro.webp",
-      "display": "OLED display",
-      "cpu": "Snapdragon 8 Gen 3",
-      "description": "Xiaomi 14 Pro with Snapdragon 8 Gen 3, Leica triple camera system, and 120W fast charging.",
-      "userId": "9959",
-      "quantity": 1
-    },
-    {
       "id": "22",
       "name": "Xiaomi 13",
       "brand": "Xiaomi",
@@ -654,8 +613,9 @@
       "display": "AMOLED display",
       "cpu": "Snapdragon 8 Gen 2",
       "description": "Xiaomi 13 with Snapdragon 8 Gen 2, dual-camera system, and 67W fast charging.",
-      "userId": "93a4",
-      "quantity": 1
+      "productId": "22",
+      "userId": "d8f9"
     }
-  ]
+  ],
+  "cart": []
 }

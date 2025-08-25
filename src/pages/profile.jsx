@@ -138,6 +138,10 @@ function Profile(){
                                         </div>
                                         <div className="flex items-center">
                                             <span className="text-white/80 font-medium">Username:</span> 
+                                            <span className="text-white ms-2">{displayData.username}</span>
+                                        </div>
+                                        <div className="flex items-center">
+                                            <span className="text-white/80 font-medium">Email:</span> 
                                             <span className="text-white ms-2">{displayData.email}</span>
                                         </div>
                                         <div className=" flex items-center ">

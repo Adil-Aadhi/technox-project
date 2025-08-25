@@ -4,7 +4,9 @@ import { IoClose } from 'react-icons/io5';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const initialValue={name:"", email:"", password:"",confirm:''}
+const initialValue={name:"", email:"",username:"", password:"",confirm:'',role:"user",status:"active"}
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
 
 function Register(){
 
@@ -21,6 +23,17 @@ function Register(){
     const handleSubmit= async (e)=>{
         e.preventDefault();
 
+        if (!emailRegex.test(formData.email)) {
+            setMsg("Please enter a valid email address!");
+            return;
+        }
+
+
+        if (!passwordRegex.test(formData.password)) {
+            setMsg("Password must be at least 8 characters and include letters & numbers!");
+            return;
+        }
+
         if(formData.password !==formData.confirm){
             setMsg("password must be same !!");
             return
@@ -36,7 +49,7 @@ function Register(){
 
             if(response.ok){
                 setMsg("signUp successfully");
-                setFormData({name:'',email:'',password:'',confirm:''});
+                setFormData({name:'',email:'',username:'',password:'',confirm:''});
 
                 setTimeout(()=>{
                     navigate('/login')
@@ -71,10 +84,15 @@ function Register(){
                                 focus:outline-none focus:ring-2 focus:ring-blue-200 transition duration-300  hover:scale-105"
                     onChange={handleChange} value={formData.name} required>
                 </input>
-                <input name="email" type="text" placeholder="Username/E-mail" 
+                <input name="email" type="text" placeholder="E-mail" 
                     className="w-full px-4 py-2 mb-4 bg-transparent border border-white/30 rounded-md text-white placeholder-white 
                                 focus:outline-none focus:ring-2 focus:ring-blue-200 transition duration-300  hover:scale-105"
                     onChange={handleChange}  value={formData.email} required>
+                </input>
+                <input name="username" type="text" placeholder="Username" 
+                    className="w-full px-4 py-2 mb-4 bg-transparent border border-white/30 rounded-md text-white placeholder-white 
+                                focus:outline-none focus:ring-2 focus:ring-blue-200 transition duration-300  hover:scale-105"
+                    onChange={handleChange}  value={formData.username} required>
                 </input>
                 <input name="password" type="text" placeholder="Password" 
                     className="w-full px-4 py-2 mb-4 bg-transparent border border-white/30 rounded-md text-white placeholder-white
