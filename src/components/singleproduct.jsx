@@ -119,7 +119,14 @@ function SingleProduct() {
                     <div className="text-2xl font-semibold text-white">
                         ₹ {product.price}
                     </div>
-                    <div  className="flex flex-wrap gap-4 pt-7">
+                    {Number(product.totalquantity) > 0 && Number(product.totalquantity) <= 5 &&(
+                        <div>
+                            <p className='text-lg text-red-400'>Hurry ! limited stock</p>
+                            <p className='text-lg text-red-400'>{product.totalquantity} left</p>
+                        </div>
+                    )}
+                    {product.status==="active" && Number(product.totalquantity) > 0?(
+                        <div  className="flex flex-wrap gap-4 pt-7">
                         <button className="flex-1 bg-orange-400 hover:bg-orange-500 text-white font-medium py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2 cursor-pointer"
                                 onClick={()=>{
                                 if(exist){
@@ -148,6 +155,10 @@ function SingleProduct() {
                             Buy Now
                         </button>
                     </div>
+                    ):(
+                        <button className="w-full bg-red-500 hover:bg-black/50 text-white font-medium py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2 cursor-pointer">{Number(product.totalquantity)===0?"Out of stock":"Not Available"}</button>
+                    )}
+                    
                 </div>
             </div>
         </div>

@@ -24,6 +24,8 @@
   import { useNavigate } from 'react-router-dom'
   import AdminUser from './Admin/pages/AdminUser.jsx'
   import AdminProducts from './Admin/pages/AdminProducts.jsx'
+  import AdminOrders from './Admin/pages/AdminOrders.jsx'
+import UserLayout from './route/UserRoute.jsx'
 
 
   function App() {
@@ -51,22 +53,25 @@
         <CartProvider>
       {showNavbar  && <Navbar />}
       <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/register" element={<Register/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/products" element={<Products/>}/>
-        <Route path="/wishlist" element={<Wishlist/>}/>
-        <Route path="/cart" element={<Cart/>}/>
-        <Route path="/products/:id" element={<SingleProduct/>}/>
-        <Route path="/profile" element={<Profile/>}/>
-        <Route path="/payment" element={<Payment/>}/>
-        <Route path="/qrcode" element={<QRPayment/>}/>
-        <Route path="/about" element={<AboutPage/>}/>
-        <Route path="*" element={<NotFound/>}/>
+        <Route element={<UserLayout/>}>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/register" element={<Register/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/products" element={<Products/>}/>
+          <Route path="/wishlist" element={<Wishlist/>}/>
+          <Route path="/cart" element={<Cart/>}/>
+          <Route path="/products/:id" element={<SingleProduct/>}/>
+          <Route path="/profile" element={<Profile/>}/>
+          <Route path="/payment" element={<Payment/>}/>
+          <Route path="/qrcode" element={<QRPayment/>}/>
+          <Route path="/about" element={<AboutPage/>}/>
+          <Route path="*" element={<NotFound/>}/>
+        </Route>
         <Route path='/admin'element={<AdminLayout/>}>
           <Route index element={<Dashboard/>}/>
           <Route path="users" element={<AdminUser/>}/>
           <Route path="products" element={<AdminProducts/>}/>
+          <Route path="orders" element={<AdminOrders/>}/>
         </Route>
       </Routes>
       {showFooter && <Footer/>}

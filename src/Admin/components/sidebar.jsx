@@ -7,13 +7,25 @@ import { toast } from "react-toastify";
 import { NavLink, useLocation } from "react-router-dom";
 
 function AdminSidebar() {
-  const [activeItem, setActiveItem] = useState('dashboard');
+  const [activeItem, setActiveItem] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const {setSidebarOpens}=useContext(SidebarContext)
   const navigate=useNavigate()
   const [showConfirm,setShowConfirm]=useState(false)
    const location = useLocation();
+
+
+
+   useEffect(() => {
+  const currentPath = location.pathname;
+  const foundItem = menuItems.find(item => {
+    return currentPath === item.path || currentPath.startsWith(`/${item.path}`);
+  });
+  if (foundItem) {
+    setActiveItem(foundItem.id);
+  }
+}, [location.pathname]);
 
   useEffect(() => {
 
@@ -35,11 +47,11 @@ function AdminSidebar() {
 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: <FiHome size="20" /> , path:"/admin" },
-    { id: 'users', label: 'Users', icon: <FiUsers size="20" />,path:"users" },
-    { id: 'products', label: 'Products', icon: <FiBox size="20" />, path:"products" },
-    { id: 'orders', label: 'Orders', icon: <FiShoppingCart size="20" />,path:"orders" },
-    { id: 'analytics', label: 'Analytics', icon: <FiBarChart2 size="20" />,path:"analytics" },
-    { id: 'settings', label: 'Settings', icon: <FiSettings size="20" />,path:"settings" },
+    { id: 'users', label: 'Users', icon: <FiUsers size="20" />,path:"/admin/users" },
+    { id: 'products', label: 'Products', icon: <FiBox size="20" />, path:"/admin/products" },
+    { id: 'orders', label: 'Orders', icon: <FiShoppingCart size="20" />,path:"/admin/orders" },
+    // { id: 'analytics', label: 'Analytics', icon: <FiBarChart2 size="20" />,path:"analytics" },
+    // { id: 'settings', label: 'Settings', icon: <FiSettings size="20" />,path:"settings" },
   ];
 
   return (
@@ -81,8 +93,8 @@ function AdminSidebar() {
               <button
                 key={item.id}
                 className={`w-full flex items-center px-4 py-3.5 rounded-xl transition-all duration-200 ${activeItem === item.id 
-                  ? 'bg-white/20 text-white shadow-lg' 
-                  : 'text-blue-900/80 hover:bg-white/10 hover:text-blue-900'}`}
+                  ? 'bg-white/20 text-red-500 shadow-lg' 
+                  : 'text-black/80 hover:bg-white/10 hover:text-orange-900'}`}
                 onClick={() => {setActiveItem(item.id);
                   navigate(item.path);
                 }}

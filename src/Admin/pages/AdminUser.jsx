@@ -3,8 +3,6 @@ import {useContext,useState } from "react";
 import { UsersContext } from "../context/userContext";
 import Api from "../api/api"
 import axios from "axios";
-import { Listbox } from "@headlessui/react"
-import { Check, ChevronDown } from "lucide-react"
 
 
 function AdminUser(){ 
@@ -17,7 +15,7 @@ function AdminUser(){
 
         const filters=userList.filter((u)=>u.role==="user")
                     .filter((user)=>{
-                        if(search.trim()===''){
+                        if(search.trim()!==''){
                             
                         const isUser=
                         user.name.toLowerCase().includes(search.toLowerCase())||
@@ -49,32 +47,41 @@ function AdminUser(){
     return(
         <div className="p-5">
             <main>
-                <nav className="flex justify-between items-center bg-white/70 rounded-2xl p-6 backdrop-blur-lg shadow-sm">
-                    <div className="flex gap-3">
-                        <FiUser className="text-2xl mt-1"/>
-                        <h1 className="text-2xl font-bold text-gray-800">Users</h1>
-                    </div>
-                    <div className="flex items-center gap-4">
-                        <div className="relative">
-                        <FiSearch className="absolute left-3 top-2.5 text-gray-500" size={18} />
-                        <input 
-                            type="text" 
-                            className="bg-white rounded-2xl pl-10 pr-4 py-2.5 text-sm border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/50 transition-all" 
-                            placeholder="Search..." onChange={(e)=>{setSearch(e.target.value)}} 
-                        />
+                <nav className="flex flex-wrap justify-between items-center bg-white/70 rounded-2xl p-4 md:p-6 backdrop-blur-lg shadow-sm">
+                        <div className="flex gap-2 md:gap-3 items-center w-full md:w-auto justify-between md:justify-start">
+                            <div className="flex gap-2 items-center">
+                            <FiUser className="text-xl md:text-2xl mt-0.5 text-gray-700" />
+                            <h1 className="text-lg md:text-2xl font-bold text-gray-800">Users</h1>
+                            </div>
                         </div>
-                        <button className="relative p-2.5 bg-white rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors">
-                        <FiBell size={20} className="text-gray-600" />
-                        <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">3</span>
-                        </button>
-                        <div className="flex items-center gap-2 bg-white rounded-xl pl-2 pr-4 py-2 border border-gray-200">
-                        <div className="w-9 h-9 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center">
-                            <span className="text-white font-semibold text-sm">A</span>
+
+                        <div className="flex items-center gap-3 md:gap-4 mt-3 md:mt-0 w-full md:w-auto justify-between md:justify-end">
+                            
+                            <div className="relative flex-1 md:flex-none">
+                            <FiSearch className="absolute left-3 top-2.5 text-gray-500" size={18} />
+                            <input
+                                type="text"
+                                className="w-full md:w-64 bg-white rounded-2xl pl-10 pr-4 py-2.5 text-sm border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/50 transition-all"
+                                placeholder="Search..."
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                            </div>
+
+                            {/* <button className="relative p-2.5 bg-white rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors">
+                            <FiBell size={20} className="text-gray-600" />
+                            <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">
+                                3
+                            </span>
+                            </button> */}
+
+                            <div className="flex items-center gap-2 bg-white rounded-xl pl-2 pr-4 py-2 border border-gray-200">
+                            <div className="w-9 h-9 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center">
+                                <span className="text-white font-semibold text-sm">A</span>
+                            </div>
+                            <span className="hidden sm:block text-sm font-medium text-gray-700">Admin</span>
+                            </div>
                         </div>
-                        <span className="text-sm font-medium text-gray-700">Admin</span>
-                        </div>
-                    </div>
-                </nav>
+                        </nav>
                 <div className="mt-5 flex justify-between">
                     <div>
                         <div className="rounded-2xl text-sm  bg-white/10 backdrop-blur-md border  border-white/20 shadow-lg shadow-black/10 py-2 px-4  text-black cursor-pointertransition-all ">
@@ -90,8 +97,8 @@ function AdminUser(){
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-5">
-                    {filters
-                    .map((user)=>(
+                    {filters.length >0 ?(
+                        filters.map((user)=>(
                         <div key={user.id} className="bg-white/20 backdrop-blur-lg rounded-2xl p-6 border border-white/30 shadow-sm mt-5 hover:scale-102 transition-all duration-200 ease-in-out">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-xl font-semibold text-gray-800">#{user.id}</h3>
@@ -168,7 +175,13 @@ function AdminUser(){
                         </button>
                     </div>
                     </div>
-                    ))}
+                    ))
+                    ):(
+                        <div className="col-span-full text-center py-10 text-gray-600 text-lg font-medium">
+      No Users Found
+    </div>
+                    )
+                    }
                     
                 </div>
             </main>

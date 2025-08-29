@@ -22,6 +22,8 @@ function Profile(){
     const displayData=isLoggedIn ? userData:{name:`guest${math}`,email:`guest${math}@${math2}`}
     const [menuOpen,setMenuOpen]=useState(false);
     const [activeTab, setActiveTab] = useState("profile");
+    const [editUser, setEditUser] = useState(false);
+    const [userForm, setUserForm] = useState({name: displayData?.name || "",username: displayData?.username || "",email:displayData?.email || "",oldpassword: "",password: ""});
 
 
     const [address,setAddress]=useState({houseno:"",landmark:"",town:"",district:"",pin:"",mobile:""})
@@ -50,6 +52,44 @@ function Profile(){
         
     }
 
+    const HandleUserSubmit =async(e)=>{
+        e.preventDefault()
+        try{
+            const res=await axios.get(`http://localhost:3000/users/${displayData.id}`)
+             const dbUser = res.data;
+
+             if(userForm.password){
+                if(userForm.oldpassword!==dbUser.password){
+                    toast.error("Old password is Incorrect")
+                    return;
+                }
+             }
+
+             const updatePayload ={
+                name: userForm.name,
+                username: userForm.username,
+                email:userForm.email,
+                ...(userForm.password && {password:userForm.password,confirm: userForm.password})
+             }
+
+             await axios.patch(`http://localhost:3000/users/${displayData.id}`, updatePayload);
+             toast.success("Profile updated successfully");
+                const updatedUser = {
+                ...displayData,
+                name: updatePayload.name,
+                username: updatePayload.username,
+                email: updatePayload.email,
+                isLoggedIn: true,
+                };
+                localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+             setEditUser(false);
+        }
+        catch(e){
+            console.log("Error on changing details");
+            toast.error("Error updating profile");
+        }
+    }
+
     useEffect(()=>{
         HandleDetails();
     },[displayData.id])
@@ -64,7 +104,7 @@ function Profile(){
                 </button>
             </div>
             {menuOpen && (
-                <div className="lg:hidden fixed inset-0 backdrop:blur-3xl bg-white/0 z-40" onClick={()=>setMenuOpen(false)}>
+                <div className="lg:hidden fixed inset-0 backdrop-blur-3xl opacity-100 bg-white/0 z-40" onClick={()=>setMenuOpen(false)}>
                 </div>
             )}
             <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr]   pt-20 mt-5 mb-5">
@@ -144,6 +184,18 @@ function Profile(){
                                             <span className="text-white/80 font-medium">Email:</span> 
                                             <span className="text-white ms-2">{displayData.email}</span>
                                         </div>
+                                        <button
+                                            className="cursor-pointer bg-green-500  p-2 rounded-2xl ml-3"
+                                            onClick={() => {
+                                                if (!isLoggedIn) {
+                                                toast.error("Please Login");
+                                                } else {
+                                                setEditUser(true);
+                                                }
+                                            }}
+                                            >
+                                            Edit Profile
+                                            </button>
                                         <div className=" flex items-center ">
                                             <span className="text-white/80 font-medium ">Address:</span>
                                         </div>
@@ -192,9 +244,8 @@ function Profile(){
                                 
                                 {details &&(
                                     <div>
-                                    <div className={`fixed inset-0 z-40 backdrop-blur-3xl bg-black/50`}>
-                                       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                                       <div className= "bg-white/90 backdrop-blur-md rounded-xl p-6 max-w-md w-full shadow-xl">
+                                    <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                                       <div className= "bg-white/90 backdrop-blur-md rounded-xl p-6 max-w-md w-full shadow-xl relative">
                                         <div className="flex justify-between items-center mb-4">
                                             <h1 className="text-2xl font-bold text-gray-800">Edit address</h1>
                                             <button 
@@ -213,7 +264,6 @@ function Profile(){
                                             <button className="w-full bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 transition-colors cursor-pointer">Save Changes</button>
                                         </form>
                                        </div>
-                                    </div>
                                     </div>
                                     </div>
                                 )}
@@ -277,6 +327,82 @@ function Profile(){
                     {activeTab==="orders" &&(
                         <Order/>
                     )}
+                    {editUser && (
+                                <div className="fixed inset-0 z-40 backdrop-blur-sm bg-black/10">
+                                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                                    <div className="bg-white/90 backdrop-blur-md rounded-xl p-6 max-w-md w-full shadow-xl">
+                                        <div className="flex justify-between items-center mb-4">
+                                        <h1 className="text-2xl font-bold text-gray-800">Edit Profile</h1>
+                                        <button
+                                            className="text-gray-500 hover:text-gray-700 cursor-pointer"
+                                            onClick={() => setEditUser(false)}
+                                        >
+                                            ✕
+                                        </button>
+                                        </div>
+
+                                        <form
+                                        className="space-y-4" onSubmit={HandleUserSubmit}
+                                        >
+                                        <input
+                                            placeholder="Name"
+                                            value={userForm.name}
+                                            type="text"
+                                            name="name"
+                                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                                            onChange={(e) =>
+                                            setUserForm({ ...userForm, [e.target.name]: e.target.value })
+                                            }
+                                        />
+                                        <input
+                                            placeholder="Username"
+                                            value={userForm.username}
+                                            type="text"
+                                            name="username"
+                                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                                            onChange={(e) =>
+                                            setUserForm({ ...userForm, [e.target.name]: e.target.value })
+                                            }
+                                        />
+                                        <input
+                                            placeholder="Email"
+                                            value={userForm.email}
+                                            type="text"
+                                            name="email"
+                                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                                            onChange={(e) =>
+                                            setUserForm({ ...userForm, [e.target.name]: e.target.value })
+                                            }
+                                        />
+                                        <input
+                                            placeholder="Old Password"
+                                            value={userForm.oldpassword}
+                                            type="password"
+                                            name="oldpassword"
+                                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                                            onChange={(e) =>
+                                            setUserForm({ ...userForm, [e.target.name]: e.target.value })
+                                            }
+                                        />
+                                        <input
+                                            placeholder="New Password"
+                                            value={userForm.password}
+                                            type="password"
+                                            name="password"
+                                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                                            onChange={(e) =>
+                                            setUserForm({ ...userForm, [e.target.name]: e.target.value })
+                                            }
+                                        />
+
+                                        <button className="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition-colors cursor-pointer">
+                                            Save Changes
+                                        </button>
+                                        </form>
+                                    </div>
+                                    </div>
+                                </div>
+                                )}
                     
                 
             </div>

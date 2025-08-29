@@ -3,6 +3,7 @@ import useHandleCart from "./customhook/carthook"
 import { FiMinus,FiPlus,FiTrash2,FiShoppingCart  } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 
 function Cart(){
@@ -23,6 +24,7 @@ function Cart(){
     const discount=Math.round(TotalAmount * 0.05);
 
     const grandTotal=TotalAmount - discount;
+
 
 
     return(
@@ -137,16 +139,36 @@ function Cart(){
                                             </div>
                                             <div  className="mt-6 flex justify-center">
                                                 <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 w-70 cursor-pointer"
-                                                        onClick={()=>{setLoading(true);
-                                                            setTimeout(()=>{
-                                                                navigate("/payment",{
-                                                                    state:{
-                                                                            GrandTotal:grandTotal,
-                                                                            products: cartList  
-                                                                        }
-                                                                });setLoading(false)},
-                                                                2000
-                                                            )}}>
+                                                        // onClick={()=>{
+                                                        //     setLoading(true);
+                                                        //     setTimeout(()=>{
+                                                        //         navigate("/payment",{
+                                                        //             state:{
+                                                        //                     GrandTotal:grandTotal,
+                                                        //                     products: cartList  
+                                                        //                 }
+                                                        //         });setLoading(false)},
+                                                        //         2000
+                                                        //     )}}>
+                                                        onClick={() => {
+        const hasHidden = cartList.some((p) => p.status === "hidden");
+
+        if (hasHidden) {
+            toast.warning("Please remove unavailable products");
+            return;
+        }
+        setLoading(true);
+        setTimeout(() => {
+            navigate("/payment", {
+                state: {
+                    GrandTotal: grandTotal,
+                    products: cartList,
+                },
+            });
+            setLoading(false);
+        }, 2000);
+    }}>
+                                                        
                                                     PLACE ORDER
                                                 </button>
                                             </div>

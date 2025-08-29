@@ -119,26 +119,58 @@ function Payment() {
                                 });
             let newOrders=null;
             if(product){
-                newOrders={odr:ODRid,date:currentDate,shipping:address,products:[product],amount:TotalAmount}
+                newOrders={odr:ODRid,date:currentDate,shipping:address,products:[product],amount:TotalAmount,status: "Processing"}
             }
             else if(products.length>0){
                 newOrders={
-                    odr:ODRid,date:currentDate,shipping:address,products:products,amount:TotalAmount
+                    odr:ODRid,date:currentDate,shipping:address,products:products,amount:TotalAmount,status: "Processing"
                 }  
                await RemoveCart();
                 
             }
 
                 if(newOrders){
+
+                    for (const item of newOrders.products) {
+                    const res = await axios.get(`http://localhost:3000/products/${item.id}`);
+                    const dbProduct = res.data;
+
+                    if (Number(item.quantity || 1) > Number(dbProduct.totalquantity)) {
+                    toast.warning(
+                        ` Sorry, only ${dbProduct.totalquantity} stock left for ${dbProduct.name}`,{
+                             style: {
+                                    background: "white",
+                                    color: "black",
+                                }
+                        }
+                    );
+                    return false; // stop placing order
+                    }
+                }
+
                     const updatedOrders=[...existingOrders,newOrders];
                     await axios.patch(`http://localhost:3000/users/${userData.id}`,{
                     orders:updatedOrders
             })
+
+            for(const item of newOrders.products){
+                const res=await axios.get(`http://localhost:3000/products/${item.id}`)
+                const dbProduct=res.data;
+
+                const newQuantity=Number(dbProduct.totalquantity)-Number(item.quantity || 1);
+
+                await axios.patch(`http://localhost:3000/products/${item.id}`,{
+                    totalquantity: newQuantity >= 0 ? newQuantity : 0
+                })
+            }
             console.log("Orders updated:", newOrders);
+            return true
                 }   
+                return false
         }
         catch(e){
             console.log("Error for order patch:",e)
+            return false
         }
         
     }
@@ -371,7 +403,7 @@ function Payment() {
                                     //         },3000)
                                     //     }
                                     // }}>
-                                    onClick={()=>{
+                                    onClick={async()=>{
                                         if(!isAddressValid()){
                                             toast.info("please fill address first")
                                             return;
@@ -379,17 +411,74 @@ function Payment() {
 
                                         if(payment==="COD"){
                                             handlePaid();
-                                            HandleOrder();
-                                            setTimeout(()=>{
+                                            const success =await HandleOrder();
+                                            if(success){
+                                                setTimeout(()=>{
                                                  navigate('/');setDeliver(false);toast.success("Order Placed Successfully!");
                                             },3000)
+                                            }else{
+                                                setDeliver(false);
+                                            }
                                         }
-                                        else{
-                                            navigate('/qrcode',{
-                                                state:{address,product,products,TotalAmount}
-                                            })
-                                        }
-                                    }}
+                                        else {
+
+                                            const res = await axios.get(`http://localhost:3000/users/${userData.id}`);
+                                            const existingOrders = res.data.orders || [];
+                                            const ODRid = "ODRID" + Date.now();
+                                            const currentDate = new Date().toLocaleString("en-US", {
+                                                year: "numeric",
+                                                month: "2-digit",
+                                                day: "2-digit",
+                                                hour: "2-digit",
+                                                minute: "2-digit",
+                                                second: "2-digit",
+                                                hour12: true,
+                                            });
+
+                                            let newOrders = null;
+                                            if (product) {
+                                                newOrders = {
+                                                odr: ODRid,
+                                                date: currentDate,
+                                                shipping: address,
+                                                products: [product],
+                                                amount: TotalAmount,
+                                                };
+                                            } else if (products.length > 0) {
+                                                newOrders = {
+                                                odr: ODRid,
+                                                date: currentDate,
+                                                shipping: address,
+                                                products: products,
+                                                amount: TotalAmount,
+                                                };
+                                            }
+
+                                            if (newOrders) {
+                                                for (const item of newOrders.products) {
+                                                const resp = await axios.get(`http://localhost:3000/products/${item.id}`);
+                                                const dbProduct = resp.data;
+
+                                                if (Number(item.quantity || 1) > Number(dbProduct.totalquantity)) {
+                                                    toast.warning(
+                                                    `Sorry, only ${dbProduct.totalquantity} stock left for ${dbProduct.name}`,
+                                                    {
+                                                        style: {
+                                                        background: "white",
+                                                        color: "black",
+                                                        },
+                                                    }
+                                                    );
+                                                    return;
+                                                }
+                                                }
+
+                                                navigate("/qrcode", {
+                                                state: { address, product, products, TotalAmount },
+                                                });
+                                            }
+                                            }
+                                        }}
                                         >
                               {payment==="COD"?"Place Order":"Pay Now"}
                             </button>

@@ -71,14 +71,27 @@ function HomeProducts(){
                         <div key={product.id} onClick={()=>openModal(product)}
                          className="group relative bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl overflow-hidden
                                                             shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+                                                                {Number(product.totalquantity) > 0 && Number(product.totalquantity) <= 5 && (
+                                            <div className="absolute top-5 right-[-50px] w-[160px] bg-orange-500 text-white text-center text-xs font-bold transform rotate-40 shadow-md">
+                                                Limited Stock
+                                            </div>
+                                            )}
+                                            {Number(product.totalquantity) === 0 && (
+                                            <div className="absolute top-5 right-[-50px] w-[160px] bg-red-600 text-white text-center text-xs font-bold transform rotate-45 shadow-md">
+                                                Out of Stock
+                                            </div>
+                                            )}
                         <div className="aspect-square overflow-hidden">
                             <img src ={product.image} alt={product.name}  className="w-full object-cover transition-transform duration-500 group-hover:scale-105"/>
                         </div>
                         <div>
                             <h3 className="text-sm font-medium text-white truncate" >{product.name}</h3>
-                                <div className="pb-3">
-                                    <span className="text-white/80"><BiRupee className="inline-block mr-1" />{product.price}</span>
-                                </div>
+                               <div className="pb-3 mt-1">
+                                                {product.status==="hidden" ?(
+                                                    <span className="text-red-500 bg-white/50 rounded-2xl px-2 py-1 text-xs">Not Available</span>
+                                            ):(<span className="text-white/80"><BiRupee className="inline-block mr-1" />{product.price}</span>)}
+                                                
+                                            </div>
                         </div>
                         </div>
                     ))}
@@ -94,7 +107,17 @@ function HomeProducts(){
                     <IoClose className="h-4 w-4 sm:h-5 sm:w-5 text-white hover:text-red-400" />
                 </button>
                 <div className="flex flex-col md:flex-row bg-white/10">
-                     <div className="md:w-1/2 p-3 sm:p-6 flex items-center justify-center">
+                     <div className="md:w-1/2 p-3 sm:p-6 flex items-center justify-center relative">
+                     {Number(selectedProduct.totalquantity) > 0 && Number(selectedProduct.totalquantity) <= 5 && (
+                        <div className="absolute top-6 right-[-50px] w-[160px] bg-orange-500 text-white text-center text-xs font-bold transform rotate-45 rounded shadow-md">
+                            Limited Stock
+                        </div>
+                        )}
+                        {Number(selectedProduct.totalquantity) === 0 && (
+                        <div className="absolute top-5 right-[-50px] w-[160px] bg-red-600 text-white text-center text-xs font-bold transform rotate-45 shadow-md">
+                            Out of Stock
+                        </div>
+                        )}
                      <img src={selectedProduct.image} alt={selectedProduct.name}
                         className="w-full h-auto max-h-[200px] sm:max-h-[400px] object-contain rounded-lg transition-transform duration-500 hover:scale-105"/>
                      </div>
@@ -105,7 +128,8 @@ function HomeProducts(){
                          </div>
                           <p className="text-black text-sm sm:text-base mb-4 sm:mb-20 font-medium">{selectedProduct.description || "Product description goes here."}
                           </p>
-                          <div className="flex gap-2 sm:gap-4 justify-center">
+                          {selectedProduct.status==="active" && Number(selectedProduct.totalquantity) > 0 ?(
+                            <div className="flex gap-2 sm:gap-4 justify-center">
                            <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-6 py-1 sm:py-2 rounded-lg text-xs sm:text-sm transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 w-20 sm:w-30 cursor-pointer"
                                      onClick={()=>{
                                                     closeModal();
@@ -134,6 +158,12 @@ function HomeProducts(){
                             <FiShoppingCart className="text-white text-xl transition duration-300  hover:scale-110"/>
                            </button>
                            </div>
+                          ):(
+                             <button className="bg-red-600 text-white px-3 sm:px-6 py-1 sm:py-2 rounded-lg text-xs sm:text-sm transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 w-20 sm:w-35 cursor-pointer">
+                                            <span className="text-sm">Not Available</span>
+                                        </button>
+                          )}
+                          
                      </div>
                 </div>
             </div>

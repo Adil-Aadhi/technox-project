@@ -26,21 +26,40 @@ function Order(){
         
     }
 
-    const DeleteOrders=async (orderid)=>{
+//     const DeleteOrders=async (orderid)=>{
 
-        try{
-            const res=await axios.get(`http://localhost:3000/users/${userData.id}`)
-            const user=res.data
-            const updatedOrders=user.orders.filter(order=>order.odr !== orderid)
+//         try{
+//             const res=await axios.get(`http://localhost:3000/users/${userData.id}`)
+//             const user=res.data
+//             const updatedOrders=user.orders.filter(order=>order.odr !== orderid)
 
-            await axios.patch(`http://localhost:3000/users/${userData.id}`, {
+//             await axios.patch(`http://localhost:3000/users/${userData.id}`, {
+//             orders: updatedOrders
+//         })
+//         console.log("order deleted")
+//         setProduct(updatedOrders);
+//     }
+//     catch(e){
+//         console.log("error delete",e)
+//     }
+// }
+
+
+const CancelOrders=async(orderid)=>{
+    try{
+        const res=await axios.get(`http://localhost:3000/users/${userData.id}`);
+        const user=res.data;
+
+        const updatedOrders=user.orders.map(order=>order.odr===orderid?{...order,status:"Cancel"}:order)
+
+        await axios.patch(`http://localhost:3000/users/${userData.id}`, {
             orders: updatedOrders
-        })
-        console.log("order deleted")
-        setProduct(updatedOrders);
+            })
+            console.log("Order status updated to Cancel");
+    setProduct(updatedOrders);
     }
     catch(e){
-        console.log("error delete",e)
+        console.log("Error on cancel product",e)
     }
 }
 
@@ -66,7 +85,7 @@ function Order(){
                                                 </button>
                                                 <button
                                                   className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 cursor-pointer transition-all duration-300 ease-in-out"
-                                                  onClick={() => {DeleteOrders(deleteOrder);
+                                                  onClick={() => {CancelOrders(deleteOrder);
                                                                     setDeleteOrder(null)
                                                   }}
                                                 >
@@ -89,7 +108,16 @@ function Order(){
                             </div>
                             <div>
                                 {order.products.map((p,index)=>(
-                                    <div key={index} className="backdrop-blur-lg rounded-2xl border bg-white/5 border-white/20 p-8 shadow-xl gap-3 mt-2 justify-center mb-3">
+                                    <div key={index} className="relative backdrop-blur-lg rounded-2xl border bg-white/5 border-white/20 p-8 shadow-xl gap-3 mt-2 justify-center mb-3">
+                                        <div className={`absolute top-3 right-3 px-3 py-1 rounded-full font-semibold text-sm shadow-lg
+                                            ${order.status === "Processing" ? "bg-orange-500 text-white" :
+                                            order.status === "Shipped" ? "bg-blue-500 text-white" :
+                                            order.status === "Delivered" ? "bg-green-500 text-white" :
+                                            order.status === "Cancel" ? "bg-red-500 text-white" :
+                                            "bg-gray-500 text-white"
+                                            }`}>
+                                            {order.status}
+                                        </div>
                                         <div className="grid grid-cols-3">
                                             <div>
                                             <img src={p.image} alt={p.name} onClick={()=> navigate(`/products/${p.id}`)}  className="w-35 h-42 object-cover rounded-lg transition-transform duration-500 hover:scale-105 cursor-pointer"/>
@@ -114,7 +142,9 @@ function Order(){
                             </div>
                             <div className=" flex text-start justify-between">
                                 <p><span className="font-bold">Total Amount</span><span> {order.amount}</span></p>
-                                <FiTrash2 className="text-red-400 text-xl cursor-pointer" title="Cancel order" onClick={()=>setDeleteOrder(order.odr)}/>
+                                {(order.status==="Shipped" ||  order.status==="Processing") &&(
+                                    <FiTrash2 className="text-red-400 text-xl cursor-pointer" title="Cancel order" onClick={()=>setDeleteOrder(order.odr)}/>
+                                ) }
                             </div>
                             <div>
                             </div>

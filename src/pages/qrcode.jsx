@@ -59,22 +59,37 @@ function QRPayment() {
                                 });
             let newOrders=null;
             if(product){
-                newOrders={odr:ODRid,date:currentDate,shipping:address,products:[product],amount:TotalAmount}
+                newOrders={odr:ODRid,date:currentDate,shipping:address,products:[product],amount:TotalAmount,status: "Processing"}
             }
             else if(products.length>0){
                 newOrders={
-                  odr:ODRid,date:currentDate,shipping:address,products:products,amount:TotalAmount
+                  odr:ODRid,date:currentDate,shipping:address,products:products,amount:TotalAmount,status: "Processing"
                 }
                 await RemoveCart();
             }
 
             if(newOrders){
+
+
               const updatedOrders=[...existingOrders,newOrders];
 
               await axios.patch(`http://localhost:3000/users/${userData.id}`,{
               orders:updatedOrders
             })
+
+            for(const item of newOrders.products){
+                const res=await axios.get(`http://localhost:3000/products/${item.id}`)
+                const dbProduct=res.data;
+
+                const newQuantity=Number(dbProduct.totalquantity)-Number(item.quantity || 1);
+
+                await axios.patch(`http://localhost:3000/products/${item.id}`,{
+                    totalquantity: newQuantity >= 0 ? newQuantity : 0
+                })
+            }
+
             console.log("Orders updated:", newOrders);
+
             }
         }
         catch(e){
