@@ -288,9 +288,9 @@ function AdminPanel() {
     </table>
   </div>
 </div>
-<div className="bg-gradient-to-br from-white/80 to-black/30 backdrop-blur-xl shadow-xl rounded-2xl p-6">
+<div className="bg-gradient-to-br from-white/80 to-black/30 backdrop-blur-xl shadow-xl rounded-2xl p-4 md:p-6 overflow-x-auto">
   <h2 className="text-lg font-bold mb-4 text-gray-800">Recent Orders</h2>
-  <table className="w-full border-collapse">
+  <table className="w-full  border-collapse">
     <thead>
       <tr className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm">
         <th className="p-3 rounded-tl-xl">Order ID</th>

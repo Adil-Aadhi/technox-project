@@ -32,14 +32,14 @@ function useHandleCart(){
         else{
             axios.post('https://technox-api.onrender.com/cart',{ ...product, userId, quantity: 1 })
             .then(()=>{
-                setCartList(prev=>[...prev,{ ...product, userId, quantity: 1 }])
+                setCartList(prev=>[...prev,{ ...product, userId, quantity: 1 }]);
+                setCartLength(cartList.length+1)
                  toast.success(`${product.name} Added to Cart`,{
                 })
             })
-            setCartLength(cartList.length+1)
-            .catch((e=>{
+            .catch((e)=>{
                 console.log("error on adding",e)
-            }))
+            })
             
         }
         
@@ -50,11 +50,11 @@ function useHandleCart(){
     const DeleteCart=(product)=>{
         axios.delete(`https://technox-api.onrender.com/cart/${product.id}`)
         .then(()=>{
-            setCartList(prev=>prev.filter(item=>item.id!==product.id))
+            setCartList(prev=>prev.filter(item=>item.id!==product.id));
+            setCartLength(cartList.length-1)
             toast.success(`${product.name} removed from Cart`,{
                     className: 'custom-success-toast'})
         })
-        setCartLength(cartList.length-1)
         .catch((e)=>console.log(("error removing cart",e)))
         
     }

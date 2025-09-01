@@ -489,7 +489,7 @@ function AdminProducts(){
                                         <label className="block text-white/80 text-sm font-medium mb-1">Total Quantity *</label>
                                         <input 
                                             className="w-full bg-white/10 border border-white/20 rounded-lg py-3 px-4 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition"
-                                            placeholder="0" onChange={(e) => setAddProduct({ ...addProduct, totalquantity: e.target.value })} value={addProduct.totalquantity}
+                                            placeholder="0" onChange={(e) => setAddProduct({ ...addProduct, totalquantity: Number(e.target.value) })} value={addProduct.totalquantity}
                                             type="number"
                                         />
                                         </div>
