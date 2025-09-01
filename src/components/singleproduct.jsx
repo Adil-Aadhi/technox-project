@@ -51,7 +51,7 @@ function SingleProduct() {
                 product
             }
         });setLoadings(false)
-        },2000)
+        },1000)
         
     }
 
@@ -59,7 +59,16 @@ function SingleProduct() {
         HandleProducts();
     }, [id]);
 
-    if (loading) return <div className="flex min-h-screen items-center justify-center">Loading...</div>;
+    if (loading) return <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                    <div className="bg-white/10 backdrop-blur-lg border border-white/10 rounded-xl shadow-lg p-8 flex flex-col items-center">
+                        <div className="relative w-20 h-20 mb-4">
+                            <div className="absolute inset-0 rounded-full border-4 border-t-transparent border-white/50 animate-spin"></div>
+                            <div className="absolute inset-2 rounded-full border-4 border-b-transparent border-white/30 animate-spin animation-delay-200"></div>
+                            <div className="absolute inset-4 rounded-full border-4 border-l-transparent border-white/10 animate-spin animation-delay-400"></div>
+                        </div>
+                        <p className="text-white text-md font-medium">Loading...</p>
+                    </div>
+                </div>
     if (error) return <div className="flex min-h-screen items-center justify-center text-red-500">{error}</div>;
     if (!product) return <div className="flex min-h-screen items-center justify-center">Product not found</div>;
 

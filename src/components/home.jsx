@@ -34,7 +34,7 @@ const images = [
         muted
         loop
         playsInline
-        className="w-full h-auto">
+        className="w-full h-[300px] sm:h-full object-cover">
         </video>
 
     {/* Chat-GPT */}
@@ -57,7 +57,7 @@ const images = [
                     },
                 }}
                 modules={[Autoplay, Pagination]}
-                className="w-full h-[500px] relative"
+                className="w-full h-[300px] sm:h-[500px] relative"
                 speed={900}
                 >
                 {images.map((src, i) => (

@@ -12,6 +12,7 @@ function Register(){
 
     const [formData,setFormData]=useState(initialValue);
     const [msg,setMsg]=useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleChange=(e)=>{
         setFormData({...formData, [e.target.name] : e.target.value})
@@ -48,13 +49,14 @@ function Register(){
             })
 
             if(response.ok){
+                setLoading(true);
                 setMsg("signUp successfully");
                 setFormData({name:'',email:'',username:'',password:'',confirm:''});
 
                 setTimeout(()=>{
                     navigate('/login')
                     toast.success("Sign-up Successfully")
-                },2000)
+                },1000)
                 
             }
             else{
@@ -70,12 +72,24 @@ function Register(){
 
     return(
         <div className="flex items-center justify-center min-h-screen">
-        <div className="bg-white/10 backdrop-blur-lg border border-white/10 rounded-xl shadow-lg p-8 max-w-md mx-auto mt-18">
+            {loading && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                    <div className="bg-white/10 backdrop-blur-lg border border-white/10 rounded-xl shadow-lg p-8 flex flex-col items-center">
+                        <div className="relative w-20 h-20 mb-4">
+                            <div className="absolute inset-0 rounded-full border-4 border-t-transparent border-white/50 animate-spin"></div>
+                            <div className="absolute inset-2 rounded-full border-4 border-b-transparent border-white/30 animate-spin animation-delay-200"></div>
+                            <div className="absolute inset-4 rounded-full border-4 border-l-transparent border-white/10 animate-spin animation-delay-400"></div>
+                        </div>
+                        <p className="text-white text-md font-medium">Loading...</p>
+                    </div>
+                </div>
+            )}
+        <div className="bg-white/10 backdrop-blur-lg border border-white/10 rounded-xl shadow-lg p-8 w-80 sm:w-150 max-w-md mx-auto mt-18">
             <div className="relative">
                 <Link to="/" className="absolute top-0 right-0 z-10 p-2 -mt-2 -mr-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
                     <IoClose className="h-5 w-5 text-white hover:text-red-400" />
                 </Link>
-                <div className="inline-block backdrop-blur-xl bg-white/10 border-2 border-white/20 rounded-xl shadow-2xl px-5 py-2 overflow-hidden relative h-13 w-50">
+                <div className="inline-block backdrop-blur-xl bg-white/10 border-2 border-white/20 rounded-xl shadow-2xl px-5 py-2 overflow-hidden relative h-13 w-35 sm:w-50 mb-2">
                     <h1 className="text-2xl font-bold text-white whitespace-nowrap">Sign-Up</h1>
                 </div>
             <form className="text-sm" onSubmit={handleSubmit}>

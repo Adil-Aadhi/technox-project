@@ -121,7 +121,7 @@ function Profile(){
                                             text-white
                                             overflow-y-auto mt-9
                                         `}>
-                            <div className="flex justify-between items-center mb-6">
+                            <div className="flex justify-between items-center mt-3 mb-6">
                                 <h2 className="text-xl font-bold mb-6">Menu</h2>
                                 <button className="lg:hidden p-1 text-white/70 hover:text-white"
                                     onClick={()=>setMenuOpen(false)}>
@@ -182,7 +182,7 @@ function Profile(){
                                         </div>
                                         <div className="flex items-center">
                                             <span className="text-white/80 font-medium">Email:</span> 
-                                            <span className="text-white ms-2">{displayData.email}</span>
+                                            <span className="text-white ms-2 break-words max-w-[200px] sm:max-w-none truncate">{displayData.email}</span>
                                         </div>
                                         <button
                                             className="cursor-pointer bg-green-500  p-2 rounded-2xl ml-3"

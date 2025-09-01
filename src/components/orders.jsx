@@ -100,7 +100,10 @@ const CancelOrders=async(orderid)=>{
                 </div>
                 {product.length > 0  ?(
                     <div>
-                    {product.map((order,index)=>(
+                    {product
+                            .slice()
+                            .sort((a,b)=>new Date(b.date) - new Date(a.date))
+                            .map((order,index)=>(
                         <div key={index} className="backdrop-blur-lg rounded-2xl border border-white/20 p-8 shadow-xl text-white mb-3 mt-2">
                             <div className="text-start text-white text-sm mb-3">
                                 <p><span className="font-bold">ORDER ID:</span> {order.odr}</p>
@@ -118,12 +121,12 @@ const CancelOrders=async(orderid)=>{
                                             }`}>
                                             {order.status}
                                         </div>
-                                        <div className="grid grid-cols-3">
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                             <div>
-                                            <img src={p.image} alt={p.name} onClick={()=> navigate(`/products/${p.id}`)}  className="w-35 h-42 object-cover rounded-lg transition-transform duration-500 hover:scale-105 cursor-pointer"/>
+                                            <img src={p.image} alt={p.name} onClick={()=> navigate(`/products/${p.id}`)}  className="w-35 h-42 object-cover rounded-lg transition-transform duration-500 hover:scale-105 cursor-pointer mt- sm:mt-0"/>
                                             <p className="text-start">{p.name}</p>
                                             </div>
-                                            <div className="mt-15">
+                                            <div className="mt-2 md:mt-15">
                                                 <p>{p.price}</p>
                                             </div>
                                             <div className="text-white/80 text-start">

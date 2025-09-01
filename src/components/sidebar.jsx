@@ -13,7 +13,7 @@ function Sidebar({onFilter,onBrand}) {
 
   return (
     <div className='mt-25 ms-4 mb-6'>
-      <button className="md:hidden fixed left-4 z-50 p-2 bg-white/10 backdrop-blur-md rounded-lg border border-white/20" onClick={()=>setIsOpen(!isOpen)} aria-label="Toggle menu"> 
+      <button className="md:hidden fixed top-24 left-4 z-50 p-2 bg-white/10 backdrop-blur-md rounded-lg border border-white/20" onClick={()=>setIsOpen(!isOpen)} aria-label="Toggle menu"> 
         {isOpen ? <FiX className="w-5 h-5" /> : <FiMenu className="w-5 h-5" />}
       </button>
       <div className="hidden md:block  ms-4 mb-6 w-50 flex-shrink-0">

@@ -87,7 +87,7 @@ function Login(){
                         setTimeout(() => {
                             navigate(loggedInUser.role === 'admin' ? "/admin" : "/");
                             toast.success("Successfully Logged-In");
-                        }, 2000);
+                        }, 1000);
 
                     } catch (error) {
                         console.error('Failed to save to localStorage:', error);
@@ -117,12 +117,12 @@ function Login(){
                     </div>
                 </div>
             )}
-            <div className="relative">
+            <div className="relative w-80 sm:w-110">
                 <Link to="/" className="absolute top-9 right-8 z-10 p-2 -mt-2 -mr-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
                     <IoClose className="h-5 w-5 text-white hover:text-red-400" />
                 </Link>
          <div className="bg-white/10 backdrop-blur-lg border border-white/10 rounded-xl shadow-lg p-8 ">
-            <div className="inline-block backdrop-blur-xl bg-white/10 border-2 border-white/20 rounded-xl shadow-2xl px-6 py-2 overflow-hidden relative w-50 h-13 mb-2">
+            <div className="inline-block backdrop-blur-xl bg-white/10 border-2 border-white/20 rounded-xl shadow-2xl px-6 py-2 overflow-hidden relative w-35 sm:w-50 h-13 mb-2">
                 <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-white/0 opacity-20 -z-10"></div>
                     <h1 className="text-2xl font-bold text-white whitespace-nowrap">Login</h1>
             </div>
