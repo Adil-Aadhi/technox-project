@@ -17,7 +17,7 @@ function Order(){
     const HandleOrders=async()=>{
 
         try{
-            const res=await axios.get(`http://localhost:3000/users/${userData.id}`)
+            const res=await axios.get(`https://technox-api.onrender.com/users/${userData.id}`)
             setProduct(res.data.orders || [])
         }
         catch(e){
@@ -47,12 +47,12 @@ function Order(){
 
 const CancelOrders=async(orderid)=>{
     try{
-        const res=await axios.get(`http://localhost:3000/users/${userData.id}`);
+        const res=await axios.get(`https://technox-api.onrender.com/users/${userData.id}`);
         const user=res.data;
 
         const updatedOrders=user.orders.map(order=>order.odr===orderid?{...order,status:"Cancel"}:order)
 
-        await axios.patch(`http://localhost:3000/users/${userData.id}`, {
+        await axios.patch(`https://technox-api.onrender.com/users/${userData.id}`, {
             orders: updatedOrders
             })
             console.log("Order status updated to Cancel");

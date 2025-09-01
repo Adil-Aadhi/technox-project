@@ -1,10 +1,32 @@
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube, FaTimes } from 'react-icons/fa';
+import axios from "axios";
+import { toast } from "react-toastify";
+
 
 function Footer(){
 
     const [isOpen,setIsOpen]=useState(false);
+    // const [subscribe,setSubscribe]=useState('')
+    // const userData= JSON.parse(localStorage.getItem("currentUser"));
+    // const userId = userData?.id;
+    // const userName= userData?.name;
+
+    // const HandleSubscribe=async()=>{
+    //   try{
+    //     const res=await axios.post(`http://localhost:3000/notification`,{
+    //       userId,userName,subscribe
+    //     })
+    //     setSubscribe('');
+    //     toast.success("Sucessyfully Subscribed")
+
+
+    //   }
+    //   catch(e){
+    //     console.log("error on sending email",e)
+    //   }
+    // }
 
     return (
     <footer className="w-full bg-black border-t border-white/20">
@@ -32,7 +54,7 @@ function Footer(){
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 px-8 py-10 text-gray-300">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-8 py-10 text-gray-300">
         <div>
           <div className="flex items-center space-x-3">
             <Link to="/">
@@ -72,7 +94,7 @@ function Footer(){
         </div>
 
 
-        <div>
+        {/* <div>
           <h3 className="text-white font-semibold mb-3">Subscribe</h3>
           <p className="text-sm mb-2">Stay updated with our latest news</p>
           <div className="flex">
@@ -80,12 +102,15 @@ function Footer(){
               type="email" 
               placeholder="Enter your email" 
               className="px-3 py-2 rounded-l-md bg-gray-800 text-white text-sm w-full focus:outline-none"
+              onChange={(e)=>setSubscribe(e.target.value)}
+              value={subscribe}
             />
-            <button className="px-4 py-2 bg-red-600 text-white rounded-r-md hover:bg-red-700">
+            <button className="px-4 py-2 bg-red-600 text-white rounded-r-md hover:bg-red-700"
+              onClick={()=>HandleSubscribe()}>
               Subscribe
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
 
 

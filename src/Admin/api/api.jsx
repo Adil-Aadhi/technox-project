@@ -1,6 +1,6 @@
 function Api(){
-    const users='http://localhost:3000/users';
-    const products='http://localhost:3000/products'
+    const users='https://technox-api.onrender.com/users';
+    const products='https://technox-api.onrender.com/products'
     return{
         users,
         products

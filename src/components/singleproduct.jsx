@@ -32,7 +32,7 @@ function SingleProduct() {
     const HandleProducts = async () => {
         try {
             setLoading(true);
-            const response = await axios.get(`http://localhost:3000/products/${id}`);
+            const response = await axios.get(`https://technox-api.onrender.com/products/${id}`);
             console.log("API Response:", response.data);
             setProduct(response.data);
         } catch (e) {

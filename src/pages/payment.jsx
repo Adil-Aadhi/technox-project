@@ -48,7 +48,7 @@ function Payment() {
 
   const HandleDetails=async()=>{
     try{
-        const res=await axios.get(`http://localhost:3000/users/${userData.id}`)
+        const res=await axios.get(`https://technox-api.onrender.com/users/${userData.id}`)
         setAddress(res.data.address ||  {
       houseno: "",
       landmark: "",
@@ -71,7 +71,7 @@ function Payment() {
 
    const HandleSubmit=(e)=>{
         e.preventDefault();
-        axios.patch(`http://localhost:3000/users/${userData.id}`,{address:address})
+        axios.patch(`https://technox-api.onrender.com/users/${userData.id}`,{address:address})
         .then((res)=>{toast.success("Address is updated");
              setIsDetails(false);
     })
@@ -86,13 +86,13 @@ function Payment() {
 
     const RemoveCart=async()=>{
         try{
-            const res=await axios.get(`http://localhost:3000/cart/`)
+            const res=await axios.get(`https://technox-api.onrender.com/cart/`)
             const cartItem=res.data;
 
             const userCart=cartItem.filter(item=>item.userId===userData.id)
             
             await Promise.all(
-                userCart.map(item=>axios.delete(`http://localhost:3000/cart/${item.id}`))
+                userCart.map(item=>axios.delete(`https://technox-api.onrender.com/cart/${item.id}`))
             )
             console.log("cart deleted")
         }
@@ -104,7 +104,7 @@ function Payment() {
 
     const HandleOrder=async()=>{
         try {
-            const res=await axios.get(`http://localhost:3000/users/${userData.id}`)
+            const res=await axios.get(`https://technox-api.onrender.com/users/${userData.id}`)
             const existingOrders=res.data.orders ||[]
 
             const ODRid="ODRID"+Date.now();
@@ -132,7 +132,7 @@ function Payment() {
                 if(newOrders){
 
                     for (const item of newOrders.products) {
-                    const res = await axios.get(`http://localhost:3000/products/${item.id}`);
+                    const res = await axios.get(`https://technox-api.onrender.com/products/${item.id}`);
                     const dbProduct = res.data;
 
                     if (Number(item.quantity || 1) > Number(dbProduct.totalquantity)) {
@@ -149,17 +149,17 @@ function Payment() {
                 }
 
                     const updatedOrders=[...existingOrders,newOrders];
-                    await axios.patch(`http://localhost:3000/users/${userData.id}`,{
+                    await axios.patch(`https://technox-api.onrender.com/users/${userData.id}`,{
                     orders:updatedOrders
             })
 
             for(const item of newOrders.products){
-                const res=await axios.get(`http://localhost:3000/products/${item.id}`)
+                const res=await axios.get(`https://technox-api.onrender.com/products/${item.id}`)
                 const dbProduct=res.data;
 
                 const newQuantity=Number(dbProduct.totalquantity)-Number(item.quantity || 1);
 
-                await axios.patch(`http://localhost:3000/products/${item.id}`,{
+                await axios.patch(`https://technox-api.onrender.com/products/${item.id}`,{
                     totalquantity: newQuantity >= 0 ? newQuantity : 0
                 })
             }
@@ -422,7 +422,7 @@ function Payment() {
                                         }
                                         else {
 
-                                            const res = await axios.get(`http://localhost:3000/users/${userData.id}`);
+                                            const res = await axios.get(`https://technox-api.onrender.com/users/${userData.id}`);
                                             const existingOrders = res.data.orders || [];
                                             const ODRid = "ODRID" + Date.now();
                                             const currentDate = new Date().toLocaleString("en-US", {
@@ -456,7 +456,7 @@ function Payment() {
 
                                             if (newOrders) {
                                                 for (const item of newOrders.products) {
-                                                const resp = await axios.get(`http://localhost:3000/products/${item.id}`);
+                                                const resp = await axios.get(`https://technox-api.onrender.com/products/${item.id}`);
                                                 const dbProduct = resp.data;
 
                                                 if (Number(item.quantity || 1) > Number(dbProduct.totalquantity)) {

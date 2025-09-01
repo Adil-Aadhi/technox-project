@@ -39,7 +39,7 @@ export function OrderProvider({children}){
                 ord.odr===orderOdr?{...ord,status:newStatus}:ord
             )
 
-            await axios.patch(`http://localhost:3000/users/${userId}`, { orders: updatedOrders });
+            await axios.patch(`https://technox-api.onrender.com/users/${userId}`, { orders: updatedOrders });
             setOrder(prev=>prev.map(o=>o.odr===orderOdr ? {...o,status:newStatus}:o))
             console.log("Order status updated successfully!");
         }catch(e){

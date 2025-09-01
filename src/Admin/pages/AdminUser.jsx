@@ -147,7 +147,7 @@ function AdminUser(){
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-600">Total Orders</p>
-                                    <p className="font-medium text-gray-800 text-start">{user.orders.length}</p>
+                                    <p className="font-medium text-gray-800 text-start">{user.orders?user.orders.length:0}</p>
                                 </div>
                             </div>
                         
@@ -157,7 +157,7 @@ function AdminUser(){
                             </div>
                             <div>
                                 <p className="text-sm text-gray-600">Products Ordered</p>
-                                <p className="font-medium text-gray-800 text-start">{user.orders.reduce((acc,val)=>acc+val.products.length,0)}</p>
+                                <p className="font-medium text-gray-800 text-start">{user.orders? user.orders.reduce((acc,val)=>acc+(val.products?.length || 0),0):0}</p>
                             </div>
                         </div>
                         </div>

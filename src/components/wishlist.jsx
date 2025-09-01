@@ -25,7 +25,7 @@ function Wishlist(){
     const FetchData=()=>{
         const userData = JSON.parse(localStorage.getItem('currentUser'));
        
-        axios.get(`http://localhost:3000/wishlist?userId=${userData.id}`)
+        axios.get(`https://technox-api.onrender.com/wishlist?userId=${userData.id}`)
         .then((res)=>setProduct(res.data))
         .catch((e)=>console.log("error on fetching",e))
     }

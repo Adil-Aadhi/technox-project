@@ -22,7 +22,7 @@ function Login(){
         const userData = JSON.parse(localStorage.getItem('currentUser'));
 
         const HandleFetch=()=>{
-            fetch('http://localhost:3000/users')
+            fetch('https://technox-api.onrender.com/users')
             .then((res)=>res.json())
             .then((data)=>setState(data))
         }

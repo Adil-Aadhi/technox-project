@@ -37,7 +37,7 @@ function Profile(){
 
     const HandleSubmit=(e)=>{
         e.preventDefault();
-        axios.patch(`http://localhost:3000/users/${displayData.id}`,{address:address})
+        axios.patch(`https://technox-api.onrender.com/users/${displayData.id}`,{address:address})
         .then((res)=>{toast.success("Address is updated");
              Setdetails(false);
     })
@@ -45,7 +45,7 @@ function Profile(){
             toast.error("Error saving address")})
     }
     const HandleDetails =()=>{
-        axios.get(`http://localhost:3000/users/${displayData.id}`)
+        axios.get(`https://technox-api.onrender.com/users/${displayData.id}`)
         .then((res)=>setAddress(res.data.address  || {
         houseno:"", landmark:"", town:"", district:"", pin:"", mobile:""
     }))
@@ -55,7 +55,7 @@ function Profile(){
     const HandleUserSubmit =async(e)=>{
         e.preventDefault()
         try{
-            const res=await axios.get(`http://localhost:3000/users/${displayData.id}`)
+            const res=await axios.get(`https://technox-api.onrender.com/users/${displayData.id}`)
              const dbUser = res.data;
 
              if(userForm.password){
@@ -72,7 +72,7 @@ function Profile(){
                 ...(userForm.password && {password:userForm.password,confirm: userForm.password})
              }
 
-             await axios.patch(`http://localhost:3000/users/${displayData.id}`, updatePayload);
+             await axios.patch(`https://technox-api.onrender.com/users/${displayData.id}`, updatePayload);
              toast.success("Profile updated successfully");
                 const updatedUser = {
                 ...displayData,

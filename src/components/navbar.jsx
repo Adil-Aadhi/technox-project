@@ -40,7 +40,7 @@ const [products,setProducts] =useState([])
 
 const FetchData=()=>{
     
-    axios.get('http://localhost:3000/products')
+    axios.get('https://technox-api.onrender.com/products')
     .then((res)=>{setProducts(res.data)})
     .catch((e)=>{
         console.log("Error on Fetching prodcuts",e)
@@ -120,7 +120,7 @@ const SearchProduct= async (query)=>{
                         <div className='w-120'>
                         <input style={{color:"white",borderRadius:"10px",padding:"5px"}} type="text" placeholder=' search...' 
                                      className="hidden sm:flex flex-shrink w-full max-w-xs sm:max-w-[200px] md:max-w-[320px] lg:max-w-[480px] 
-             bg-white/20 outline-none transition duration-300 hover:scale-102 text-white px-2 py-1"
+                                    bg-white/20 outline-none transition duration-300 hover:scale-102 text-white px-2 py-1"
                                      value={searchQuery} onChange={(HandleSearch)} onFocus={() => searchQuery && setShowResults(true)} onBlur={() => setTimeout(() => setShowResults(false), 300)}>
                             </input>
 

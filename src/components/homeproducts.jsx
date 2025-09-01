@@ -32,7 +32,7 @@ function HomeProducts(){
     const navigate=useNavigate();
 
     const HandleProducts=()=>{
-        fetch('http://localhost:3000/products')
+        fetch('https://technox-api.onrender.com/products')
         .then((res)=>res.json())
         .then((data)=>setProducts(data))
     }

@@ -54,7 +54,7 @@ function Products(){
             const exist=wishlist.some(item=>item.id===product.id);
 
             if(exist){
-                await axios.delete(`http://localhost:3000/wishlist/${product.id}`)
+                await axios.delete(`https://technox-api.onrender.com/wishlist/${product.id}`)
                 setWishlist(prev=>prev.filter(item=>item.id!==product.id));
                 setWishLength(wishlist.length-1)
                 toast.success(`${product.name} removed from wishlist`,{
@@ -62,7 +62,7 @@ function Products(){
                 })
             }
             else{
-                await axios.post('http://localhost:3000/wishlist',{...product,productId: product.id,userId:userData.id});
+                await axios.post('https://technox-api.onrender.com/wishlist',{...product,productId: product.id,userId:userData.id});
                 setWishlist(prev=>[...prev,product])
                 setWishLength(wishlist.length+1)
                 toast.success(`${product.name} added to wishlist!`,{
@@ -83,14 +83,14 @@ function Products(){
         return;
         }
 
-        axios.get(`http://localhost:3000/wishlist?userId=${userData.id}`)
+        axios.get(`https://technox-api.onrender.com/wishlist?userId=${userData.id}`)
         .then((res)=>setWishlist(res.data))
        .catch((e)=>{console.log("error fetching",e)
             toast.error('Failed to load wishlist')})
     }
 
     const HandleProduct=()=>{
-        axios.get('http://localhost:3000/products')
+        axios.get('https://technox-api.onrender.com/products')
         .then((res)=>{setProduct(res.data);
             setFilteredProduct(res.data)})
         .catch((e)=>console.log("error",e))

@@ -11,13 +11,13 @@ function QRPayment() {
 
     const RemoveCart=async()=>{
         try{
-            const res=await axios.get(`http://localhost:3000/cart/`)
+            const res=await axios.get(`https://technox-api.onrender.com/cart/`)
             const cartItem=res.data;
 
             const userCart=cartItem.filter(item=>item.userId===userData.id)
             
             await Promise.all(
-                userCart.map(item=>axios.delete(`http://localhost:3000/cart/${item.id}`))
+                userCart.map(item=>axios.delete(`https://technox-api.onrender.com/cart/${item.id}`))
             )
             console.log("cart deleted")
         }
@@ -44,7 +44,7 @@ function QRPayment() {
 
       const HandleOrder=async()=>{
         try {
-            const res=await axios.get(`http://localhost:3000/users/${userData.id}`)
+            const res=await axios.get(`https://technox-api.onrender.com/users/${userData.id}`)
             const existingOrders=res.data.orders ||[]
 
             const ODRid="ODRID"+Date.now();
@@ -73,17 +73,17 @@ function QRPayment() {
 
               const updatedOrders=[...existingOrders,newOrders];
 
-              await axios.patch(`http://localhost:3000/users/${userData.id}`,{
+              await axios.patch(`https://technox-api.onrender.com/users/${userData.id}`,{
               orders:updatedOrders
             })
 
             for(const item of newOrders.products){
-                const res=await axios.get(`http://localhost:3000/products/${item.id}`)
+                const res=await axios.get(`https://technox-api.onrender.com/products/${item.id}`)
                 const dbProduct=res.data;
 
                 const newQuantity=Number(dbProduct.totalquantity)-Number(item.quantity || 1);
 
-                await axios.patch(`http://localhost:3000/products/${item.id}`,{
+                await axios.patch(`https://technox-api.onrender.com/products/${item.id}`,{
                     totalquantity: newQuantity >= 0 ? newQuantity : 0
                 })
             }

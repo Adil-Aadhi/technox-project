@@ -30,7 +30,7 @@ function useHandleCart(){
         }
         
         else{
-            axios.post('http://localhost:3000/cart',{ ...product, userId, quantity: 1 })
+            axios.post('https://technox-api.onrender.com/cart',{ ...product, userId, quantity: 1 })
             .then(()=>{
                 setCartList(prev=>[...prev,{ ...product, userId, quantity: 1 }])
                  toast.success(`${product.name} Added to Cart`,{
@@ -48,7 +48,7 @@ function useHandleCart(){
     }
 
     const DeleteCart=(product)=>{
-        axios.delete(`http://localhost:3000/cart/${product.id}`)
+        axios.delete(`https://technox-api.onrender.com/cart/${product.id}`)
         .then(()=>{
             setCartList(prev=>prev.filter(item=>item.id!==product.id))
             toast.success(`${product.name} removed from Cart`,{
@@ -62,7 +62,7 @@ function useHandleCart(){
     const HandleCarts=()=>{
         if (!userId) return;
 
-        axios.get(`http://localhost:3000/cart?userId=${userId}`)
+        axios.get(`https://technox-api.onrender.com/cart?userId=${userId}`)
         .then((res)=>{setCartList(res.data);
             setCartLength(res.data.length);
         })
@@ -77,7 +77,7 @@ function useHandleCart(){
 
         const product=cartList.find(item=>item.id===productId);
         if(product){
-            axios.patch(`http://localhost:3000/cart/${productId}`,{
+            axios.patch(`https://technox-api.onrender.com/cart/${productId}`,{
              quantity: product.quantity + 1   })
              .catch(err=>console.log("Error increment",err))
         }
@@ -90,7 +90,7 @@ function useHandleCart(){
 
         const product=cartList.find(item=>item.id===productId);
         if(product && product.quantity>1){
-            axios.patch(`http://localhost:3000/cart/${productId}`,{
+            axios.patch(`https://technox-api.onrender.com/cart/${productId}`,{
                 quantity: product.quantity - 1}
             )
             .catch(err=>console.log("Error decreemnting quentity",err))
