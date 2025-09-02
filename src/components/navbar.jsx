@@ -95,9 +95,33 @@ const SearchProduct= async (query)=>{
                                     <FiMenu className="text-xl transition duration-300 hover:scale-110"/>
                                 </button>
                                 {showMenu && (
-                                    <div className='absolute left-0 mt-2 w-36 bg-white/10 backdrop-blur-xl border-2 border-white/25 rounded-xl shadow-2xl z-[9999] overflow-hidden'>
+                                    <div className='absolute left-0 mt-2 w-36 bg-black/20 backdrop-blur-xl border-2 border-white/25 rounded-xl shadow-2xl z-[9999] overflow-hidden text-start'>
                                         <span className="absolute inset-0 bg-gradient-to-br from-white/30 to-white/0 opacity-0 
                                                             group-hover:opacity-100 transition-opacity duration-300"></span>
+                                        {userData?.isLoggedIn ?(
+                                        <button
+                                                onClick={()=>{setShowMenu(false);
+                                                        localStorage.removeItem('currentUser');
+                                                        setCartLength(0);
+                                                        setWishLength(0);
+                                                        toast.info("Log-out successfully")
+                                                        navigate('/login')
+                                                }} 
+                                                className='relative z-10 w-full text-start block px-4 py-3 text-sm text-white font-medium hover:text-black
+                                                        border-b border-white/15 transition-all duration-200 hover:bg-white/15 hover:pl-4 cursor-pointer'>
+                                            LogOut
+                                        </button>
+                                        ):(<>
+                                        <Link to="/login" onClick={()=>setShowMenu(false)} className='relative z-10 block px-4 py-3 text-sm text-white font-medium hover:text-black
+                                                        border-b border-white/15 transition-all duration-200 hover:bg-white/15 hover:pl-4'>
+                                            Login
+                                        </Link>
+                                        <Link to="/register" onClick={()=>setShowMenu(false)} className='relative z-10 block px-4 py-3 text-sm text-white font-medium hover:text-black
+                                                        border-b border-white/15 transition-all duration-200 hover:bg-white/15 hover:pl-4'>
+                                            SignUp
+                                        </Link>
+                                        </>)}
+                                        
                                         <Link to="/products" onClick={()=>setShowMenu(false)} className='relative z-10 block px-4 py-3 text-sm text-white font-medium hover:text-black
                                                         border-b border-white/15 transition-all duration-200 hover:bg-white/15 hover:pl-4'>
                                             Products
